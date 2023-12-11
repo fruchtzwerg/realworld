@@ -1,0 +1,18 @@
+<script setup lang="ts"></script>
+
+<template>
+  <div
+    class="p-8 mb-8 shadow-inner shadow-black/20 bg-primary text-primary-content"
+  >
+    <div class="max-w-6xl px-4 mx-auto">
+      <h1
+        class="text-[3.5rem] leading-[5rem] pb-2 font-bold text-center drop-shadow-lg font-title"
+      >
+        conduit
+      </h1>
+      <p class="text-2xl text-center">A place to share your knowledge.</p>
+    </div>
+  </div>
+</template>
+
+<style scoped></style>

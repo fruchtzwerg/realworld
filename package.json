@@ -102,8 +102,8 @@
     "ts-toolbelt": "^9.6.0",
     "typescript": "~5.2.2",
     "unplugin-icons": "^0.18.1",
-    "vite": "~4.3.9",
-    "vitest": "~0.34.6",
+    "vite": "5.0.7",
+    "vitest": "0.34.6",
     "vue-tsc": "^1.8.8"
   }
 }

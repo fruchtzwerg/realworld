@@ -20,7 +20,16 @@
       },
       "configurations": {
         "development": {},
-        "production": {}
+        "production": {
+          "extractLicenses": true,
+          "generatePackageJson": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/server/nest/src/environment/environment.ts",
+              "with": "apps/server/nest/src/environment/environment.prod.ts"
+            }
+          ]
+        }
       }
     },
     "serve": {
