@@ -1,0 +1,50 @@
+{
+  "name": "nest",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/server/nest/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/server/nest",
+        "main": "apps/server/nest/src/main.ts",
+        "tsConfig": "apps/server/nest/tsconfig.app.json",
+        "assets": ["apps/server/nest/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/server/nest/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "nest:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "nest:build:development"
+        },
+        "production": {
+          "buildTarget": "nest:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/server/nest/**/*.ts"]
+      }
+    }
+  },
+  "tags": ["server", "nest"]
+}
