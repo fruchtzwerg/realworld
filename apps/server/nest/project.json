@@ -49,10 +49,7 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/server/nest/**/*.ts"]
-      }
+      "outputs": ["{options.outputFile}"]
     }
   },
   "tags": ["server", "nest"]

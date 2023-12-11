@@ -6,10 +6,7 @@
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/client/vue/**/*.{ts,tsx,js,jsx,vue}"]
-      }
+      "outputs": ["{options.outputFile}"]
     },
     "build": {
       "executor": "@nx/vite:build",
