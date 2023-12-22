@@ -1,0 +1,87 @@
+{
+  "name": "angular",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "realworld",
+  "sourceRoot": "apps/client/angular/src",
+  "tags": ["client", "angular"],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/client/angular",
+        "index": "apps/client/angular/src/index.html",
+        "browser": "apps/client/angular/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/client/angular/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": ["apps/client/angular/src/favicon.ico", "apps/client/angular/src/assets"],
+        "styles": ["apps/client/angular/src/styles.scss"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all",
+          "fileReplacements": [
+            {
+              "replace": "apps/client/angular/src/environment/environment.ts",
+              "with": "apps/client/angular/src/environment/environment.prod.ts"
+            }
+          ]
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "port": 4201,
+        "proxyConfig": "apps/client/angular/proxy.conf.json"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "angular:build:production"
+        },
+        "development": {
+          "buildTarget": "angular:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "angular:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/client/angular/jest.config.ts"
+      }
+    }
+  }
+}

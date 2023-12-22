@@ -1,0 +1,25 @@
+@if (authService.userQuery$ | async; as user) { @if (!article) {
+<!-- skeleton -->
+<div class="w-10 h-4 skeleton"></div>
+} @else {
+<!-- button -->
+<button
+  [class]="
+    classNames([
+      'btn btn-xs btn-outline btn-primary min-w-[4rem]',
+      { 'disabled:btn-primary': !user.isSuccess },
+      { 'btn-active active': article.favorited },
+      btnClass
+    ])
+  "
+  [disabled]="!user.isSuccess"
+  (click)="articleService.toggleLike(article)"
+>
+  <ng-container [ngTemplateOutlet]="slot || default"></ng-container>
+
+  <ng-template #default>
+    <iconify-icon icon="ion:heart"></iconify-icon>
+    <span>{{ article.favoritesCount }}</span>
+  </ng-template>
+</button>
+} }

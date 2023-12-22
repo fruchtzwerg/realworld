@@ -1,0 +1,43 @@
+<!-- skeleton -->
+@if (!comment) {
+<div class="w-full h-40 skeleton"></div>
+} @else {
+<realworld-comment-shell>
+  <!-- text -->
+  <div class="p-4">{{ comment.body }}</div>
+
+  <!-- actions -->
+  <ng-container actions>
+    <div class="flex justify-between w-full">
+      <div class="flex items-center space-x-1 text-sm font-light">
+        <!-- author -->
+        <realworld-avatar size="sm" [user]="comment.author" />
+        <a
+          [routerLink]="['profile', comment.author.username]"
+          [relativeTo]="null"
+          class="text-primary hover:link link-primary"
+        >
+          {{ comment.author.username }}
+        </a>
+        <span>{{ comment.updatedAt | date : 'MMM d, y' }}</span>
+      </div>
+
+      <!-- delete comment -->
+      @if(data$ | async; as data) { @if (articleService.deleteComment$ | async; as deleteComment) {
+      @if (comment.author.username === data.user?.username && data.slug) {
+      <button
+        class="btn btn-ghost btn-square btn-sm"
+        (click)="deleteComment.mutate({ slug: data.slug, id: comment.id })"
+        [disabled]="deleteComment.isPending"
+      >
+        @if (deleteComment.isPending) {
+        <div class="loading loading-spinner"></div>
+        } @else {
+        <iconify-icon icon="ion:trash-b" class="text-xl"></iconify-icon>
+        }
+      </button>
+      }}}
+    </div>
+  </ng-container>
+</realworld-comment-shell>
+}

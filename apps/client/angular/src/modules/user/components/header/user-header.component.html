@@ -1,0 +1,52 @@
+@if (profile$ | async; as profile) {
+<div class="p-8 mx-auto mb-8 bg-neutral text-neutral-content">
+  @if (profile.isFetching) {
+  <!-- skeleton -->
+  <div class="wrapper">
+    <realworld-avatar size="xl" />
+
+    <div class="w-40 h-6 skeleton"></div>
+    @for (item of [1,2,3]; track $index) {
+    <div class="h-4 skeleton w-[60ch]"></div>
+    }
+    <div class="h-8 skeleton w-44 place-self-end"></div>
+  </div>
+
+  } @else if(profile.isSuccess) {
+  <!-- profile -->
+  <div class="space-y-2 wrapper">
+    <!-- avatar -->
+    <realworld-avatar [user]="profile.data" size="xl"></realworld-avatar>
+
+    <!-- username -->
+    <h1 class="text-2xl font-bold text-center">{{ profile.data.username }}</h1>
+
+    <!-- bio -->
+    <p class="text-base font-light text-center max-w-[60ch]">
+      {{ profile.data.bio }}
+    </p>
+
+    <!-- actions -->
+    @if (user$ | async; as user) {
+    <div class="space-x-2 place-self-end">
+      <!-- follow -->
+      @if (profile.data.username !== user?.username) {
+      <realworld-follow [profile]="profile.data" />
+      } @else {
+      <!-- to settings -->
+      <a [routerLink]="['settings']" [relativeTo]="null" class="btn btn-outline btn-sm btn-accent">
+        <iconify-icon icon="ion:gear-a"></iconify-icon>
+        <span>Edit Profile Settings</span>
+      </a>
+      }
+    </div>
+    }
+  </div>
+  } @else if(profile.isError) {
+  <!-- error -->
+  <div class="w-full wrapper text-error">
+    {{ profile.error }}
+  </div>
+  }
+</div>
+}

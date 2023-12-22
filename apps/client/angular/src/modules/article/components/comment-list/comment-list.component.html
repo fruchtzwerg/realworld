@@ -1,0 +1,15 @@
+@if (articleService.commentsQuery$ | async; as comments) {
+<ol class="space-y-4">
+  @if (comments.isPending) {
+  <!-- skeleton -->
+  @for (item of [1,2,3]; track $index) {
+  <realworld-comment />
+  } } @else {
+  <!-- comment -->
+  @for (comment of comments.data!; track comment.id) {
+  <li>
+    <realworld-comment [slug]="articleService.slug$ | async" [comment]="comment" />
+  </li>
+  } }
+</ol>
+}

@@ -1,0 +1,7 @@
+<div>
+  <!-- tabs -->
+  <realworld-tabs [tabs]="(tabs$ | async) ?? []" class="w-fit" />
+
+  <!-- articles -->
+  <realworld-article-list [articlesQuery]="articlesQuery$ | async" />
+</div>

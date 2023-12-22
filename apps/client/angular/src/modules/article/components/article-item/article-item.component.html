@@ -1,0 +1,48 @@
+@if (!article) {
+<!-- skeleton -->
+<div [ngClass]="[wrapperClass, 'flex flex-col w-full gap-4']">
+  <realworld-author />
+
+  <div class="h-6 w-80 skeleton"></div>
+  <div class="h-4 skeleton w-96"></div>
+  <div class="flex items-center justify-between">
+    <div class="h-3 w-28 skeleton"></div>
+    <div class="w-64 h-4 skeleton"></div>
+  </div>
+</div>
+} @else {
+<!-- article -->
+<div
+  [ngClass]="[
+    wrapperClass,
+    'grid grid-areas-[author_likes,article_article] grid-cols-[1fr_auto] gap-y-4'
+  ]"
+>
+  <!-- author -->
+  <realworld-author
+    [author]="article.author"
+    [createdAt]="article.createdAt"
+    class="grid grid-in-[author]"
+  />
+
+  <!-- likes -->
+  <realworld-like [article]="article" class="grid-in-[likes]" />
+
+  <!-- article -->
+  <a [routerLink]="['article', article.slug]" [relativeTo]="null" class="grid-in-[article]">
+    <h2 class="mb-1 text-2xl">{{ article.title }}</h2>
+    <p class="mb-4 text-base leading-5 text-base-content/50">
+      {{ article.description }}
+    </p>
+
+    <div class="flex items-center justify-between text-base-content/50">
+      <span class="text-xs">Read more…</span>
+      <ul class="flex space-x-1">
+        @for (tag of article.tagList; track tag) {
+        <li class="badge badge-outline">{{ tag }}</li>
+        }
+      </ul>
+    </div>
+  </a>
+</div>
+}

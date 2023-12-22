@@ -1,0 +1,34 @@
+@if (article$ | async; as article) { @if (article.isPending) {
+<!-- skeleton -->
+<div class="space-y-2">
+  @for (item of skeletonLines; track $index) {
+  <div class="h-4 skeleton" [style]="{ width: skeletonWidth }"></div>
+  }
+</div>
+} @else {
+<!-- article -->
+<div class="pb-8 space-y-6">
+  <!-- text -->
+  <p class="font-serif text-xl">{{ article.data?.body }}</p>
+  <!-- tags -->
+  <ul class="flex space-x-1">
+    @for (tag of article.data?.tagList; track tag) {
+    <li class="badge badge-outline text-base-content/60">{{ tag }}</li>
+    }
+  </ul>
+
+  <div class="divider"></div>
+
+  <!-- author -->
+  <realworld-impression [article]="article.data" class="mx-auto w-fit" />
+
+  <!-- comments -->
+  <div class="max-w-2xl mx-auto space-y-4">
+    <!-- create comment -->
+    <realworld-comment-creator />
+
+    <!-- comments -->
+    <realworld-comment-list />
+  </div>
+</div>
+}}

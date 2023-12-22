@@ -1,0 +1,22 @@
+<div>
+  <div role="tablist" class="tabs tabs-bordered">
+    @for (tab of tabs; track tab.id) {
+    <a
+      role="tab"
+      [class]="
+        classNames(['tab gap-1 tab-border-none', { 'text-neutral pointer-events-none': disabled }])
+      "
+      [routerLink]="tab.href"
+      [relativeTo]="null"
+      routerLinkActive="tab-active active text-primary [--bc:none]"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="updateValue(tab.id)"
+    >
+      @if (tab.icon) {
+      <iconify-icon [icon]="tab.icon"></iconify-icon>
+      }
+      <span>{{ tab.label }}</span>
+    </a>
+    }
+  </div>
+</div>

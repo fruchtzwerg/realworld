@@ -1,0 +1,30 @@
+@if (authService.login$ | async; as login) {
+<div class="flex flex-col items-center max-w-xl mx-auto mt-6 space-y-4">
+  <h2 class="text-[2.5rem] leading-[2.75rem] font-medium">Sign in</h2>
+  <p class="!mt-2 text-primary">Need an account?</p>
+
+  <form (submit)="submit($event)" class="flex flex-col w-full gap-4">
+    <input
+      name="email"
+      type="text"
+      class="input input-bordered input-lg"
+      placeholder="Email"
+      [disabled]="login.isPending"
+    />
+    <input
+      name="password"
+      type="password"
+      class="input input-bordered input-lg"
+      placeholder="Password"
+      [disabled]="login.isPending"
+    />
+
+    <button class="btn btn-primary btn-lg place-self-end" [disabled]="login.isPending">
+      @if (login.isPending) {
+      <div class="loading loading-spinner"></div>
+      }
+      <span>Sign in</span>
+    </button>
+  </form>
+</div>
+}

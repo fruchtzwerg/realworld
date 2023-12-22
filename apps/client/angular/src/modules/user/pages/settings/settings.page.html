@@ -1,0 +1,61 @@
+@if (authService.updateUser$ | async; as updateUser) {
+<div class="flex flex-col w-full max-w-xl gap-4 mx-auto mt-6">
+  <h2 class="mx-auto text-[2.5rem] leading-[2.75rem] font-medium">Your Settings</h2>
+
+  <form (submit)="submit($event)" class="flex flex-col space-y-4">
+    <input
+      name="image"
+      type="text"
+      class="input input-bordered"
+      placeholder="URL of profile picture"
+      [disabled]="updateUser.isPending"
+    />
+    <input
+      name="username"
+      type="text"
+      class="input input-bordered input-lg"
+      placeholder="Username"
+      [disabled]="updateUser.isPending"
+    />
+    <textarea
+      name="bio"
+      rows="6"
+      class="textarea textarea-bordered textarea-lg"
+      placeholder="Short bio about you"
+      [disabled]="updateUser.isPending"
+    ></textarea>
+    <input
+      name="email"
+      type="text"
+      class="input input-bordered input-lg"
+      placeholder="Email"
+      [disabled]="updateUser.isPending"
+    />
+    <input
+      name="password"
+      type="password"
+      class="input input-bordered input-lg"
+      placeholder="New Password"
+      [disabled]="updateUser.isPending"
+    />
+
+    <button class="btn btn-primary btn-lg place-self-end" [disabled]="updateUser.isPending">
+      @if (updateUser.isPending) {
+      <div class="loading loading-spinner"></div>
+      }
+      <span>Update Settings</span>
+    </button>
+  </form>
+
+  <div class="my-0 divider"></div>
+
+  <button
+    type="button"
+    class="btn btn-outline btn-error place-self-start"
+    (click)="authService.logout()"
+    [disabled]="updateUser.isPending"
+  >
+    Or click here to logout.
+  </button>
+</div>
+}

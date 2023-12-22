@@ -1,0 +1,22 @@
+@if (articlesQuery?.isFetching) {
+<!-- feed loader -->
+<ol class="w-full">
+  @for (item of [1,2,3]; track $index) {
+  <li><realworld-article-item /></li>
+  }
+</ol>
+} @else if(articlesQuery?.isSuccess) {
+<!-- feed -->
+<ol class="w-full">
+  @for (article of articlesQuery?.data?.articles; track article.slug) {
+  <li><realworld-article-item [article]="article" /></li>
+  } @empty {
+  <realworld-empty />
+  }
+</ol>
+} @else if(articlesQuery?.isError) {
+<!-- feed error -->
+<div class="w-full text-error">
+  {{ articlesQuery?.error }}
+</div>
+}

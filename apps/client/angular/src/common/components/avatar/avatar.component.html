@@ -1,0 +1,12 @@
+@if (!user) {
+<!-- skeleton -->
+<div [ngClass]="[sizes[size], 'rounded-full skeleton']"></div>
+} @else if (user.image) {
+<!-- image -->
+<img [src]="user.image" alt="avatar" [ngClass]="['rounded-full w-', sizes[size]]" />
+} @else if (!user.image) {
+<!-- letter -->
+<div class="flex items-center justify-center w-8 h-8 text-2xl rounded-full bg-base-content/20">
+  {{ user.username[0] | uppercase }}
+</div>
+}

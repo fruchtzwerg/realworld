@@ -1,0 +1,32 @@
+@if (!author) {
+<!-- skeleton -->
+<div class="flex items-center gap-4">
+  <realworld-avatar size="md" />
+  <div class="flex flex-col gap-2">
+    <div class="h-4 w-14 skeleton"></div>
+    <div class="w-24 h-3 skeleton"></div>
+  </div>
+</div>
+} @else {
+<!-- author -->
+<div
+  class="grid grid-areas-[avatar_name,avatar_created] grid-cols-[auto,1fr] gap-x-2 items-center w-fit"
+>
+  <!-- avatar -->
+  <realworld-avatar [user]="author" size="md" class="grid-in-[avatar]" />
+
+  <!-- username -->
+  <a
+    [routerLink]="['profile', author.username]"
+    [relativeTo]="null"
+    class="grid-in-[name] hover:link text-primary link-primary w-fit"
+  >
+    {{ author.username }}
+  </a>
+
+  <!-- article createdAt -->
+  <span class="grid-in-[created] text-xs text-base-300 dark:text-base-content/50">
+    {{ createdAt | date : 'MMM d, y' }}
+  </span>
+</div>
+}

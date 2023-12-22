@@ -1,0 +1,32 @@
+<header>
+  <div class="flex items-center justify-between max-w-6xl px-4 py-2 mx-auto text-md h-14">
+    <!-- logo -->
+    <a routerLink="/" class="text-2xl leading-[3.75rem] font-bold text-primary font-title">
+      conduit
+    </a>
+
+    <!-- menu -->
+    <nav>
+      <ol class="flex items-center h-full gap-4">
+        @for (item of menuItems$ | async; track item.id) {
+        <li class="h-full">
+          <a
+            [routerLink]="item.href"
+            routerLinkActive="active !text-base-content/100"
+            class="flex items-center h-full space-x-1 text-base-content/60 hover:text-base-content/90"
+          >
+            @if (item.user) {
+            <realworld-avatar [user]="item.user" size="sm"></realworld-avatar>
+            } @else if(item.icon) {
+            <iconify-icon [icon]="item.icon" class="text-xl"></iconify-icon>
+            }
+            <span>{{ item.name }}</span>
+          </a>
+        </li>
+        } @empty {
+        <span class="text-error">Something went wrong.</span>
+        }
+      </ol>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,17 @@
+@if (article$ | async; as article) {
+<div class="p-8 mx-auto mb-8 bg-neutral text-neutral-content">
+  @if (article.isPending) {
+  <!-- skeleton -->
+  <div v-if="!article" class="wrapper">
+    <div class="h-12 w-96 skeleton"></div>
+    <realworld-impression />
+  </div>
+  } @else {
+  <!-- content -->
+  <div v-else class="wrapper">
+    <h1 class="text-5xl font-semibold">{{ article.data?.title }}</h1>
+    <realworld-impression [article]="article.data" contrast />
+  </div>
+  }
+</div>
+}

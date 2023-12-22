@@ -1,0 +1,38 @@
+@if (data$ | async; as result) { @if (articleService.createCommentMut.result$ | async; as
+createComment) {
+<div class="space-y-4">
+  @if (result.isSuccess) {
+  <!-- comment creator -->
+  <form (submit)="submitComment($event)">
+    <realworld-comment-shell>
+      <textarea
+        name="body"
+        rows="4"
+        class="w-full textarea textarea-ghost"
+        placeholder="Write a comment…"
+      ></textarea>
+
+      <ng-container actions>
+        <div class="flex items-center justify-between w-full">
+          <!-- author -->
+          <realworld-avatar size="sm" [user]="result.data.user" />
+
+          <!-- action -->
+          <button class="btn btn-primary btn-sm" [disabled]="createComment.isPending">
+            @if (createComment.isPending) {
+            <div class="loading loading-spinner"></div>
+            }
+            <span>Post Comment</span>
+          </button>
+        </div>
+      </ng-container>
+    </realworld-comment-shell>
+  </form>
+  }
+
+  <!-- skeleton -->
+  @if (createComment.isPending || result.isFetching) {
+  <realworld-comment />
+  }
+</div>
+} }

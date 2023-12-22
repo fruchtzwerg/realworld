@@ -1,0 +1,14 @@
+@if (tags().isLoading) {
+<div v-if="isLoading" class="w-64 p-3 min-w-[16rem] skeleton h-52"></div>
+} @else {
+<div v-else class="w-64 h-fit p-3 pt-2 min-w-[16rem] bg-neutral text-neutral-content rounded-box">
+  <p class="mb-1">Popular Tags</p>
+  <ol class="flex flex-wrap gap-1">
+    @for (tag of tags().data; track tag) {
+    <li>
+      <a [routerLink]="['home', tag]" [relativeTo]="null" class="badge">{{ tag }}</a>
+    </li>
+    }
+  </ol>
+</div>
+}

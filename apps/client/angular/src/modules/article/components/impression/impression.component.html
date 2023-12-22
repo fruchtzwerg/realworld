@@ -1,0 +1,31 @@
+@if (userQuery$ | async; as user) { @if (!article) {
+<!-- skeleton -->
+<div class="wrapper">
+  <realworld-author />
+  <div class="h-8 w-36 skeleton"></div>
+  <div class="h-8 w-36 skeleton"></div>
+</div>
+} @else {
+<!-- content -->
+<div class="wrapper">
+  <!-- author -->
+  <realworld-author [author]="article.author" [createdAt]="article.createdAt" />
+
+  <!-- actions -->
+  <div class="flex items-center space-x-2">
+    <!-- follow author -->
+    <realworld-follow [profile]="article.author" [contrast]="true" />
+
+    <!-- like article -->
+    <realworld-like [article]="article" btnClass="!btn-sm">
+      <ng-template #slot>
+        <iconify-icon icon="ion:heart"></iconify-icon>
+        @if (user.isSuccess) {
+        <span>{{ article.favorited ? 'Unfavorite' : 'Favorite' }} Article</span>
+        }
+        <span>({{ article.favoritesCount }})</span>
+      </ng-template>
+    </realworld-like>
+  </div>
+</div>
+} }

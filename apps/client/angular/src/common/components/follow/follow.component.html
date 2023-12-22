@@ -1,0 +1,30 @@
+@if (authService.userQuery$ | async; as user) { @if (user.isPending ) {
+<!-- skeleton -->
+<div class="h-8 w-36 skeleton"></div>
+} @else if(profile) {
+<!-- button -->
+<button
+  [class]="classNames([
+      'btn btn-outline btn-sm',
+      {
+        'text-neutral-content hover:text-neutral hover:bg-neutral-content':
+          contrast,
+      },
+      { 'btn-active active': profile.following},
+    ])"
+  [disabled]="user.data?.user?.username === profile.username || user.isFetching"
+  (click)="userService.toggleFollow(profile)"
+>
+  <slot>
+    @if (profile.following) {
+    <iconify-icon icon="ion:minus-round"></iconify-icon>
+    } @else {
+    <iconify-icon icon="ion:plus-round"></iconify-icon>
+    }
+    <span>
+      {{ profile.following ? 'Unfollow' : 'Follow' }}
+      {{ profile.username }}
+    </span>
+  </slot>
+</button>
+}}

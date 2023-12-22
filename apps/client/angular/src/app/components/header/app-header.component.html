@@ -1,0 +1,7 @@
+@switch (selected$ | async) { @case ('home') { @defer (on immediate) {
+<realworld-feed-header></realworld-feed-header>
+} } @case ('article') { @defer (on immediate) {
+<realworld-article-header></realworld-article-header>
+} } @case ('profile') { @defer (on immediate) {
+<realworld-profile-header></realworld-profile-header>
+} } }
