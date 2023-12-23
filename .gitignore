@@ -42,3 +42,4 @@ Thumbs.db
 /tools/mongodb
 
 .angular
+.playwright

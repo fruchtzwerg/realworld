@@ -91,6 +91,7 @@
     "@types/node": "18.16.9",
     "@types/passport-jwt": "^3.0.13",
     "@types/passport-local": "^1.0.38",
+    "@types/uuid": "^9.0.7",
     "@typescript-eslint/eslint-plugin": "^6.9.1",
     "@typescript-eslint/parser": "^6.9.1",
     "@vitejs/plugin-vue": "4.5.2",
@@ -124,9 +125,9 @@
     "ts-toolbelt": "^9.6.0",
     "typescript": "~5.2.2",
     "unplugin-icons": "^0.18.1",
+    "uuid": "^9.0.1",
     "vite": "5.0.7",
     "vitest": "0.34.6",
     "vue-tsc": "^1.8.8"
   }
 }
-
