@@ -43,7 +43,7 @@ dependencies:
     version: 10.2.0(@nestjs/common@10.2.10)
   '@nestjs/mongoose':
     specifier: ^10.0.2
-    version: 10.0.2(@nestjs/common@10.2.10)(@nestjs/core@10.2.10)(mongoose@8.0.2)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+    version: 10.0.2(@nestjs/common@10.2.10)(@nestjs/core@10.2.10)(mongoose@8.0.3)(reflect-metadata@0.1.13)(rxjs@7.8.1)
   '@nestjs/passport':
     specifier: ^10.0.3
     version: 10.0.3(@nestjs/common@10.2.10)(passport@0.7.0)
@@ -55,7 +55,7 @@ dependencies:
     version: 4.0.0(@nestjs/common@10.2.10)(@nestjs/core@10.2.10)
   '@ngneat/query':
     specifier: 2.0.0-beta.8
-    version: 2.0.0-beta.8(@angular/core@17.0.8)(@tanstack/query-core@5.13.4)
+    version: 2.0.0-beta.8(@angular/core@17.0.8)(@tanstack/query-core@5.14.2)
   '@nx/angular':
     specifier: 17.2.7
     version: 17.2.7(@angular-devkit/build-angular@17.0.6)(@angular-devkit/core@17.0.8)(@angular-devkit/schematics@17.0.8)(@schematics/angular@17.0.6)(@swc-node/register@1.6.8)(@swc/core@1.3.100)(@types/node@18.16.9)(cypress@13.6.0)(eslint@8.48.0)(nx@17.2.7)(rxjs@7.8.1)(ts-node@10.9.1)(typescript@5.2.2)
@@ -63,8 +63,8 @@ dependencies:
     specifier: ^3.1.0
     version: 3.1.0(tailwindcss@3.2.7)
   '@tanstack/vue-query':
-    specifier: ^5.13.4
-    version: 5.13.4(vue@3.3.9)
+    specifier: ^5.14.6
+    version: 5.14.6(vue@3.3.9)
   '@ts-rest/core':
     specifier: ^3.30.5
     version: 3.30.5(zod@3.22.4)
@@ -76,10 +76,10 @@ dependencies:
     version: 3.30.5(@ts-rest/core@3.30.5)(zod@3.22.4)
   '@ts-rest/vue-query':
     specifier: ^3.30.5
-    version: 3.30.5(@tanstack/vue-query@5.13.4)(@ts-rest/core@3.30.5)(vue@3.3.9)(zod@3.22.4)
+    version: 3.30.5(@tanstack/vue-query@5.14.6)(@ts-rest/core@3.30.5)(vue@3.3.9)(zod@3.22.4)
   '@typegoose/auto-increment':
     specifier: ^4.0.0
-    version: 4.0.0(mongoose@8.0.2)
+    version: 4.0.0(mongoose@8.0.3)
   '@types/express':
     specifier: ^4.17.21
     version: 4.17.21
@@ -96,17 +96,17 @@ dependencies:
     specifier: ^2.3.2
     version: 2.3.2
   daisyui:
-    specifier: ^4.4.19
-    version: 4.4.19(postcss@8.4.21)
+    specifier: ^4.4.23
+    version: 4.4.23(postcss@8.4.21)
   iconify-icon:
     specifier: ^1.0.8
     version: 1.0.8
   mongoose:
-    specifier: ^8.0.2
-    version: 8.0.2
+    specifier: ^8.0.3
+    version: 8.0.3
   mongoose-autopopulate:
     specifier: ^1.1.0
-    version: 1.1.0(mongoose@8.0.2)
+    version: 1.1.0(mongoose@8.0.3)
   nestjs-zod:
     specifier: ^3.0.0
     version: 3.0.0(@nestjs/common@10.2.10)(@nestjs/core@10.2.10)(zod@3.22.4)
@@ -334,6 +334,9 @@ devDependencies:
   prettier:
     specifier: ^2.6.2
     version: 2.8.8
+  prisma:
+    specifier: ^5.7.1
+    version: 5.7.1
   sass:
     specifier: 1.62.1
     version: 1.62.1
@@ -3828,7 +3831,7 @@ packages:
       jsonwebtoken: 9.0.2
     dev: false
 
-  /@nestjs/mongoose@10.0.2(@nestjs/common@10.2.10)(@nestjs/core@10.2.10)(mongoose@8.0.2)(reflect-metadata@0.1.13)(rxjs@7.8.1):
+  /@nestjs/mongoose@10.0.2(@nestjs/common@10.2.10)(@nestjs/core@10.2.10)(mongoose@8.0.3)(reflect-metadata@0.1.13)(rxjs@7.8.1):
     resolution: {integrity: sha512-ITHh075DynjPIaKeJh6WkarS21WXYslu4nrLkNPbWaCP6JfxVAOftaA2X5tPSiiE/gNJWgs+QFWsfCFZUUenow==}
     peerDependencies:
       '@nestjs/common': ^8.0.0 || ^9.0.0 || ^10.0.0
@@ -3839,7 +3842,7 @@ packages:
     dependencies:
       '@nestjs/common': 10.2.10(reflect-metadata@0.1.13)(rxjs@7.8.1)
       '@nestjs/core': 10.2.10(@nestjs/common@10.2.10)(@nestjs/platform-express@10.2.10)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      mongoose: 8.0.2
+      mongoose: 8.0.3
       reflect-metadata: 0.1.13
       rxjs: 7.8.1
     dev: false
@@ -3964,14 +3967,14 @@ packages:
       tslib: 2.6.2
     dev: true
 
-  /@ngneat/query@2.0.0-beta.8(@angular/core@17.0.8)(@tanstack/query-core@5.13.4):
+  /@ngneat/query@2.0.0-beta.8(@angular/core@17.0.8)(@tanstack/query-core@5.14.2):
     resolution: {integrity: sha512-sHVsT3p+J7/xSp2U1F7d1a4sZHrkbKf9W5Y4tSMWfRIeCyIkG5RZOHCiB99HjqY1HpDdoj8AnT4toRfWbYSiCw==}
     peerDependencies:
       '@angular/core': '>=16.0.0 <18.0.0'
       '@tanstack/query-core': ^5.4.3
     dependencies:
       '@angular/core': 17.0.8(rxjs@7.8.1)(zone.js@0.14.2)
-      '@tanstack/query-core': 5.13.4
+      '@tanstack/query-core': 5.14.2
       tslib: 2.6.2
     dev: false
 
@@ -4970,6 +4973,38 @@ packages:
     resolution: {integrity: sha512-C16M+IYz0rgRhWZdCmK+h58JMv8vijAA61gmz2rspCSwKwzBebpdcsiUmwrtJRdphuY30i6BSLEOP8ppbNLyLg==}
     dev: true
 
+  /@prisma/debug@5.7.1:
+    resolution: {integrity: sha512-yrVSO/YZOxdeIxcBtZ5BaNqUfPrZkNsAKQIQg36cJKMxj/VYK3Vk5jMKkI+gQLl0KReo1YvX8GWKfV788SELjw==}
+    dev: true
+
+  /@prisma/engines-version@5.7.1-1.0ca5ccbcfa6bdc81c003cf549abe4269f59c41e5:
+    resolution: {integrity: sha512-dIR5IQK/ZxEoWRBDOHF87r1Jy+m2ih3Joi4vzJRP+FOj5yxCwS2pS5SBR3TWoVnEK1zxtLI/3N7BjHyGF84fgw==}
+    dev: true
+
+  /@prisma/engines@5.7.1:
+    resolution: {integrity: sha512-R+Pqbra8tpLP2cvyiUpx+SIKglav3nTCpA+rn6826CThviQ8yvbNG0s8jNpo51vS9FuZO3pOkARqG062vKX7uA==}
+    requiresBuild: true
+    dependencies:
+      '@prisma/debug': 5.7.1
+      '@prisma/engines-version': 5.7.1-1.0ca5ccbcfa6bdc81c003cf549abe4269f59c41e5
+      '@prisma/fetch-engine': 5.7.1
+      '@prisma/get-platform': 5.7.1
+    dev: true
+
+  /@prisma/fetch-engine@5.7.1:
+    resolution: {integrity: sha512-9ELauIEBkIaEUpMIYPRlh5QELfoC6pyHolHVQgbNxglaINikZ9w9X7r1TIePAcm05pCNp2XPY1ObQIJW5nYfBQ==}
+    dependencies:
+      '@prisma/debug': 5.7.1
+      '@prisma/engines-version': 5.7.1-1.0ca5ccbcfa6bdc81c003cf549abe4269f59c41e5
+      '@prisma/get-platform': 5.7.1
+    dev: true
+
+  /@prisma/get-platform@5.7.1:
+    resolution: {integrity: sha512-eDlswr3a1m5z9D/55Iyt/nZqS5UpD+DZ9MooBB3hvrcPhDQrcf9m4Tl7buy4mvAtrubQ626ECtb8c6L/f7rGSQ==}
+    dependencies:
+      '@prisma/debug': 5.7.1
+    dev: true
+
   /@rollup/rollup-android-arm-eabi@4.8.0:
     resolution: {integrity: sha512-zdTObFRoNENrdPpnTNnhOljYIcOX7aI7+7wyrSpPFFIOf/nRdedE6IYsjaBE7tjukphh1tMTojgJ7p3lKY8x6Q==}
     cpu: [arm]
@@ -5299,16 +5334,16 @@ packages:
       remove-accents: 0.4.2
     dev: false
 
-  /@tanstack/query-core@5.13.4:
-    resolution: {integrity: sha512-8+rJucXvC/xlr4OrxHhEIob/cTlbT4fgmz1VsvB0D12FRStKaXeLORNGcOhSAynRd2NL74SV/Qq0IIb4DedLcA==}
+  /@tanstack/query-core@5.14.2:
+    resolution: {integrity: sha512-QmoJvC72sSWs3hgGis8JdmlDvqLfYGWUK4UG6OR9Q6t28JMN9m2FDwKPqoSJ9YVocELCSjMt/FGjEiLfk8000Q==}
     dev: false
 
   /@tanstack/query-devtools@5.4.2:
     resolution: {integrity: sha512-EXdaMXi8CxZuMp97J5mq6wy1RduOfoWFv5vtA1U+hyqb8Wst6M8kkkjDSdFvGZIRpYY4K8mKLlEFHNUZDG5dtw==}
     dev: true
 
-  /@tanstack/vue-query@5.13.4(vue@3.3.9):
-    resolution: {integrity: sha512-ESbYXN7Q9gx30tKhz4o89PFrfgtjQKApR4+QGx5WiIP0XhqVfJrDtqAFr1hXTLGzPmp71ECMnYuW2Elu6KWlmQ==}
+  /@tanstack/vue-query@5.14.6(vue@3.3.9):
+    resolution: {integrity: sha512-h8FuSaje//z5B5h0B79+fnNt32Dp44xmxxXqXiUl4H/1l5i1rtea7Si0Uxst9AevYmpl1gZewmTlJzb/2RKCIQ==}
     peerDependencies:
       '@vue/composition-api': ^1.1.2
       vue: ^2.6.0 || ^3.3.0
@@ -5317,7 +5352,7 @@ packages:
         optional: true
     dependencies:
       '@tanstack/match-sorter-utils': 8.8.4
-      '@tanstack/query-core': 5.13.4
+      '@tanstack/query-core': 5.14.2
       '@vue/devtools-api': 6.5.1
       vue: 3.3.9(typescript@5.2.2)
       vue-demi: 0.14.6(vue@3.3.9)
@@ -5373,7 +5408,7 @@ packages:
       zod: 3.22.4
     dev: false
 
-  /@ts-rest/vue-query@3.30.5(@tanstack/vue-query@5.13.4)(@ts-rest/core@3.30.5)(vue@3.3.9)(zod@3.22.4):
+  /@ts-rest/vue-query@3.30.5(@tanstack/vue-query@5.14.6)(@ts-rest/core@3.30.5)(vue@3.3.9)(zod@3.22.4):
     resolution: {integrity: sha512-Y0h0dZwX6+dwQUGp9ob3UMaxJnUkOk9pt9haxuq1cEUDd0fMv1l9bLiP+HK40ucwFr+DwQurOg3MAk14EGzI5g==}
     peerDependencies:
       '@tanstack/vue-query': ^4.0.0
@@ -5384,7 +5419,7 @@ packages:
       zod:
         optional: true
     dependencies:
-      '@tanstack/vue-query': 5.13.4(vue@3.3.9)
+      '@tanstack/vue-query': 5.14.6(vue@3.3.9)
       '@ts-rest/core': 3.30.5(zod@3.22.4)
       vue: 3.3.9(typescript@5.2.2)
       zod: 3.22.4
@@ -5415,14 +5450,14 @@ packages:
       minimatch: 9.0.3
     dev: true
 
-  /@typegoose/auto-increment@4.0.0(mongoose@8.0.2):
+  /@typegoose/auto-increment@4.0.0(mongoose@8.0.3):
     resolution: {integrity: sha512-ybDcLqFMOLJlUweXj2Uhw0gNWwi8/+SSQ/bizlhrsD5X9PaVp1fz7ZMhKtKvG5G2+UlGyaKxqOfhLO5d4MtTmA==}
     engines: {node: '>=16.20.1'}
     peerDependencies:
       mongoose: ~8.0.1
     dependencies:
       loglevel: 1.8.1
-      mongoose: 8.0.2
+      mongoose: 8.0.3
       tslib: 2.6.2
     dev: false
 
@@ -8166,8 +8201,8 @@ packages:
       untildify: 4.0.0
       yauzl: 2.10.0
 
-  /daisyui@4.4.19(postcss@8.4.21):
-    resolution: {integrity: sha512-IjOLWwnndD4N7Ut5CDxbUsaVtbqXPeVHM92IcgxGFxpuOd3CCKW/PAXZH6JoBTHFRaN57vB9XqEhdWm5yC+bPA==}
+  /daisyui@4.4.23(postcss@8.4.21):
+    resolution: {integrity: sha512-IFQRGoGoAke8chxPcDqQJFldVVd51JL7b4mRA3LqsLexW/6xicZzz9X3GXdGdnYsu8QPxZN4uzQZ5fwRNYXOSg==}
     engines: {node: '>=16.9.0'}
     dependencies:
       css-selector-tokenizer: 0.8.0
@@ -11832,16 +11867,16 @@ packages:
       mongodb-connection-string-url: 2.6.0
     dev: false
 
-  /mongoose-autopopulate@1.1.0(mongoose@8.0.2):
+  /mongoose-autopopulate@1.1.0(mongoose@8.0.3):
     resolution: {integrity: sha512-nTlTMlu1fLQ1bmJT7ILKbZmPGt2fHErLO4UJwzMDsHSigjtUYz0l3nvFhg511QkOkZcKBRzOnPn3DmmLIUENzg==}
     peerDependencies:
       mongoose: 6.x || 7.x || 8.0.0-rc0 || 8.x
     dependencies:
-      mongoose: 8.0.2
+      mongoose: 8.0.3
     dev: false
 
-  /mongoose@8.0.2:
-    resolution: {integrity: sha512-Vsi9GzTXjdBVzheT1HZOZ2jHNzzR9Xwb5OyLz/FvDEAhlwrRnXnuqJf0QHINUOQSm7aoyvnPks0q85HJkd6yDw==}
+  /mongoose@8.0.3:
+    resolution: {integrity: sha512-LJRT0yP4TW14HT4r2RkxqyvoTylMSzWpl5QOeVHTnRggCLQSpkoBdgbUtORFq/mSL2o9cLCPJz+6uzFj25qbHw==}
     engines: {node: '>=16.20.1'}
     dependencies:
       bson: 6.2.0
@@ -13144,6 +13179,15 @@ packages:
       '@jest/schemas': 29.6.3
       ansi-styles: 5.2.0
       react-is: 18.2.0
+
+  /prisma@5.7.1:
+    resolution: {integrity: sha512-ekho7ziH0WEJvC4AxuJz+ewRTMskrebPcrKuBwcNzVDniYxx+dXOGcorNeIb9VEMO5vrKzwNYvhD271Ui2jnNw==}
+    engines: {node: '>=16.13'}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      '@prisma/engines': 5.7.1
+    dev: true
 
   /proc-log@3.0.0:
     resolution: {integrity: sha512-++Vn7NS4Xf9NacaU9Xq3URUuqZETPsf8L4j5/ckhaRYsfPeRyzGw+iDjFhV/Jr3uNmTvvddEJFWh5R1gRgUH8A==}
