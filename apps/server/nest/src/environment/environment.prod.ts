@@ -7,8 +7,8 @@ export const environment: Environment = {
   production: true,
   port: 80,
   database: {
-    adapter: 'mongoose',
-    uri: 'mongodb://localhost/nest',
+    adapter: 'prisma',
+    // uri: 'mongodb://localhost/nest',
   },
   jwt: {
     secret: process.env.JWT_SECRET,

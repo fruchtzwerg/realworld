@@ -1,3 +1,7 @@
+interface PrismaConfig {
+  adapter: 'prisma';
+}
+
 interface MongooseConfig {
   adapter: 'mongoose';
   uri: string;
@@ -6,7 +10,7 @@ interface MongooseConfig {
 export interface Environment {
   production: boolean;
   port: number;
-  database: MongooseConfig;
+  database: PrismaConfig | MongooseConfig;
   jwt: {
     secret: string;
     expiresIn: string;

@@ -4,8 +4,8 @@ import { ProfileSchema } from './profile.dto';
 
 export const CommentSchema = z.object({
   id: z.coerce.number(),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  createdAt: z.string().datetime().or(z.date()),
+  updatedAt: z.string().datetime().or(z.date()),
   body: z.string(),
   author: ProfileSchema,
 });

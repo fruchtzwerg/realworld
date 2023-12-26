@@ -5,7 +5,6 @@ import { ArticleService } from '@realworld/common';
 import { contract } from '@realworld/dto';
 
 import { Public } from '../../auth/decorators/public.decorator';
-import { ArticleService } from '../services/article.service';
 
 @Controller()
 export class TagController {

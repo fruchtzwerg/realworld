@@ -19,9 +19,7 @@ import { UserModel } from '../models/user.model';
 
 const getFollowing = (username?: User['username']) => (comment: CommentModel) =>
   (comment.author.following = username
-    ? comment.author.followers.some(
-        (follower) => follower.username === username
-      )
+    ? comment.author.followers.some((follower) => follower.username === username)
     : false);
 
 @Injectable()
@@ -38,10 +36,7 @@ export class MongoCommentService extends CommentService {
     super();
   }
 
-  async getComments(
-    slug: Article['slug'],
-    username?: User['username']
-  ): Promise<Comment[]> {
+  async getComments(slug: Article['slug'], username?: User['username']): Promise<Comment[]> {
     const article = await this.articleModel.findOne({ slug });
     if (!article) throw new Error('Article not found');
 
@@ -67,10 +62,7 @@ export class MongoCommentService extends CommentService {
     return CommentSchema.array().parse(comments);
   }
 
-  async createComment(
-    slug: Article['slug'],
-    comment: CreateComment
-  ): Promise<Comment> {
+  async createComment(slug: Article['slug'], comment: CreateComment): Promise<Comment> {
     const username = this.store.get('user.username');
     const article = await this.articleModel.findOne({ slug });
     if (!article) throw new Error('Article not found');
@@ -89,10 +81,7 @@ export class MongoCommentService extends CommentService {
     return CommentSchema.parse(createdComment.toObject({ virtuals: true }));
   }
 
-  async deleteComment(
-    slug: Article['slug'],
-    id: Comment['id']
-  ): Promise<Comment> {
+  async deleteComment(slug: Article['slug'], id: Comment['id']): Promise<Comment> {
     const username = this.store.get('user.username');
     const article = await this.articleModel.findOne({ slug });
     if (!article) throw new Error('Article not found');

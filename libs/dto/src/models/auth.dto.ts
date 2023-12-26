@@ -31,4 +31,10 @@ export const ResolvedPayloadSchema = z.object({
   exp: z.number().int().positive(),
 });
 
+export const ResolvedPayloadDtoSchema = z.object({
+  user: ResolvedPayloadSchema.partial().optional(),
+});
+
+export type JwtOptions = z.infer<typeof JwtOptionsSchema>;
 export type ResolvedPayload = z.infer<typeof ResolvedPayloadSchema>;
+export type ResolvedPayloadDto = z.infer<typeof ResolvedPayloadDtoSchema>;

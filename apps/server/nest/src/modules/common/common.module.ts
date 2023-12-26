@@ -1,11 +1,14 @@
 import { DynamicModule, Module } from '@nestjs/common';
 
 import { MongoModule } from '@realworld/mongoose';
+import { PrismaModule } from '@realworld/prisma';
 
 import { environment } from '../../environment/environment';
 
 const getDatabaseAdapterForRoot = () => {
   switch (environment.database.adapter) {
+    case 'prisma':
+      return PrismaModule.forRoot();
     case 'mongoose':
       return MongoModule.forRoot(environment.database.uri);
   }
@@ -13,6 +16,8 @@ const getDatabaseAdapterForRoot = () => {
 
 const getDatabaseAdapterForFeature = () => {
   switch (environment.database.adapter) {
+    case 'prisma':
+      return PrismaModule.forFeature();
     case 'mongoose':
       return MongoModule.forFeatureAsync();
   }

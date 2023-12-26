@@ -4,25 +4,13 @@ import { compare } from 'bcrypt';
 import { JwtPayload } from 'jsonwebtoken';
 
 import { UserService } from '@realworld/common';
-import {
-  CreateUser,
-  LoginUser,
-  ResolvedPayloadSchema,
-  User,
-  UserSchema,
-} from '@realworld/dto';
+import { CreateUser, LoginUser, ResolvedPayloadSchema, User, UserSchema } from '@realworld/dto';
 
 @Injectable()
 export class AuthService implements AuthService {
-  constructor(
-    private readonly jwtService: JwtService,
-    private readonly userService: UserService
-  ) {}
+  constructor(private readonly jwtService: JwtService, private readonly userService: UserService) {}
 
-  async authenticate(
-    email: LoginUser['email'],
-    password: LoginUser['password']
-  ): Promise<User> {
+  async authenticate(email: LoginUser['email'], password: LoginUser['password']): Promise<User> {
     const user = await this.userService.getUserWithPasswordByEmail(email);
     if (!user) throw new UnauthorizedException();
 

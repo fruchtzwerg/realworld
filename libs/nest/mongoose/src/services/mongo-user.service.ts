@@ -56,19 +56,14 @@ export class MongoUserService extends UserService {
     return UserSchema.parse(user);
   }
 
-  async getUserWithPasswordByEmail(
-    email: User['email']
-  ): Promise<RawUser | null> {
+  async getUserWithPasswordByEmail(email: User['email']): Promise<RawUser | null> {
     const user = await this.userModel.findOne({ email }).select('+password');
     if (!user) return null;
 
     return RawUserSchema.parse(user);
   }
 
-  async updateUser(
-    username: User['username'],
-    userDto: UpdateUserDto
-  ): Promise<User | null> {
+  async updateUser(username: User['username'], userDto: UpdateUserDto): Promise<User | null> {
     const token = this.store.get('token');
     const user = await this.userModel.findOneAndUpdate(
       { username },
@@ -82,9 +77,7 @@ export class MongoUserService extends UserService {
     return UserSchema.parse(user);
   }
 
-  async deleteUser(
-    username: User['username']
-  ): Promise<Omit<User, 'token'> | null> {
+  async deleteUser(username: User['username']): Promise<Omit<User, 'token'> | null> {
     const user = await this.userModel.findOneAndDelete({ username });
     if (!user) return null;
 

@@ -6,20 +6,15 @@ import { User, contract } from '@realworld/dto';
 
 import { Payload } from '../../auth/decorators/payload.decorator';
 import { Public } from '../../auth/decorators/public.decorator';
-import { AuthService } from '../../auth/services/auth.service';
-import { ArticleService } from '../services/article.service';
 
 @Controller()
 export class ArticleController {
-  constructor(
-    private readonly articleService: ArticleService,
-    private readonly authService: AuthService
-  ) {}
+  constructor(private readonly articleService: ArticleService) {}
 
   @TsRestHandler(contract.article.getFeed)
-  async getFeed(@Payload('username') username: User['username']) {
+  async getFeed() {
     return tsRestHandler(contract.article.getFeed, async ({ query }) => {
-      const articles = await this.articleService.getFeed(query, username);
+      const articles = await this.articleService.getFeed(query);
       const articlesCount = await this.articleService.getArticlesCount();
 
       return {
@@ -31,9 +26,9 @@ export class ArticleController {
 
   @Public()
   @TsRestHandler(contract.article.getArticles)
-  async getArticles(@Payload('username') username?: User['username']) {
+  async getArticles() {
     return tsRestHandler(contract.article.getArticles, async ({ query }) => {
-      const articles = await this.articleService.getArticles(query, username);
+      const articles = await this.articleService.getArticles(query);
       const articlesCount = await this.articleService.getArticlesCount();
 
       return {
@@ -45,9 +40,9 @@ export class ArticleController {
 
   @Public()
   @TsRestHandler(contract.article.getArticle)
-  async getArticle(@Payload('username') username?: User['username']) {
+  async getArticle() {
     return tsRestHandler(contract.article.getArticle, async ({ params }) => {
-      const article = await this.articleService.getArticle(params.slug, username);
+      const article = await this.articleService.getArticle(params.slug);
 
       if (!article)
         return {
@@ -62,17 +57,22 @@ export class ArticleController {
   @TsRestHandler(contract.article.createArticle)
   async createArticle(@Payload('email') email: User['email']) {
     return tsRestHandler(contract.article.createArticle, async ({ body }) => {
-      const author = await this.authService.getUserByEmailRaw(email);
-      const article = await this.articleService.createArticle(body, author!);
+      const article = await this.articleService.createArticle(body, email);
+
+      if (!article)
+        return {
+          status: 422,
+          body: { errors: { body: ['user not found'] } },
+        };
 
       return { status: 201, body: { article } };
     });
   }
 
   @TsRestHandler(contract.article.updateArticle)
-  async updateArticle(@Payload('username') username: User['username']) {
+  async updateArticle() {
     return tsRestHandler(contract.article.updateArticle, async ({ params, body }) => {
-      const article = await this.articleService.updateArticle(params.slug, body, username);
+      const article = await this.articleService.updateArticle(params.slug, body);
 
       if (!article)
         return {
@@ -94,9 +94,9 @@ export class ArticleController {
   }
 
   @TsRestHandler(contract.favorites.setFavorite)
-  async setFavorite(@Payload('username') username: User['username']) {
+  async setFavorite() {
     return tsRestHandler(contract.favorites.setFavorite, async ({ params }) => {
-      const article = await this.articleService.setFavorite(params.slug, username);
+      const article = await this.articleService.setFavorite(params.slug);
 
       if (!article)
         return {
@@ -109,9 +109,9 @@ export class ArticleController {
   }
 
   @TsRestHandler(contract.favorites.deleteFavorite)
-  async unsetFavorite(@Payload('username') username: User['username']) {
+  async unsetFavorite() {
     return tsRestHandler(contract.favorites.deleteFavorite, async ({ params }) => {
-      const article = await this.articleService.unsetFavorite(params.slug, username);
+      const article = await this.articleService.unsetFavorite(params.slug);
 
       if (!article)
         return {

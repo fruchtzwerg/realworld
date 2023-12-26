@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "version": 2,
+  "title": "Prisma db seed executor",
+  "description": "Seed your database.",
+  "type": "object",
+  "properties": {
+    "script": {
+      "type": "string",
+      "description": "The path to the seeding script"
+    },
+    "tsConfig": {
+      "type": "string",
+      "description": "TypeScript config to use for seeding"
+    },
+    "args": {
+      "type": "array",
+      "description": "Arguments to pass to the seeding script",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": ["script"]
+}

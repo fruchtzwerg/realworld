@@ -19,8 +19,10 @@
       "@realworld/common": ["libs/nest/common/src/index.ts"],
       "@realworld/dto": ["libs/dto/src/index.ts"],
       "@realworld/mongoose": ["libs/nest/mongoose/src/index.ts"],
+      "@realworld/prisma": ["libs/nest/prisma/src/index.ts"],
       "@realworld/tailwind": ["libs/tailwind/src/index.js"],
-      "@realworld/utils": ["libs/utils/src/index.ts"]
+      "@realworld/utils": ["libs/utils/src/index.ts"],
+      "@realworld/workspace": ["tools/workspace/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

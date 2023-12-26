@@ -133,9 +133,7 @@ export class MongoArticleService extends ArticleService {
     if (!user) return null;
 
     // remove empty string tags
-    articleDto.article.tagList = Array.from(
-      new Set(articleDto.article.tagList.filter(Boolean))
-    );
+    articleDto.article.tagList = Array.from(new Set(articleDto.article.tagList.filter(Boolean)));
 
     const createdArticle = await this.articleModel.create(articleDto.article);
     createdArticle.author = user;
@@ -149,13 +147,9 @@ export class MongoArticleService extends ArticleService {
     slug: Article['slug'],
     articleDto: UpdateArticleDto
   ): Promise<Article | null> {
-    const article = await this.articleModel.findOneAndUpdate(
-      { slug },
-      articleDto.article,
-      {
-        new: true,
-      }
-    );
+    const article = await this.articleModel.findOneAndUpdate({ slug }, articleDto.article, {
+      new: true,
+    });
     if (!article) return null;
 
     return this.transform(article);

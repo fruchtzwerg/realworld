@@ -9,10 +9,7 @@ import { environment } from '../../../environment/environment';
 import { ACCESS_TOKEN_STRATEGY } from '../constants/strategy.const';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(
-  Strategy,
-  ACCESS_TOKEN_STRATEGY
-) {
+export class JwtStrategy extends PassportStrategy(Strategy, ACCESS_TOKEN_STRATEGY) {
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Token'),

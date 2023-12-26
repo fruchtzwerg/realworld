@@ -21,9 +21,7 @@ import { UserModule } from '../modules/user/user.module';
       interceptor: {
         mount: true,
         setup: (store, context) => {
-          const req = context
-            .switchToHttp()
-            .getRequest<Request<ResolvedPayloadDto>>();
+          const req = context.switchToHttp().getRequest<Request<ResolvedPayloadDto>>();
 
           store.set('user', req.user);
           store.set('token', req.headers.authorization?.split(' ')[1]);

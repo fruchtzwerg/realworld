@@ -43,3 +43,5 @@ Thumbs.db
 
 .angular
 .playwright
+libs/nest/prisma/prisma/*.sqlite
+libs/nest/prisma/prisma/*.sqlite-journal

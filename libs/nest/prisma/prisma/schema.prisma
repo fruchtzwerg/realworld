@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./db.sqlite"
+}
+
+model User {
+  id        String    @id @default(cuid()) @map("_id")
+  email     String    @unique
+  password  String
+  username  String    @unique
+  bio       String    @default("")
+  image     String?   @default("")
+  followers User[]    @relation("Follows")
+  following User[]    @relation("Follows")
+  articles  Article[] @relation("ArticleAuthor")
+  comments  Comment[] @relation("CommentAuthor")
+  favorites Article[] @relation("FavoriteArticles")
+
+  @@index([email], name: "email")
+  @@index([username], name: "username")
+  @@map("users")
+}
+
+model Article {
+  id          String    @id @default(cuid()) @map("_id")
+  slug        String    @unique
+  title       String
+  description String
+  body        String
+  tags        String    @default("")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  author      User      @relation("ArticleAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  authorId    String
+  favoritedBy User[]    @relation("FavoriteArticles")
+  comments    Comment[]
+
+  @@index([slug], name: "slug")
+  @@map("articles")
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  body      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  author    User     @relation("CommentAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  String
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  articleId String
+
+  @@map("comments")
+}

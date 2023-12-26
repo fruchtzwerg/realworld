@@ -2,8 +2,6 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
-import { MongoDbModule } from '@realworld/mongoose';
-
 import { environment } from '../../environment/environment';
 import { CommonModule } from '../common/common.module';
 
@@ -16,7 +14,6 @@ import { LocalStrategy } from './strategies/local.strategy';
   imports: [
     CommonModule.forFeature(),
     PassportModule,
-    MongoDbModule.forFeatureAsync(),
     JwtModule.register({
       secret: environment.jwt.secret,
       signOptions: { expiresIn: environment.jwt.expiresIn },

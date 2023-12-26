@@ -1,21 +1,14 @@
-import {
-  AsyncModelFactory,
-  Prop,
-  Schema,
-  SchemaFactory,
-  getModelToken,
-} from '@nestjs/mongoose';
+import { AsyncModelFactory, Prop, Schema, SchemaFactory, getModelToken } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument, Model } from 'mongoose';
 
 import { Article } from '@realworld/dto';
+import { slugify } from '@realworld/utils';
 
 import { CommentModel } from './comment.model';
 import { UserModel } from './user.model';
 
 @Schema()
-export class ArticleModel
-  implements Omit<Article, 'author' | 'favorited' | 'favoritesCount'>
-{
+export class ArticleModel implements Omit<Article, 'author' | 'favorited' | 'favoritesCount'> {
   @Prop({ unique: true }) slug!: string;
   @Prop({ trim: true }) title!: string;
   @Prop({ trim: true }) description!: string;
@@ -51,19 +44,15 @@ export const ArticleModelFactory: AsyncModelFactory = {
     const schema = ArticleModelSchema;
 
     schema.pre('save', function (next) {
-      if (this.isModified('title'))
-        this.slug = this.title.toLowerCase().replace(/\s/g, '-');
+      if (this.isModified('title')) this.slug = slugify(this.title);
       this.updatedAt = new Date().toISOString();
       next();
     });
 
-    schema.pre(
-      ['deleteOne', 'deleteMany', 'findOneAndDelete'],
-      async function (next) {
-        await commentModel.deleteMany({ article: this.get('id') });
-        next();
-      }
-    );
+    schema.pre(['deleteOne', 'deleteMany', 'findOneAndDelete'], async function (next) {
+      await commentModel.deleteMany({ article: this.get('id') });
+      next();
+    });
 
     return schema;
   },

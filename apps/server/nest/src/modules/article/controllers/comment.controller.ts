@@ -22,28 +22,19 @@ export class CommentController {
 
   @TsRestHandler(contract.comments.createComment)
   async createComment() {
-    return tsRestHandler(
-      contract.comments.createComment,
-      async ({ params, body }) => {
-        const comment = await this.commentService.createComment(
-          params.slug,
-          body.comment
-        );
+    return tsRestHandler(contract.comments.createComment, async ({ params, body }) => {
+      const comment = await this.commentService.createComment(params.slug, body.comment);
 
-        return { status: 200, body: { comment } };
-      }
-    );
+      return { status: 200, body: { comment } };
+    });
   }
 
-  @TsRestHandler(contract.comments.deleteComment, { validateResponses: false })
+  @TsRestHandler(contract.comments.deleteComment)
   async deleteComment() {
-    return tsRestHandler(
-      contract.comments.deleteComment,
-      async ({ params }) => {
-        await this.commentService.deleteComment(params.slug, params.id);
+    return tsRestHandler(contract.comments.deleteComment, async ({ params }) => {
+      await this.commentService.deleteComment(params.slug, params.id);
 
-        return { status: 200, body: null };
-      }
-    );
+      return { status: 200, body: null };
+    });
   }
 }
