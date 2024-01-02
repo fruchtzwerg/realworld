@@ -29,7 +29,16 @@ import { UserModule } from '../modules/user/user.module';
       },
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, environment.clientPath),
+      rootPath: join(__dirname, '../../client/vue'),
+      serveRoot: '/vue',
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '../../client/react'),
+      serveRoot: '/react',
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '../../client/angular/browser'),
+      serveRoot: '/angular',
     }),
     AuthModule,
     UserModule,

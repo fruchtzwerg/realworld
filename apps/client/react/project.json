@@ -5,6 +5,7 @@
   "projectType": "application",
   "targets": {
     "build": {
+      "dependsOn": ["react:patch"],
       "executor": "@nx/vite:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
@@ -21,6 +22,7 @@
       }
     },
     "serve": {
+      "dependsOn": ["react:patch"],
       "executor": "@nx/vite:dev-server",
       "defaultConfiguration": "development",
       "options": {
@@ -63,6 +65,15 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
+    },
+    "patch": {
+      "executor": "@realworld/workspace:patch-ts-rest",
+      "options": {
+        "files": [
+          "node_modules/@ts-rest/react-query/index.js",
+          "node_modules/@ts-rest/react-query/index.mjs"
+        ]
+      }
     }
   },
   "tags": ["react", "frontend"]

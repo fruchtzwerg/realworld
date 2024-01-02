@@ -11,5 +11,4 @@ export const environment: Environment = {
     secret: 'nest',
     expiresIn: '7d',
   },
-  clientPath: '../../client/vue',
 };

@@ -1,7 +1,7 @@
 import { Environment } from './environment.model';
 
 if (!process.env.JWT_SECRET) throw new Error('JWT_SECRET not set');
-if (!process.env.CLIENT_PATH) throw new Error('CLIENT_PATH not set');
+// if (!process.env.CLIENT_PATH) throw new Error('CLIENT_PATH not set');
 
 export const environment: Environment = {
   production: true,
@@ -14,5 +14,4 @@ export const environment: Environment = {
     secret: process.env.JWT_SECRET,
     expiresIn: '7d',
   },
-  clientPath: process.env.CLIENT_PATH,
 };

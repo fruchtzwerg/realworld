@@ -7,8 +7,7 @@ import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
 
 // Fix for default export
-const replaceFiles = (replaceFilesPlugin as any)
-  .default as typeof replaceFilesPlugin;
+const replaceFiles = (replaceFilesPlugin as any).default as typeof replaceFilesPlugin;
 
 const dynamicImports = [];
 
@@ -25,6 +24,8 @@ if (process.env.NODE_ENV === 'production') {
 
 export default defineConfig({
   root: __dirname,
+  base: '/vue',
+
   build: {
     outDir: '../../../dist/apps/client/vue',
     reportCompressedSize: true,
@@ -44,13 +45,7 @@ export default defineConfig({
     host: 'localhost',
   },
 
-  plugins: [
-    ...dynamicImports,
-    vue(),
-    vueJsx(),
-    nxViteTsPaths(),
-    Icons({ compiler: 'vue3' }),
-  ],
+  plugins: [...dynamicImports, vue(), vueJsx(), nxViteTsPaths(), Icons({ compiler: 'vue3' })],
 
   // Uncomment this if you are using workers.
   // worker: {

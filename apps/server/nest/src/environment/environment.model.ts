@@ -15,5 +15,4 @@ export interface Environment {
     secret: string;
     expiresIn: string;
   };
-  clientPath: string;
 }

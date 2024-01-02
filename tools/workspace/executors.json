@@ -4,6 +4,11 @@
       "implementation": "./src/executors/prisma-seed/executor",
       "schema": "./src/executors/prisma-seed/schema.json",
       "description": "prisma-seed executor"
+    },
+    "patch-ts-rest": {
+      "implementation": "./src/executors/patch-ts-rest/executor",
+      "schema": "./src/executors/patch-ts-rest/schema.json",
+      "description": "patch-ts-rest executor"
     }
   }
 }

@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "pnpm exec nx run-many --target=build --exclude='workspace' --parallel"
+    "build": "pnpm exec nx run-many --target=build --exclude='workspace' --parallel",
+    "start": "node dist/apps/server/nest"
   },
   "private": true,
   "prisma": {

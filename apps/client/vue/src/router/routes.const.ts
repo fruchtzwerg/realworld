@@ -50,7 +50,7 @@ export const routes = satisfies<RouteRecordRaw[]>()([
     },
     props: { default: true, header: true },
   },
-] as const);
+]);
 
 export type RoutePath = MapRouteParam<(typeof routes)[number]['path']>;
 
@@ -63,7 +63,5 @@ type MapRouteParam<
     ? `${Param}${string}${Rest extends `${string}:${string}`
         ? `/${MapRouteParam<Rest, string>}`
         : ''}`
-    : `${string}${Rest extends `${string}:${string}`
-        ? MapRouteParam<Rest, string>
-        : string}`
+    : `${string}${Rest extends `${string}:${string}` ? MapRouteParam<Rest, string> : string}`
   : T;

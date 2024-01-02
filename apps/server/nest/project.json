@@ -5,6 +5,7 @@
   "projectType": "application",
   "targets": {
     "build": {
+      "dependsOn": ["^prisma-generate"],
       "executor": "@nx/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
