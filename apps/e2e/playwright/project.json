@@ -3,20 +3,6 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "apps/e2e/playwright/src",
-  "targets": {
-    "e2e": {
-      "executor": "@nx/playwright:playwright",
-      "outputs": ["{workspaceRoot}/dist/.playwright/apps/e2e/playwright"],
-      "options": {
-        "config": "apps/e2e/playwright/playwright.config.ts",
-        "skipInstall": true,
-        "project": ["chromium"]
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
-    }
-  },
-  "implicitDependencies": ["angular", "vue"]
+  "targets": {},
+  "implicitDependencies": ["angular", "vue", "react"]
 }

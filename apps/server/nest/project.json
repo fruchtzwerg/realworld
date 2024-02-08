@@ -34,6 +34,7 @@
       }
     },
     "serve": {
+      "dependsOn": ["^prisma-generate"],
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {
@@ -47,10 +48,6 @@
           "buildTarget": "nest:build:production"
         }
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
     }
   },
   "tags": ["server", "nest"]

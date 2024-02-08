@@ -16,6 +16,7 @@ const nxPreset = nxE2EPreset(__filename, { testDir: './src' });
 /** See https://playwright.dev/docs/test-configuration. */
 export default defineConfig({
   ...nxPreset,
+  workers: 1,
   projects: [
     {
       name: 'setup',
@@ -27,9 +28,11 @@ export default defineConfig({
     },
     {
       ...nxPreset.projects?.[0],
+      name: 'chromium',
       use: { storageState: '.playwright/storage.json' },
       teardown: 'teardown',
       dependencies: ['setup'],
+      retries: 1
     },
   ],
 
@@ -39,10 +42,10 @@ export default defineConfig({
   },
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: 'pnpm exec nx serve nest',
-    url: `http://localhost:${PORT}`,
-    reuseExistingServer: !process.env.CI,
-    cwd: workspaceRoot,
-  },
+  // webServer: {
+  //   command: 'pnpm exec nx serve nest',
+  //   url: `http://localhost:${PORT}`,
+  //   reuseExistingServer: !process.env.CI,
+  //   cwd: workspaceRoot,
+  // },
 });

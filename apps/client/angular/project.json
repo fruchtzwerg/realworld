@@ -72,17 +72,6 @@
       "options": {
         "buildTarget": "angular:build"
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "apps/client/angular/jest.config.ts"
-      }
     }
   }
 }

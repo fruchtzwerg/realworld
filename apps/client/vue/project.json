@@ -4,10 +4,6 @@
   "projectType": "application",
   "sourceRoot": "apps/client/vue/src",
   "targets": {
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
-    },
     "build": {
       "executor": "@nx/vite:build",
       "outputs": ["{options.outputPath}"],
@@ -47,35 +43,6 @@
           "buildTarget": "vue:build:production",
           "hmr": false
         }
-      }
-    },
-    "preview": {
-      "executor": "@nx/vite:preview-server",
-      "defaultConfiguration": "development",
-      "options": {
-        "buildTarget": "vue:build"
-      },
-      "configurations": {
-        "development": {
-          "buildTarget": "vue:build:development"
-        },
-        "production": {
-          "buildTarget": "vue:build:production"
-        }
-      }
-    },
-    "test": {
-      "executor": "@nx/vite:test",
-      "outputs": ["{options.reportsDirectory}"],
-      "options": {
-        "passWithNoTests": true,
-        "reportsDirectory": "../../../coverage/apps/client/vue"
-      }
-    },
-    "serve-static": {
-      "executor": "@nx/web:file-server",
-      "options": {
-        "buildTarget": "vue:build"
       }
     }
   }
