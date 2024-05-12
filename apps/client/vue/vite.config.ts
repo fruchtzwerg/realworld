@@ -1,13 +1,11 @@
 /// <reference types='vitest' />
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
-import replaceFilesPlugin from '@nx/vite/plugins/rollup-replace-files.plugin';
+import { replaceFiles } from '@nx/vite/plugins/rollup-replace-files.plugin';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
-
-// Fix for default export
-const replaceFiles = (replaceFilesPlugin as any).default as typeof replaceFilesPlugin;
+import VueDevTools from 'vite-plugin-vue-devtools';
 
 const dynamicImports = [];
 
@@ -24,7 +22,7 @@ if (process.env.NODE_ENV === 'production') {
 
 export default defineConfig({
   root: __dirname,
-  base: '/vue',
+  // base: '/vue',
 
   build: {
     outDir: '../../../dist/apps/client/vue',
@@ -45,7 +43,14 @@ export default defineConfig({
     host: 'localhost',
   },
 
-  plugins: [...dynamicImports, vue(), vueJsx(), nxViteTsPaths(), Icons({ compiler: 'vue3' })],
+  plugins: [
+    ...dynamicImports,
+    vue(),
+    vueJsx(),
+    // VueDevTools(),
+    nxViteTsPaths({ debug: true }),
+    Icons({ compiler: 'vue3' }),
+  ],
 
   // Uncomment this if you are using workers.
   // worker: {

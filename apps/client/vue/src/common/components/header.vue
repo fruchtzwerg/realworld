@@ -1,8 +1,12 @@
 <script setup lang="tsx">
-import { computed, type FunctionalComponent } from 'vue';
+import { computed, type FunctionalComponent, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import IconCompose from 'virtual:icons/ion/compose';
 import IconSettings from 'virtual:icons/ion/gear-a';
+import IconHome from 'virtual:icons/ion/home-outline';
+import IconMenu from 'virtual:icons/ion/ellipsis-vertical';
+import IconLock from 'virtual:icons/ion/lock-open-outline';
+import IconRegister from 'virtual:icons/ion/person-add-outline';
 import { useUser } from '../../api/hooks/user.get';
 import { isNotNull } from '@realworld/utils';
 import { Avatar } from './avatar';
@@ -16,13 +20,12 @@ interface Item {
 }
 
 const itemsPublic: Item[] = [
-  { id: 'home', name: 'Home', href: '/' },
-  { id: 'login', name: 'Sign in', href: '/login' },
-  { id: 'register', name: 'Sign up', href: '/register' },
+  { id: 'home', name: 'Home', href: '/', icon: IconHome },
+  { id: 'login', name: 'Sign in', href: '/login', icon: IconLock },
+  { id: 'register', name: 'Sign up', href: '/register', icon: IconRegister },
 ];
 
 const itemsPrivate: Item[] = [
-  { id: 'home', name: 'Home', href: '/' },
   {
     id: 'new_article',
     name: 'New Article',
@@ -44,8 +47,25 @@ const userItem = computed<Item | null>(() =>
 
 const { user } = useUser();
 
-const items = computed(() =>
-  user.value ? [...itemsPrivate, userItem.value].filter(isNotNull) : itemsPublic
+const items = computed(() => (user.value ? itemsPrivate : itemsPublic));
+
+const mobileMenuActive = ref(false);
+
+const MenuItem: FunctionalComponent<{ item: Item; linkClass: string }> = ({
+  item,
+  linkClass,
+  ...props
+}) => (
+  <li {...props} class="h-full">
+    <RouterLink
+      to={item.href}
+      active-class="active !text-base-content/100"
+      class={[linkClass, 'items-center text-base-content/60 hover:text-base-content/90']}
+    >
+      {item.icon && <item.icon class="w-6 h-6 mr-1" />}
+      <span>{item.name}</span>
+    </RouterLink>
+  </li>
 );
 </script>
 
@@ -58,18 +78,41 @@ const items = computed(() =>
       </RouterLink>
 
       <!-- menu -->
-      <nav>
-        <ol class="flex h-full gap-4">
-          <li v-for="item in items" :key="item.id" class="h-full">
-            <RouterLink
-              :to="item.href"
-              active-class="active !text-base-content/100"
-              class="flex items-center h-full text-base-content/60 hover:text-base-content/90"
-            >
-              <component :is="item.icon" v-if="item.icon" class="w-6 h-6 mr-1" />
-              <span>{{ item.name }}</span>
-            </RouterLink>
-          </li>
+      <nav class="flex items-center gap-4">
+        <RouterLink v-if="userItem" :to="userItem.href" class="flex items-center gap-2">
+          <component :is="userItem.icon" v-if="userItem.icon" class="w-8 h-8" />
+          <span>{{ userItem.name }}</span>
+        </RouterLink>
+
+        <!-- Mobile -->
+        <button
+          @click="mobileMenuActive = !mobileMenuActive"
+          v-click-outside="() => (mobileMenuActive = false)"
+          class="rounded-full md:hidden text-base-content/60 hover:text-base-content/90 hover:bg-base-content/30 size-8"
+        >
+          <IconMenu class="m-auto" />
+
+          <ol
+            v-show="mobileMenuActive"
+            class="absolute right-0 z-10 w-40 rounded-md shadow-md top-14 bg-base-200"
+          >
+            <MenuItem
+              v-for="item in items"
+              :key="item.id"
+              :item="item"
+              linkClass="flex p-4 gap-2"
+            />
+          </ol>
+        </button>
+
+        <!-- Desktop -->
+        <ol class="hidden h-full gap-4 md:flex">
+          <MenuItem
+            v-for="item in items"
+            :key="item.id"
+            :item="item"
+            linkClass="flex items-center h-full"
+          />
         </ol>
       </nav>
     </div>

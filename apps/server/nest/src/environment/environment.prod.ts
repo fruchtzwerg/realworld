@@ -5,7 +5,7 @@ if (!process.env.JWT_SECRET) throw new Error('JWT_SECRET not set');
 
 export const environment: Environment = {
   production: true,
-  port: 80,
+  port: +(process.env.PORT || 80),
   database: {
     adapter: 'prisma',
     // uri: 'mongodb://localhost/nest',

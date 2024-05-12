@@ -49,21 +49,17 @@ watch(selectedTabId, (id) => {
 });
 
 const query = computed(() => ({
-  author:
-    props.isPrivate && selectedTabId.value === 'my_posts'
-      ? props.username
-      : undefined,
-  favorited:
-    props.isPrivate && selectedTabId.value === 'favorited'
-      ? props.username
-      : undefined,
+  author: props.isPrivate && selectedTabId.value === 'my_posts' ? props.username : undefined,
+  favorited: props.isPrivate && selectedTabId.value === 'favorited' ? props.username : undefined,
   tag: selectedTab.value?.id,
   enabled: props.isPrivate ? !!profile?.value ?? true : true,
 }));
 </script>
 
 <template>
-  <div class="grid grid-areas-[feed_tags] grid-cols-[1fr_auto] gap-x-8">
+  <div
+    class="grid grid-areas-[tags,feed] grid-cols-1 md:grid-areas-[feed_tags] md:grid-cols-[1fr_auto] gap-8"
+  >
     <div class="grid-in-[feed]">
       <!-- tabs -->
       <Tabs :tabs="tabs" v-model:selected="selectedTabId" class="w-fit" />
@@ -79,7 +75,7 @@ const query = computed(() => ({
     <!-- tags -->
     <TagList
       v-if="!props.isPrivate"
-      class="grid-in-[tags]"
+      class="grid-in-[tags] w-full md:w-4"
       @selected="
         selectedTab = {
           id: $event,
