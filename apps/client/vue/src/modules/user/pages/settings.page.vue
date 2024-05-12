@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UpdateUserSchema } from '@realworld/dto';
+import { UpdateUserSchema, type UpdateUser } from '@realworld/dto';
 import { useToken } from '../../../common/hooks/token.hook';
 import { shallowSparse } from '@realworld/utils';
 import { useUpdateUser } from '../../../api/hooks/user.update';
@@ -8,19 +8,12 @@ const token = useToken();
 const { mutate, isPending } = useUpdateUser();
 
 const submit = (e: SubmitEvent) => {
-  const form = e.target;
-  if (!(form instanceof HTMLFormElement)) return;
+  if (!(e.target instanceof HTMLFormElement)) return;
 
-  const formData = new FormData(form);
-  const user = shallowSparse(
-    UpdateUserSchema.parse({
-      username: formData.get('username') || undefined,
-      email: formData.get('email') || undefined,
-      password: formData.get('password') || undefined,
-      image: formData.get('image') || undefined,
-      bio: formData.get('bio') || undefined,
-    })
-  );
+  const formData = new FormData(e.target);
+  const data = Object.fromEntries(formData) as UpdateUser;
+
+  const user = shallowSparse(UpdateUserSchema.parse(data));
 
   mutate({ body: { user } });
 };

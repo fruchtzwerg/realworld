@@ -15,10 +15,10 @@ const { user } = useUser();
 const { mutateAsync: postComment, isPending: isCreatePending } = useCreateComment(slug);
 
 const submitComment = async (e: SubmitEvent) => {
-  const form = e.target;
-  if (!(form instanceof HTMLFormElement)) return;
+  if (!(e.target instanceof HTMLFormElement)) return;
 
-  const formData = new FormData(form);
+  const formData = new FormData(e.target);
+
   const comment = CreateCommentSchema.parse({
     body: formData.get('comment'),
   });
@@ -27,7 +27,7 @@ const submitComment = async (e: SubmitEvent) => {
 
   await postComment({ params: { slug: slug.value }, body: { comment } });
 
-  form.reset();
+  e.target.reset();
 };
 </script>
 

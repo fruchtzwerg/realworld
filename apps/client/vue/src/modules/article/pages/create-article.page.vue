@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { CreateArticleSchema } from '@realworld/dto';
+import { CreateArticleSchema, type CreateArticle } from '@realworld/dto';
 import { useCreateArticle } from '../../../api/hooks/article.create';
 
 const { mutate, isPending } = useCreateArticle();
 
 const submit = (e: SubmitEvent) => {
-  const form = e.target;
-  if (!(form instanceof HTMLFormElement)) return;
+  if (!(e.target instanceof HTMLFormElement)) return;
 
-  const formData = new FormData(form);
+  const formData = new FormData(e.target);
+  const { tagList, ...data } = Object.fromEntries(formData) as CreateArticle & {
+    tagList: string | null | undefined;
+  };
+
   const article = CreateArticleSchema.parse({
-    title: formData.get('title'),
-    description: formData.get('description'),
-    body: formData.get('body'),
+    ...data,
     tagList:
-      formData
-        .get('tagList')
+      tagList
         ?.toString()
         .split(',')
         .map((s) => s.trim()) ?? [],
