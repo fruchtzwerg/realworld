@@ -57,8 +57,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.2(@nestjs/common@10.4.15(reflect-metadata@0.1.14)(rxjs@7.8.2))(@nestjs/core@10.4.15)(express@4.21.2)
       '@ngneat/query':
-        specifier: 2.0.0-beta.8
-        version: 2.0.0-beta.8(@angular/core@19.1.8(rxjs@7.8.2)(zone.js@0.15.0))(@tanstack/query-core@5.66.4)
+        specifier: 3.1.1
+        version: 3.1.1(@angular/core@19.1.8(rxjs@7.8.2)(zone.js@0.15.0))(@tanstack/query-core@5.66.4)
       '@savvywombat/tailwindcss-grid-areas':
         specifier: ^3.1.0
         version: 3.1.0(tailwindcss@3.4.3(ts-node@10.9.1(@swc/core@1.5.7(@swc/helpers@0.5.15))(@types/node@18.19.14)(typescript@5.7.3)))
@@ -66,25 +66,25 @@ importers:
         specifier: 0.5.15
         version: 0.5.15
       '@tanstack/react-query':
-        specifier: ^5.17.0
+        specifier: ^5.66.9
         version: 5.66.9(react@18.3.1)
       '@tanstack/vue-query':
-        specifier: ^5.17.0
+        specifier: ^5.66.9
         version: 5.66.9(vue@3.5.13(typescript@5.7.3))
       '@ts-rest/core':
-        specifier: ^3.30.5
+        specifier: ^3.52.0
         version: 3.52.0(@types/node@18.19.14)(zod@3.24.2)
       '@ts-rest/nest':
-        specifier: ^3.30.5
+        specifier: ^3.52.0
         version: 3.52.0(@nestjs/common@10.4.15(reflect-metadata@0.1.14)(rxjs@7.8.2))(@nestjs/core@10.4.15)(@ts-rest/core@3.52.0(@types/node@18.19.14)(zod@3.24.2))(rxjs@7.8.2)(zod@3.24.2)
       '@ts-rest/open-api':
-        specifier: ^3.30.5
+        specifier: ^3.52.0
         version: 3.52.0(@ts-rest/core@3.52.0(@types/node@18.19.14)(zod@3.24.2))(zod@3.24.2)
       '@ts-rest/react-query':
-        specifier: ^3.30.5
+        specifier: ^3.52.0
         version: 3.52.0(@tanstack/react-query@5.66.9(react@18.3.1))(@ts-rest/core@3.52.0(@types/node@18.19.14)(zod@3.24.2))(react@18.3.1)(zod@3.24.2)
       '@ts-rest/vue-query':
-        specifier: ^3.30.5
+        specifier: ^3.52.0
         version: 3.52.0(@tanstack/vue-query@5.66.9(vue@3.5.13(typescript@5.7.3)))(@ts-rest/core@3.52.0(@types/node@18.19.14)(zod@3.24.2))(zod@3.24.2)
       '@typegoose/auto-increment':
         specifier: ^4.0.0
@@ -93,11 +93,11 @@ importers:
         specifier: 4.17.21
         version: 4.17.21
       '@vueuse/core':
-        specifier: ^10.7.1
-        version: 10.11.1(vue@3.5.13(typescript@5.7.3))
+        specifier: ^12.7.0
+        version: 12.7.0(typescript@5.7.3)
       '@vueuse/router':
-        specifier: ^10.7.1
-        version: 10.11.1(vue-router@4.5.0(vue@3.5.13(typescript@5.7.3)))(vue@3.5.13(typescript@5.7.3))
+        specifier: ^12.7.0
+        version: 12.7.0(typescript@5.7.3)(vue-router@4.5.0(vue@3.5.13(typescript@5.7.3)))
       bcrypt:
         specifier: ^5.1.1
         version: 5.1.1(encoding@0.1.13)
@@ -208,8 +208,8 @@ importers:
         specifier: ^13.0.5
         version: 13.0.5(@typescript-eslint/parser@7.18.0(eslint@8.57.0)(typescript@5.7.3))(eslint@8.57.0)(typescript@5.7.3)
       '@ngneat/query-devtools':
-        specifier: 2.0.0-beta.0
-        version: 2.0.0-beta.0(@angular/core@19.1.8(rxjs@7.8.2)(zone.js@0.15.0))(@tanstack/query-devtools@5.65.0)
+        specifier: 2.1.0
+        version: 2.1.0(@angular/core@19.1.8(rxjs@7.8.2)(zone.js@0.15.0))(@tanstack/query-devtools@5.65.0)
       '@nx-tools/core':
         specifier: 6.1.1
         version: 6.1.1(@nx/devkit@20.4.6(nx@20.4.6(@swc-node/register@1.9.2(@swc/core@1.5.7(@swc/helpers@0.5.15))(@swc/types@0.1.19)(typescript@5.7.3))(@swc/core@1.5.7(@swc/helpers@0.5.15))))(tslib@2.8.1)
@@ -2519,17 +2519,17 @@ packages:
   '@ngbasics/eslint-plugin@13.0.5':
     resolution: {integrity: sha512-Nu2rRPNnDOfdsY3ELpSGZUqcAwm25rSdy445rjMG+xdl9FUZmG/X6Xxxs8u/EItuPXVjmafZpRLHu8SA3yBuRg==}
 
-  '@ngneat/query-devtools@2.0.0-beta.0':
-    resolution: {integrity: sha512-H2SOT+W9I3slegcY6C8NjsZOm5LfHzKTSJ2lL8Vlu2jLtWe2JEFUzSalrcyCQpbgiUSmsNUMBAVqItI5s5Q17w==}
+  '@ngneat/query-devtools@2.1.0':
+    resolution: {integrity: sha512-1l8jF80EFls3yg1ECuOP1o2A99VnewwQzkekBIkuAj87KVirMjRAmUoutdjv2cogCiawSWMLAFmHH4Tt06Poow==}
     peerDependencies:
-      '@angular/core': '>=16.0.0 <18.0.0'
-      '@tanstack/query-devtools': 5.4.2
+      '@angular/core': '>=16.0.0 <20.0.0'
+      '@tanstack/query-devtools': 5.61.4
 
-  '@ngneat/query@2.0.0-beta.8':
-    resolution: {integrity: sha512-sHVsT3p+J7/xSp2U1F7d1a4sZHrkbKf9W5Y4tSMWfRIeCyIkG5RZOHCiB99HjqY1HpDdoj8AnT4toRfWbYSiCw==}
+  '@ngneat/query@3.1.1':
+    resolution: {integrity: sha512-QGaY9V/jlDjE27n2QMexmXpvuelRL/7Q4jTZ5A0v8sIWLBazppPaKFJahXS/RLTFrUd+w5be0CStlzI9HfSefw==}
     peerDependencies:
-      '@angular/core': '>=16.0.0 <18.0.0'
-      '@tanstack/query-core': ^5.4.3
+      '@angular/core': '>=16.0.0 <20.0.0'
+      '@tanstack/query-core': ^5.62.7
 
   '@ngtools/webpack@19.1.9':
     resolution: {integrity: sha512-mGxFhyYHJoI1GX58zpIl0TnJqyTi8uHhZHS3F20MZGD+RSpKvdfLFI7k2FVnEEbg48nGSLgflEdYj+fx13Xswg==}
@@ -4131,19 +4131,19 @@ packages:
   '@vue/tsconfig@0.4.0':
     resolution: {integrity: sha512-CPuIReonid9+zOG/CGTT05FXrPYATEqoDGNrEaqS4hwcw5BUNM2FguC0mOwJD4Jr16UpRVl9N0pY3P+srIbqmg==}
 
-  '@vueuse/core@10.11.1':
-    resolution: {integrity: sha512-guoy26JQktXPcz+0n3GukWIy/JDNKti9v6VEMu6kV2sYBsWuGiTU8OWdg+ADfUbHg3/3DlqySDe7JmdHrktiww==}
+  '@vueuse/core@12.7.0':
+    resolution: {integrity: sha512-jtK5B7YjZXmkGNHjviyGO4s3ZtEhbzSgrbX+s5o+Lr8i2nYqNyHuPVOeTdM1/hZ5Tkxg/KktAuAVDDiHMraMVA==}
 
-  '@vueuse/metadata@10.11.1':
-    resolution: {integrity: sha512-IGa5FXd003Ug1qAZmyE8wF3sJ81xGLSqTqtQ6jaVfkeZ4i5kS2mwQF61yhVqojRnenVew5PldLyRgvdl4YYuSw==}
+  '@vueuse/metadata@12.7.0':
+    resolution: {integrity: sha512-4VvTH9mrjXqFN5LYa5YfqHVRI6j7R00Vy4995Rw7PQxyCL3z0Lli86iN4UemWqixxEvYfRjG+hF9wL8oLOn+3g==}
 
-  '@vueuse/router@10.11.1':
-    resolution: {integrity: sha512-tXtDofDwgmADrnLY2mK2LtHKV9CBehaNfT2ar00HZTJ00QxmCOjYp626WdGtQsUi4E64vTScV/s+yKTXhZfl1w==}
+  '@vueuse/router@12.7.0':
+    resolution: {integrity: sha512-Jp6dIel54oc2nh++zqjY06ipCcTT6YWDCNQ8dSSnqRwx90wIl7w7MQP7Wpp1wrDwXEoqhelfeZf2gjfrkAhq3g==}
     peerDependencies:
       vue-router: '>=4.0.0-rc.1'
 
-  '@vueuse/shared@10.11.1':
-    resolution: {integrity: sha512-LHpC8711VFZlDaYUXEBbFBCQ7GS3dVU9mjOhhMhXP6txTV4EhYQg/KGnQuvt/sPAtoUKq7VVUnL6mVtFoL42sA==}
+  '@vueuse/shared@12.7.0':
+    resolution: {integrity: sha512-coLlUw2HHKsm7rPN6WqHJQr18WymN4wkA/3ThFaJ4v4gWGWAQQGK+MJxLuJTBs4mojQiazlVWAKNJNpUWGRkNw==}
 
   '@webassemblyjs/ast@1.14.1':
     resolution: {integrity: sha512-nuBEDgQfm1ccRp/8bCQrx1frohyufl4JlbMMZ4P1wpeOfDhF6FQkxZJ1b/e+PLwr6X1Nhw6OLme5usuBWYBvuQ==}
@@ -13493,13 +13493,13 @@ snapshots:
       - supports-color
       - typescript
 
-  '@ngneat/query-devtools@2.0.0-beta.0(@angular/core@19.1.8(rxjs@7.8.2)(zone.js@0.15.0))(@tanstack/query-devtools@5.65.0)':
+  '@ngneat/query-devtools@2.1.0(@angular/core@19.1.8(rxjs@7.8.2)(zone.js@0.15.0))(@tanstack/query-devtools@5.65.0)':
     dependencies:
       '@angular/core': 19.1.8(rxjs@7.8.2)(zone.js@0.15.0)
       '@tanstack/query-devtools': 5.65.0
       tslib: 2.8.1
 
-  '@ngneat/query@2.0.0-beta.8(@angular/core@19.1.8(rxjs@7.8.2)(zone.js@0.15.0))(@tanstack/query-core@5.66.4)':
+  '@ngneat/query@3.1.1(@angular/core@19.1.8(rxjs@7.8.2)(zone.js@0.15.0))(@tanstack/query-core@5.66.4)':
     dependencies:
       '@angular/core': 19.1.8(rxjs@7.8.2)(zone.js@0.15.0)
       '@tanstack/query-core': 5.66.4
@@ -15625,33 +15625,30 @@ snapshots:
 
   '@vue/tsconfig@0.4.0': {}
 
-  '@vueuse/core@10.11.1(vue@3.5.13(typescript@5.7.3))':
+  '@vueuse/core@12.7.0(typescript@5.7.3)':
     dependencies:
       '@types/web-bluetooth': 0.0.20
-      '@vueuse/metadata': 10.11.1
-      '@vueuse/shared': 10.11.1(vue@3.5.13(typescript@5.7.3))
-      vue-demi: 0.14.10(vue@3.5.13(typescript@5.7.3))
+      '@vueuse/metadata': 12.7.0
+      '@vueuse/shared': 12.7.0(typescript@5.7.3)
+      vue: 3.5.13(typescript@5.7.3)
     transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
+      - typescript
 
-  '@vueuse/metadata@10.11.1': {}
+  '@vueuse/metadata@12.7.0': {}
 
-  '@vueuse/router@10.11.1(vue-router@4.5.0(vue@3.5.13(typescript@5.7.3)))(vue@3.5.13(typescript@5.7.3))':
+  '@vueuse/router@12.7.0(typescript@5.7.3)(vue-router@4.5.0(vue@3.5.13(typescript@5.7.3)))':
     dependencies:
-      '@vueuse/shared': 10.11.1(vue@3.5.13(typescript@5.7.3))
-      vue-demi: 0.14.10(vue@3.5.13(typescript@5.7.3))
+      '@vueuse/shared': 12.7.0(typescript@5.7.3)
+      vue: 3.5.13(typescript@5.7.3)
       vue-router: 4.5.0(vue@3.5.13(typescript@5.7.3))
     transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
+      - typescript
 
-  '@vueuse/shared@10.11.1(vue@3.5.13(typescript@5.7.3))':
+  '@vueuse/shared@12.7.0(typescript@5.7.3)':
     dependencies:
-      vue-demi: 0.14.10(vue@3.5.13(typescript@5.7.3))
+      vue: 3.5.13(typescript@5.7.3)
     transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
+      - typescript
 
   '@webassemblyjs/ast@1.14.1':
     dependencies:
