@@ -2,6 +2,7 @@ import { FormEventHandler } from 'react';
 
 import { shallowSparse } from '@realworld/utils';
 
+import { useUserGet } from '../../../common/api/hooks/user.get';
 import { useUserUpdate } from '../../../common/api/hooks/user.update';
 import { useToken } from '../../../common/hooks/token';
 
@@ -10,6 +11,7 @@ export interface SettingsProps {}
 
 export function Settings(props: SettingsProps) {
   const [, setToken] = useToken();
+  const { data } = useUserGet();
   const { mutate, isPending } = useUserUpdate();
 
   const submit: FormEventHandler = (event) => {
@@ -35,6 +37,7 @@ export function Settings(props: SettingsProps) {
         type="text"
         className="input input-bordered"
         placeholder="URL of profile picture"
+        value={data?.body.user.image ?? undefined}
         disabled={isPending}
       />
       <input
@@ -42,6 +45,7 @@ export function Settings(props: SettingsProps) {
         type="text"
         className="input input-bordered input-lg"
         placeholder="Username"
+        value={data?.body.user.username ?? undefined}
         disabled={isPending}
       />
       <textarea
@@ -49,6 +53,7 @@ export function Settings(props: SettingsProps) {
         rows={6}
         className="textarea textarea-bordered textarea-lg"
         placeholder="Short bio about you"
+        value={data?.body.user.bio ?? undefined}
         disabled={isPending}
       />
       <input
@@ -56,6 +61,7 @@ export function Settings(props: SettingsProps) {
         type="text"
         className="input input-bordered input-lg"
         placeholder="Email"
+        value={data?.body.user.email ?? undefined}
         disabled={isPending}
       />
       <input

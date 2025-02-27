@@ -9,7 +9,7 @@ const fieldClass = 'input input-bordered input-lg';
 
 const fields: FormFields<LoginUser> = {
   email: { class: fieldClass, placeholder: 'Email' },
-  password: { class: fieldClass, placeholder: 'Password' },
+  password: { class: fieldClass, placeholder: 'Password', type: 'password' },
 };
 
 const submit = (e: SubmitEvent) => {

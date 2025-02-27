@@ -22,9 +22,9 @@ if (process.env.NODE_ENV === 'production') {
 
 export default defineConfig({
   root: __dirname,
-  // base: '/vue',
 
   build: {
+    emptyOutDir: true,
     outDir: '../../../dist/apps/client/vue',
     reportCompressedSize: true,
     commonjsOptions: {
@@ -48,9 +48,11 @@ export default defineConfig({
     vue(),
     vueJsx(),
     // VueDevTools(),
-    nxViteTsPaths({ debug: true }),
+    nxViteTsPaths({ debug: false }),
     Icons({ compiler: 'vue3' }),
   ],
+
+  publicDir: 'src/assets',
 
   // Uncomment this if you are using workers.
   // worker: {

@@ -6,12 +6,17 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   root: __dirname,
-  base: '/react',
   cacheDir: '../../../node_modules/.vite/apps/client/react',
 
   server: {
     port: 4202,
     host: 'localhost',
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        secure: false,
+      },
+    },
   },
 
   preview: {
