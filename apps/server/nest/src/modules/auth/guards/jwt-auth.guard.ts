@@ -10,7 +10,6 @@ import { ResolvedPayloadSchema } from '@realworld/dto';
 import { ACCESS_TOKEN_STRATEGY } from '../constants/strategy.const';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
 
-
 export class ResolvedPayloadDto extends createZodDto(ResolvedPayloadSchema) {}
 
 const handleError = (isPublic: boolean) => async (err: unknown) => {
@@ -33,8 +32,7 @@ export class JwtAuthGuard extends AuthGuard(ACCESS_TOKEN_STRATEGY) {
     try {
       const canActivate = super.canActivate(context);
 
-      if (typeof canActivate === 'boolean')
-        return isPublic ? true : canActivate;
+      if (typeof canActivate === 'boolean') return isPublic ? true : canActivate;
 
       return from(canActivate).pipe(catchError(handleError(isPublic)));
     } catch (err) {

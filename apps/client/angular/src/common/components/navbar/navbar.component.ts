@@ -11,7 +11,6 @@ import { Menu, MenuItem } from './navbar.const';
 
 @Component({
   selector: 'realworld-navbar',
-  standalone: true,
   imports: [CommonModule, RouterModule, AuthModule, AvatarComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',

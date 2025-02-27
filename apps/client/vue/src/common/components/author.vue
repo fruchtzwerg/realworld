@@ -38,9 +38,7 @@ const props = defineProps<{
       {{ props.author.username }}
     </router-link>
     <!-- article createdAt -->
-    <span
-      class="grid-in-[created] text-xs text-base-300 dark:text-base-content/50"
-    >
+    <span class="grid-in-[created] text-xs text-base-300 dark:text-base-content/50">
       {{ formatter.format(new Date(props.createdAt)) }}
     </span>
   </div>

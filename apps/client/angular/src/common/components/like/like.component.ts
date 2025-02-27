@@ -17,7 +17,6 @@ import { AuthService } from '../../../modules/auth/services/auth.service';
 
 @Component({
   selector: 'realworld-like',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './like.component.html',
   styleUrl: './like.component.scss',

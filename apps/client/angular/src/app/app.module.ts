@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, inject, provideAppInitializer } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 
@@ -17,13 +17,13 @@ import { RouteResolverService } from './services/route-resolver.service';
   exports: [ApiModule],
   providers: [
     appConfig.providers,
-    {
-      provide: APP_INITIALIZER,
-      deps: [RouteResolverService],
-      useFactory: (resolverService: RouteResolverService) => () =>
-        resolverService.subscribeRoutes(),
-      multi: true,
-    },
+    provideAppInitializer(() => {
+      const initializerFn = (
+        (resolverService: RouteResolverService) => () =>
+          resolverService.subscribeRoutes()
+      )(inject(RouteResolverService));
+      return initializerFn();
+    }),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

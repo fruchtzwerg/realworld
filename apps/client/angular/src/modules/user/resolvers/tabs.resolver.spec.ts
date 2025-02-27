@@ -4,8 +4,8 @@ import { ResolveFn } from '@angular/router';
 import { tabsResolver } from './tabs.resolver';
 
 describe('tabsResolver', () => {
-  const executeResolver: ResolveFn<boolean> = (...resolverParameters) => 
-      TestBed.runInInjectionContext(() => tabsResolver(...resolverParameters));
+  const executeResolver: ResolveFn<boolean> = (...resolverParameters) =>
+    TestBed.runInInjectionContext(() => tabsResolver(...resolverParameters));
 
   beforeEach(() => {
     TestBed.configureTestingModule({});

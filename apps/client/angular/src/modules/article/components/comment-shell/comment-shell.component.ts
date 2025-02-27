@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component, ContentChild, TemplateRef } from '@
 
 @Component({
   selector: 'realworld-comment-shell',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './comment-shell.component.html',
   styleUrl: './comment-shell.component.scss',

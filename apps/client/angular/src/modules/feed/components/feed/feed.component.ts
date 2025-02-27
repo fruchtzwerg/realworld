@@ -13,7 +13,6 @@ import { ArticleListComponent } from '../../../article/components/article-list/a
 
 @Component({
   selector: 'realworld-feed',
-  standalone: true,
   imports: [CommonModule, ArticleListComponent, TabsComponent, FormsModule],
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.scss',

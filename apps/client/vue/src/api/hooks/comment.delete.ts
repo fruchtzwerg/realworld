@@ -10,7 +10,6 @@ export const useDeleteComment = (slug: Ref<Article['slug']>) => {
   const queryClient = useQueryClient();
 
   return client.comments.deleteComment.useMutation({
-    onSuccess: () =>
-      queryClient.refetchQueries({ queryKey: ['comments', slug] }),
+    onSuccess: () => queryClient.refetchQueries({ queryKey: ['comments', slug] }),
   });
 };

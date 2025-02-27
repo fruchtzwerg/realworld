@@ -14,7 +14,6 @@ import { UserService } from '../../../modules/user/services/user.service';
   styleUrl: './app-header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, ArticleHeaderComponent, FeedHeaderComponent, UserHeaderComponent],
-  standalone: true,
 })
 export class AppHeaderComponent {
   public readonly selected$ = combineLatest({

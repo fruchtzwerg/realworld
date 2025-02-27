@@ -8,7 +8,6 @@ import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'realworld-login',
-  standalone: true,
   imports: [CommonModule, AuthModule],
   templateUrl: './login.page.html',
   styleUrl: './login.page.scss',

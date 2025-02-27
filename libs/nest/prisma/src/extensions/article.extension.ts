@@ -1,5 +1,14 @@
 import { Prisma } from '@prisma/client';
 
+const normalizeArticle = (
+  article: Pick<Prisma.ArticleCreateManyInput | Prisma.ArticleUpdateInput, 'tags'>
+) => {
+  if (!('tagList' in article)) return;
+  const normalizedTags = (article.tagList as string[]).map((tag) => tag.trim());
+  article.tags = JSON.stringify(normalizedTags);
+  delete article.tagList;
+};
+
 export const prismaArticle = () =>
   Prisma.defineExtension({
     name: 'article',
@@ -17,10 +26,10 @@ export const prismaArticle = () =>
         $allOperations: async ({ query, args }) => {
           const writeArgs = args as Extract<typeof args, { data: unknown }>;
 
-          if (writeArgs.data && 'tagList' in writeArgs.data) {
-            const normalizedTags = (writeArgs.data.tagList as string[]).map((tag) => tag.trim());
-            writeArgs.data.tags = JSON.stringify(normalizedTags);
-            delete writeArgs.data.tagList;
+          if (Array.isArray(writeArgs.data)) {
+            writeArgs.data.forEach(normalizeArticle);
+          } else if (writeArgs.data) {
+            normalizeArticle(writeArgs.data);
           }
 
           return query(writeArgs);

@@ -10,19 +10,12 @@ type ArticlesResponse = ClientInferResponses<
   typeof contract.article.getArticles | typeof contract.article.getFeed,
   200
 >;
-type ArticleResponse = ClientInferResponses<
-  typeof contract.article.getArticle,
-  200
->;
+type ArticleResponse = ClientInferResponses<typeof contract.article.getArticle, 200>;
 
 const insertArticle = (articles: Article[], article: Article) => {
   const index = articles.findIndex((a) => a.slug === article.slug);
 
-  return [
-    ...articles.slice(0, index),
-    article,
-    ...articles.slice(index + 1),
-  ] as Article[];
+  return [...articles.slice(0, index), article, ...articles.slice(index + 1)] as Article[];
 };
 
 const updateArticle = (article: Article) => ({
@@ -36,42 +29,34 @@ const useSetQueriesData = () => {
 
   return (article: Article) => {
     ['articles', 'feed'].forEach((queryKey) =>
-      queryClient.setQueriesData<ArticlesResponse>(
-        { queryKey: [queryKey] },
-        (res) =>
-          res
-            ? {
-                ...res,
-                body: {
-                  articles: insertArticle(
-                    res.body.articles,
-                    updateArticle(article)
-                  ),
-                  articlesCount: res.body.articlesCount,
-                },
-              }
-            : res
-      )
-    );
-    queryClient.setQueriesData<ArticleResponse>(
-      { queryKey: ['article'] },
-      (res) =>
+      queryClient.setQueriesData<ArticlesResponse>({ queryKey: [queryKey] }, (res) =>
         res
           ? {
               ...res,
               body: {
-                article: updateArticle(res.body.article),
+                articles: insertArticle(res.body.articles, updateArticle(article)),
+                articlesCount: res.body.articlesCount,
               },
             }
           : res
+      )
+    );
+    queryClient.setQueriesData<ArticleResponse>({ queryKey: ['article'] }, (res) =>
+      res
+        ? {
+            ...res,
+            body: {
+              article: updateArticle(res.body.article),
+            },
+          }
+        : res
     );
   };
 };
 
 /** Toggle favorited state of an article. Update cache based on queryKey. */
 export const useToggleFavorite = (article: Ref<Article | undefined>) => {
-  if (!article.value)
-    return { mutate: () => {}, isPending: computed(() => false) };
+  if (!article.value) return { mutate: () => {}, isPending: computed(() => false) };
 
   const client = useClient();
   const queryClient = useQueryClient();
@@ -82,10 +67,11 @@ export const useToggleFavorite = (article: Ref<Article | undefined>) => {
     );
 
   // queries
-  const { mutate: set_mutate, isPending: set_isPending } =
-    client.favorites.setFavorite.useMutation({
+  const { mutate: set_mutate, isPending: set_isPending } = client.favorites.setFavorite.useMutation(
+    {
       onSuccess: invalidateQueries,
-    });
+    }
+  );
   const { mutate: unset_mutate, isPending: unset_isPending } =
     client.favorites.deleteFavorite.useMutation({
       onSuccess: invalidateQueries,

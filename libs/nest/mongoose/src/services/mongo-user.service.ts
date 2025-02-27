@@ -68,7 +68,9 @@ export class MongoUserService extends UserService {
     const user = await this.userModel.findOneAndUpdate(
       { username },
       UpdateUserSchema.parse(userDto.user),
-      { new: true }
+      {
+        new: true,
+      }
     );
     if (!user) return null;
 

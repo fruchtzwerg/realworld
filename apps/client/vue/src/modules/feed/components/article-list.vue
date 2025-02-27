@@ -24,9 +24,7 @@ const { articles: feed, isPending: feed_isPending } = useFeed({
 });
 
 const articles = computed(() => (props.isFeed ? feed.value : list.value));
-const isPending = computed(() =>
-  props.isFeed ? feed_isPending.value : list_isPending.value
-);
+const isPending = computed(() => (props.isFeed ? feed_isPending.value : list_isPending.value));
 </script>
 
 <template>
@@ -37,12 +35,7 @@ const isPending = computed(() =>
 
   <!-- feed -->
   <ol v-else class="w-full">
-    <Article
-      is="li"
-      v-for="article in articles"
-      :key="article.slug"
-      :article="article"
-    />
+    <Article is="li" v-for="article in articles" :key="article.slug" :article="article" />
   </ol>
 </template>
 

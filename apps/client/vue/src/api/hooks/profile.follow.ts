@@ -6,8 +6,7 @@ import type { Profile } from '@realworld/dto';
 import { useClient } from '../client';
 
 export const useToggleFollow = (profile: Ref<Profile | undefined>) => {
-  if (!profile.value)
-    return { mutate: () => {}, isPending: computed(() => false) };
+  if (!profile.value) return { mutate: () => {}, isPending: computed(() => false) };
 
   const client = useClient();
   const queryClient = useQueryClient();
@@ -17,10 +16,9 @@ export const useToggleFollow = (profile: Ref<Profile | undefined>) => {
     );
 
   // mutations
-  const { mutate: follow, isPending: follow_isPending } =
-    client.profile.followUser.useMutation({
-      onSuccess: invalidateQueries,
-    });
+  const { mutate: follow, isPending: follow_isPending } = client.profile.followUser.useMutation({
+    onSuccess: invalidateQueries,
+  });
   const { mutate: unfollow, isPending: unfollow_isPending } =
     client.profile.unfollowUser.useMutation({
       onSuccess: invalidateQueries,

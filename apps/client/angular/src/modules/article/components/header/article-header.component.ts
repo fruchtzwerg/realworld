@@ -6,7 +6,6 @@ import { ImpressionComponent } from '../impression/impression.component';
 
 @Component({
   selector: 'realworld-article-header',
-  standalone: true,
   imports: [CommonModule, ImpressionComponent],
   templateUrl: './article-header.component.html',
   styleUrl: './article-header.component.scss',

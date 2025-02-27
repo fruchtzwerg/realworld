@@ -6,7 +6,6 @@ import { injectArticleApi } from '../../../api/api.module';
 
 @Component({
   selector: 'realworld-tag-list',
-  standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './tag-list.component.html',
   styleUrl: './tag-list.component.scss',

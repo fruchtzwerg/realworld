@@ -6,7 +6,6 @@ import { CommentComponent } from '../comment/comment.component';
 
 @Component({
   selector: 'realworld-comment-list',
-  standalone: true,
   imports: [CommonModule, CommentComponent],
   templateUrl: './comment-list.component.html',
   styleUrl: './comment-list.component.scss',

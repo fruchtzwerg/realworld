@@ -6,7 +6,6 @@ import { useClient } from '../client';
 
 import { useUser } from './user.get';
 
-
 export const useUpdateUser = (fallbackDest: RoutePath = '/') => {
   const router = useRouter();
   const client = useClient();

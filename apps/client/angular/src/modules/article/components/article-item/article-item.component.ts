@@ -9,7 +9,6 @@ import { LikeComponent } from '../../../../common/components/like/like.component
 
 @Component({
   selector: 'realworld-article-item',
-  standalone: true,
   imports: [CommonModule, RouterModule, AuthorComponent, LikeComponent],
   templateUrl: './article-item.component.html',
   styleUrl: './article-item.component.scss',

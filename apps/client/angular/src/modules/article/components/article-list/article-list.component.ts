@@ -10,7 +10,6 @@ import { ArticleItemComponent } from '../article-item/article-item.component';
 
 @Component({
   selector: 'realworld-article-list',
-  standalone: true,
   imports: [CommonModule, ArticleItemComponent, ArticleModule, EmptyComponent],
   templateUrl: './article-list.component.html',
   styleUrl: './article-list.component.scss',

@@ -11,13 +11,7 @@ const fonts = {
     'Noto Sans',
     'sans-serif',
   ],
-  serif: [
-    'ui-serif',
-    'Georgia, Cambria',
-    '"Times New Roman"',
-    'Times',
-    'serif',
-  ],
+  serif: ['ui-serif', 'Georgia, Cambria', '"Times New Roman"', 'Times', 'serif'],
 };
 
 const theme = {
@@ -30,10 +24,7 @@ const theme = {
   },
 };
 
-const plugins = [
-  require('daisyui'),
-  require('@savvywombat/tailwindcss-grid-areas'),
-];
+const plugins = [require('daisyui'), require('@savvywombat/tailwindcss-grid-areas')];
 
 const daisyui = {
   themes: ['emerald', 'dark'],

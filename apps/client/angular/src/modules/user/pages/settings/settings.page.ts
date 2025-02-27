@@ -9,7 +9,6 @@ import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'realworld-settings',
-  standalone: true,
   imports: [CommonModule, AuthModule],
   templateUrl: './settings.page.html',
   styleUrl: './settings.page.scss',

@@ -21,7 +21,9 @@ export const useFeed = (options: FeedOptions) => {
   const { data, ...rest } = client.article.getFeed.useQuery(
     queryKey,
     () => ({ query: query.value }),
-    { enabled: options.enabled }
+    {
+      enabled: options.enabled,
+    }
   );
 
   // normalize articles

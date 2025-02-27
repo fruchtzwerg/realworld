@@ -16,7 +16,6 @@ import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'realworld-impression',
-  standalone: true,
   imports: [CommonModule, LikeComponent, FollowComponent, AuthorComponent],
   templateUrl: './impression.component.html',
   styleUrl: './impression.component.scss',

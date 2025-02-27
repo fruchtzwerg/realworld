@@ -4,12 +4,7 @@ import { Model } from 'mongoose';
 import { ClsService } from 'nestjs-cls';
 
 import { ProfileService } from '@realworld/common';
-import {
-  Profile,
-  ProfileSchema,
-  ResolvedPayloadDto,
-  User,
-} from '@realworld/dto';
+import { Profile, ProfileSchema, ResolvedPayloadDto, User } from '@realworld/dto';
 
 import { UserModel } from '../models/user.model';
 
@@ -25,17 +20,15 @@ export class MongoProfileService extends ProfileService {
   /** Get a profile and whether the current user is following it. */
   async getProfile(username: Profile['username']): Promise<Profile | null> {
     const currentUsername = this.store.get('user.username');
-    const user = await this.userModel
-      .findOne({ username })
-      .transform((user) => {
-        if (user) {
-          (user as unknown as Profile).following = user.followers.some(
-            (follower) => follower.username === currentUsername
-          );
-        }
+    const user = await this.userModel.findOne({ username }).transform((user) => {
+      if (user) {
+        (user as unknown as Profile).following = user.followers.some(
+          (follower) => follower.username === currentUsername
+        );
+      }
 
-        return user;
-      });
+      return user;
+    });
     if (!user) return null;
 
     return ProfileSchema.parse(user);
@@ -48,11 +41,7 @@ export class MongoProfileService extends ProfileService {
     if (!user) return null;
 
     const updatedUser = await this.userModel
-      .findOneAndUpdate(
-        { username },
-        { $addToSet: { followers: user } },
-        { new: true }
-      )
+      .findOneAndUpdate({ username }, { $addToSet: { followers: user } }, { new: true })
       .transform((user) => {
         if (user) (user as unknown as Profile).following = true;
 
@@ -70,11 +59,7 @@ export class MongoProfileService extends ProfileService {
     if (!user) return null;
 
     const updatedUser = await this.userModel
-      .findOneAndUpdate(
-        { username },
-        { $pull: { followers: user.id } },
-        { new: true }
-      )
+      .findOneAndUpdate({ username }, { $pull: { followers: user.id } }, { new: true })
       .transform((user) => {
         if (user) (user as unknown as Profile).following = false;
 

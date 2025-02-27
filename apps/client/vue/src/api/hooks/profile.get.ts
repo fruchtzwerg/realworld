@@ -7,9 +7,7 @@ import { useClient } from '../client';
 export const useProfile = (username: Ref<Profile['username'] | undefined>) => {
   const client = useClient();
 
-  const usernameRef = computed(() =>
-    typeof username === 'string' ? username : username.value
-  );
+  const usernameRef = computed(() => (typeof username === 'string' ? username : username.value));
 
   const { data, ...rest } = client.profile.getProfile.useQuery(
     ['profile', usernameRef],

@@ -40,6 +40,9 @@
         "{workspaceRoot}/.eslintignore",
         "{workspaceRoot}/eslint.config.js"
       ]
+    },
+    "e2e-ci--**/*": {
+      "dependsOn": ["^build"]
     }
   },
   "plugins": [
@@ -126,5 +129,6 @@
         "linter": "eslint"
       }
     }
-  }
+  },
+  "useLegacyCache": true
 }

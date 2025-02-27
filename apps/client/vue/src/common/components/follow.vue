@@ -25,17 +25,11 @@ const { mutate: toggleFollow, isPending } = useToggleFollow(profile);
     :class="[
       'btn btn-outline btn-sm',
       {
-        'text-neutral-content hover:text-neutral hover:bg-neutral-content':
-          contrast,
+        'text-neutral-content hover:text-neutral hover:bg-neutral-content': contrast,
       },
       { 'btn-active active': profile.following },
     ]"
-    :disabled="
-      !user ||
-      user.username === profile.username ||
-      isPending ||
-      profile_isPending
-    "
+    :disabled="!user || user.username === profile.username || isPending || profile_isPending"
     @click="toggleFollow()"
   >
     <slot>

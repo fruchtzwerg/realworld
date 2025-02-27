@@ -6,8 +6,7 @@ import { FeedComponent } from '../../../feed/components/feed/feed.component';
 
 @Component({
   selector: 'realworld-profile',
-  standalone: true,
-  imports: [CommonModule, RouterModule, FeedComponent],
+  imports: [CommonModule, RouterModule],
   templateUrl: './profile.page.html',
   styleUrl: './profile.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

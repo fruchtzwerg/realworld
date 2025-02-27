@@ -7,7 +7,6 @@ import { ArticleService } from '../../services/article.service';
 
 @Component({
   selector: 'realworld-create-article',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './create-article.page.html',
   styleUrl: './create-article.page.scss',

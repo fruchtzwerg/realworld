@@ -5,7 +5,6 @@ import { Profile, User } from '@realworld/dto';
 
 @Component({
   selector: 'realworld-avatar',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './avatar.component.html',
   styleUrl: './avatar.component.scss',

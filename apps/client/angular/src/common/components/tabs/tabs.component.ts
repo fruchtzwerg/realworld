@@ -24,7 +24,6 @@ export interface Tab {
 
 @Component({
   selector: 'realworld-tabs',
-  standalone: true,
   imports: [CommonModule, RouterModule],
   providers: [
     {

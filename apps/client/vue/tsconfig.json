@@ -7,7 +7,7 @@
     "jsxImportSource": "vue",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "verbatimModuleSyntax": true,
+    "verbatimModuleSyntax": true
   },
   "files": [],
   "include": [],

@@ -13,7 +13,6 @@ import { CommentShellComponent } from '../comment-shell/comment-shell.component'
 
 @Component({
   selector: 'realworld-comment-creator',
-  standalone: true,
   imports: [CommonModule, AvatarComponent, CommentShellComponent, CommentComponent],
   templateUrl: './comment-creator.component.html',
   styleUrl: './comment-creator.component.scss',

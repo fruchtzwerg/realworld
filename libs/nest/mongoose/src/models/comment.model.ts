@@ -7,7 +7,6 @@ import { Comment } from '@realworld/dto';
 import { ArticleModel } from './article.model';
 import { UserModel } from './user.model';
 
-
 @Schema()
 export class CommentModel implements Omit<Comment, 'author' | 'id'> {
   @Prop()

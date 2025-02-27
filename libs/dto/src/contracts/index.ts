@@ -8,7 +8,6 @@ import { profileContract } from './profile.contract';
 import { tagsContract } from './tags.contract';
 import { userContract } from './user.contract';
 
-
 const c = initContract();
 
 export const contract = c.router(

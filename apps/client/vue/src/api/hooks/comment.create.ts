@@ -10,8 +10,7 @@ export const useCreateComment = (slug: Ref<Article['slug']>) => {
   const queryClient = useQueryClient();
 
   const { data, ...rest } = client.comments.createComment.useMutation({
-    onSuccess: () =>
-      queryClient.refetchQueries({ queryKey: ['comments', slug] }),
+    onSuccess: () => queryClient.refetchQueries({ queryKey: ['comments', slug] }),
   });
 
   const comment = computed(() => data.value?.body.comment);

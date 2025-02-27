@@ -15,7 +15,6 @@ import { UserService } from '../../../modules/user/services/user.service';
 
 @Component({
   selector: 'realworld-follow',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './follow.component.html',
   styleUrl: './follow.component.scss',

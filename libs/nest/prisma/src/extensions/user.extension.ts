@@ -12,7 +12,13 @@ export const prismaUser = () =>
             select: Prisma.UserSelect;
           };
 
-          if (writeArgs.data?.password) {
+          if (Array.isArray(writeArgs.data)) {
+            await Promise.all(
+              writeArgs.data.map(async (user) => {
+                user.password = await hash(user.password, 12);
+              })
+            );
+          } else if (writeArgs.data?.password) {
             writeArgs.data.password = await hash(writeArgs.data.password as string, 12);
           }
 

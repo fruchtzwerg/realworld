@@ -4,8 +4,8 @@ import { ResolveFn } from '@angular/router';
 import { feedResolver } from './feed.resolver';
 
 describe('feedResolver', () => {
-  const executeResolver: ResolveFn<boolean> = (...resolverParameters) => 
-      TestBed.runInInjectionContext(() => feedResolver(...resolverParameters));
+  const executeResolver: ResolveFn<boolean> = (...resolverParameters) =>
+    TestBed.runInInjectionContext(() => feedResolver(...resolverParameters));
 
   beforeEach(() => {
     TestBed.configureTestingModule({});

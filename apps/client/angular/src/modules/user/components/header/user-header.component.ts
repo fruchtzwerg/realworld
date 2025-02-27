@@ -9,7 +9,6 @@ import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'realworld-profile-header',
-  standalone: true,
   imports: [CommonModule, RouterModule, AvatarComponent, FollowComponent],
   templateUrl: './user-header.component.html',
   styleUrl: './user-header.component.scss',

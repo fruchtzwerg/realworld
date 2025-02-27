@@ -10,7 +10,6 @@ import { ArticleService } from '../../services/article.service';
 
 @Component({
   selector: 'realworld-article',
-  standalone: true,
   imports: [CommonModule, ImpressionComponent, CommentCreatorComponent, CommentListComponent],
   templateUrl: './article.page.html',
   styleUrl: './article.page.scss',

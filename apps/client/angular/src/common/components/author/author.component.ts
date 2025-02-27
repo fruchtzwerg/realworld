@@ -8,7 +8,6 @@ import { AvatarComponent } from '../avatar/avatar.component';
 
 @Component({
   selector: 'realworld-author',
-  standalone: true,
   imports: [CommonModule, RouterModule, AvatarComponent],
   templateUrl: './author.component.html',
   styleUrl: './author.component.scss',

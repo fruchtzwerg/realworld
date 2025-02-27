@@ -8,12 +8,7 @@ import {
 } from '@nestjs/mongoose';
 import autopopulate from 'mongoose-autopopulate';
 
-import {
-  ArticleService,
-  CommentService,
-  ProfileService,
-  UserService,
-} from '@realworld/common';
+import { ArticleService, CommentService, ProfileService, UserService } from '@realworld/common';
 
 import { ArticleModelFactory } from '../models/article.model';
 import { CommentModelFactory } from '../models/comment.model';
@@ -33,10 +28,7 @@ const getProviders = (providers: Provider[] = []) => [
 
 @Module({})
 export class MongoModule extends MongooseModule {
-  static override forRoot(
-    uri: string,
-    options?: MongooseModuleOptions
-  ): DynamicModule {
+  static override forRoot(uri: string, options?: MongooseModuleOptions): DynamicModule {
     const config = super.forRoot(uri, {
       ...options,
       autoIndex: true,
@@ -56,9 +48,7 @@ export class MongoModule extends MongooseModule {
     };
   }
 
-  static override forRootAsync(
-    options: MongooseModuleAsyncOptions
-  ): DynamicModule {
+  static override forRootAsync(options: MongooseModuleAsyncOptions): DynamicModule {
     const config = super.forRootAsync(options);
     const providers = getProviders(config.providers);
 
@@ -92,12 +82,7 @@ export class MongoModule extends MongooseModule {
     connectionName?: string
   ): DynamicModule {
     const config = super.forFeatureAsync(
-      [
-        ...factories,
-        UserModelFactory,
-        ArticleModelFactory,
-        CommentModelFactory,
-      ],
+      [...factories, UserModelFactory, ArticleModelFactory, CommentModelFactory],
       connectionName
     );
 

@@ -32,7 +32,7 @@ export default defineConfig({
       use: { storageState: '.playwright/storage.json' },
       teardown: 'teardown',
       dependencies: ['setup'],
-      retries: 1
+      retries: 1,
     },
   ],
 

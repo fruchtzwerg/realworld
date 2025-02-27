@@ -45,10 +45,7 @@ const wrapperClass = 'py-6 border-t border-t-neutral';
     <Like :article="props.article" class="grid-in-[likes]" />
 
     <!-- article -->
-    <router-link
-      :to="`/article/${props.article.slug}`"
-      class="grid-in-[article]"
-    >
+    <router-link :to="`/article/${props.article.slug}`" class="grid-in-[article]">
       <h2 class="mb-1 text-2xl">{{ props.article.title }}</h2>
       <p class="mb-4 text-base leading-5 text-base-content/50">
         {{ props.article.description }}
@@ -57,11 +54,7 @@ const wrapperClass = 'py-6 border-t border-t-neutral';
       <div class="flex items-center justify-between text-base-content/50">
         <span class="text-xs">Read more…</span>
         <ul class="flex space-x-1">
-          <li
-            v-for="tag in props.article.tagList"
-            :key="tag"
-            class="badge badge-outline"
-          >
+          <li v-for="tag in props.article.tagList" :key="tag" class="badge badge-outline">
             {{ tag }}
           </li>
         </ul>

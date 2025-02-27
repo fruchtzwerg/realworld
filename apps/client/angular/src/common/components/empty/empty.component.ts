@@ -3,7 +3,6 @@ import { CUSTOM_ELEMENTS_SCHEMA, ChangeDetectionStrategy, Component } from '@ang
 
 @Component({
   selector: 'realworld-empty',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './empty.component.html',
   styleUrl: './empty.component.scss',
