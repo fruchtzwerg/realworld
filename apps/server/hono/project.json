@@ -1,0 +1,76 @@
+{
+  "name": "hono",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/server/hono/src",
+  "projectType": "application",
+  "tags": [
+    "server",
+    "hono"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/server/hono",
+        "format": [
+          "cjs"
+        ],
+        "bundle": false,
+        "main": "apps/server/hono/src/main.ts",
+        "tsConfig": "apps/server/hono/tsconfig.app.json",
+        "assets": [
+          "apps/server/hono/src/assets"
+        ],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/server/hono/src/environment/environment.ts",
+              "with": "apps/server/hono/src/environment/environment.prod.ts"
+            }
+          ],
+          "generatePackageJson": true,
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": [
+        "build"
+      ],
+      "options": {
+        "buildTarget": "hono:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "hono:build:development"
+        },
+        "production": {
+          "buildTarget": "hono:build:production"
+        }
+      }
+    }
+  }
+}
