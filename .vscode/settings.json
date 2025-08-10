@@ -1,4 +1,14 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
-  "eslint.validate": ["json"]
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue",
+    "html",
+    "json"
+  ],
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "nxConsole.generateAiAgentRules": true
 }

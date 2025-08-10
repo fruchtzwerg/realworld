@@ -10,6 +10,7 @@ export * from './models/profile.dto';
 export * from './models/tag.dto';
 export * from './models/user.dto';
 export * from './models/auth.dto';
+export * from './models/error.dto';
 
 export interface Store extends ClsStore {
   user: ResolvedPayload;

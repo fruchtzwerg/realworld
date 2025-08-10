@@ -1,0 +1,10 @@
+import type { <%= className %>, <%= className %>sQuery, <%= createDtoInterfaceName %>, <%= updateDtoInterfaceName %>} from '@realworld/dto';
+
+export abstract class <%= repositoryClassName %> {
+  abstract findMany(query: <%= className %>sQuery): Promise<<%= className %>[]>;
+  abstract findUnique(<%= idField %>: <%= className %>['<%= idField %>']): Promise<<%= className %> | null>;
+  abstract create(data: <%= createDtoInterfaceName %>): Promise<<%= className %>>;
+  abstract update(<%= idField %>: <%= className %>['<%= idField %>'], data: <%= updateDtoInterfaceName %>): Promise<<%= className %> | null>;
+  abstract delete(<%= idField %>: <%= className %>['<%= idField %>']): Promise<void>;
+  abstract deleteAll(): Promise<void>;
+}

@@ -3,6 +3,7 @@ import { initContract } from '@ts-rest/core';
 import { ArticleParamsSchema } from '../models/article.dto';
 import {
   CommentDtoSchema,
+  CommentParamsSchema,
   CommentSchema,
   CommentsDtoSchema,
   CreateCommentDtoSchema,
@@ -38,7 +39,7 @@ export const commentsContract = c.router({
   deleteComment: {
     method: 'DELETE',
     path: '/articles/:slug/comments/:id',
-    pathParams: ArticleParamsSchema.merge(CommentSchema.pick({ id: true })),
+    pathParams: ArticleParamsSchema.merge(CommentParamsSchema),
     body: null,
     responses: {
       200: null,

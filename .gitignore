@@ -44,8 +44,10 @@ Thumbs.db
 
 .angular
 .playwright
-libs/nest/prisma/prisma/*.sqlite
-libs/nest/prisma/prisma/*.sqlite-journal
+libs/db/prisma/prisma/*.sqlite
+libs/db/prisma/prisma/*.sqlite-journal
 
 vite.config.*.timestamp*
 vitest.config.*.timestamp*
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md

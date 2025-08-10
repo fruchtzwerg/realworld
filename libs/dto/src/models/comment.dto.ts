@@ -24,8 +24,11 @@ export const CreateCommentDtoSchema = z.object({
   comment: CreateCommentSchema,
 });
 
+export const CommentParamsSchema = CommentSchema.pick({ id: true });
+
 export type Comment = z.infer<typeof CommentSchema>;
 export type CommentDto = z.infer<typeof CommentDtoSchema>;
 export type CommentsDto = z.infer<typeof CommentsDtoSchema>;
 export type CreateComment = z.infer<typeof CreateCommentSchema>;
 export type CreateCommentDto = z.infer<typeof CreateCommentDtoSchema>;
+export type CommentParams = z.infer<typeof CommentParamsSchema>;

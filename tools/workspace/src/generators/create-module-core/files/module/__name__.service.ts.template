@@ -1,0 +1,67 @@
+import type { <%= className %> } from '@realworld/dto';
+import type { Context } from '<%= importCommonPath %>';
+import type { <%= repositoryClassName %> } from './<%= name %>.repo';
+import type { <%= validatorClassName %> } from './<%= name %>.validator';
+
+export class <%= serviceClassName %> {
+  constructor(
+    private readonly ctx: Context,
+    private readonly repository: <%= repositoryClassName %>,
+    private readonly validator: <%= validatorClassName %>
+  ) {}
+
+
+  /** Get all <%= propertyName %>s */
+  async get<%= className %>s(query: <%= className %>sQuery): Promise<<%= className %>[]> {
+    const currentUsername = this.ctx.getUsername();
+    if (!currentUsername) return null;
+
+    const <%= propertyName %>s = await this.repository.findMany(query);
+
+    return this.validator.validateMany(<%= propertyName %>s, currentUsername);
+  }
+
+  /** Get <%= propertyName %> by <%= idField %> */
+  async get<%= className %>(<%= idField %>: <%= className %>['<%= idField %>']): Promise<<%= className %> | null> {
+    const currentUsername = this.ctx.getUsername();
+    if (!currentUsername) return null;
+
+    const <%= propertyName %> = await this.repository.findUnique(<%= idField %>);
+    if (!<%= propertyName %>) return null;
+
+    return this.validator.validate(<%= propertyName %>, currentUsername);
+  }
+
+  /** Create a new <%= propertyName %> */
+  async create<%= className %>(<%= propertyName %>Dto: <%= createDtoInterfaceName %>): Promise<<%= className %>> {
+    const currentUsername = this.ctx.getUsername();
+    if (!currentUsername) return null;
+
+    const <%= propertyName %> = await this.repository.create(<%= propertyName %>Dto, currentUsername);
+
+    return this.validator.validate(<%= propertyName %>, currentUsername);
+  }
+
+  /** Update an existing <%= propertyName %> */
+  async update<%= className %>(
+    id: <%= className %>['<%= idField %>'],
+    <%= propertyName %>Dto: <%= updateDtoInterfaceName %>
+  ): Promise<<%= className %> | null> {
+    const currentUsername = this.ctx.getUsername();
+    if (!currentUsername) return null;
+
+    const <%= propertyName %> = await this.repository.update(id, <%= propertyName %>Dto);
+
+    return this.validator.validate(<%= propertyName %>, currentUsername);
+  }
+
+  /** Delete a <%= propertyName %> */
+  async delete<%= className %>(<%= idField %>: <%= className %>['<%= idField %>']): Promise<void> {
+    await this.repository.delete(<%= idField %>);
+  }
+
+  /** Delete all <%= propertyName %>s */
+  async deleteAll(): Promise<void> {
+    await this.repository.deleteAll();
+  }
+}

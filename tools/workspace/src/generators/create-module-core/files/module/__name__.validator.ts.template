@@ -1,0 +1,7 @@
+import type { <%= className %> } from "@realworld/dto";
+
+export abstract class <%= validatorClassName %> {
+  // Define validation contracts for the domain
+  abstract validate(entity: unknown): <%= className %>;
+  abstract validateMany(entities: unknown[]): <%= className %>[];
+}

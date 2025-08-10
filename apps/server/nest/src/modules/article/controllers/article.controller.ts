@@ -1,7 +1,7 @@
 import { Controller, Delete } from '@nestjs/common';
 import { TsRestHandler, tsRestHandler } from '@ts-rest/nest';
 
-import { ArticleService } from '@realworld/common';
+import { ArticleService } from '@realworld/core';
 import { User, contract } from '@realworld/dto';
 
 import { Payload } from '../../auth/decorators/payload.decorator';

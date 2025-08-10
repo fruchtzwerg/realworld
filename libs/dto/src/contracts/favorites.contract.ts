@@ -9,6 +9,7 @@ export const favoritesContract = c.router({
   setFavorite: {
     method: 'POST',
     path: '/articles/:slug/favorite',
+    description: 'Add article to favorites',
     pathParams: ArticleParamsSchema,
     body: null,
     responses: {

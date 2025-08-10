@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { TsRestHandler, tsRestHandler } from '@ts-rest/nest';
 
-import { ArticleService } from '@realworld/common';
+import { ArticleService } from '@realworld/core';
 import { contract } from '@realworld/dto';
 
 import { Public } from '../../auth/decorators/public.decorator';

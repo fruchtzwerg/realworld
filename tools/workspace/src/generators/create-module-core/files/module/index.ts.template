@@ -1,0 +1,3 @@
+export * from './<%= name %>.repo';
+export * from './<%= name %>.service';
+export * from './<%= name %>.validator';

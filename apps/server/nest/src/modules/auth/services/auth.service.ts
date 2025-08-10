@@ -3,11 +3,12 @@ import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
 import { JwtPayload } from 'jsonwebtoken';
 
-import { UserService } from '@realworld/common';
+import { UserService } from '@realworld/core';
 import { CreateUser, LoginUser, ResolvedPayloadSchema, User, UserSchema } from '@realworld/dto';
 
+// TODO: To core
 @Injectable()
-export class AuthService implements AuthService {
+export class AuthService {
   constructor(private readonly jwtService: JwtService, private readonly userService: UserService) {}
 
   async authenticate(email: LoginUser['email'], password: LoginUser['password']): Promise<User> {

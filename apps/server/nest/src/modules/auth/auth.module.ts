@@ -3,7 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
 import { environment } from '../../environment/environment';
-import { CommonModule } from '../common/common.module';
+import { CoreModule } from '../core/core.module';
 
 import { JwtAuthGuardProvider } from './providers/jwt-auth.provider';
 import { AuthService } from './services/auth.service';
@@ -12,7 +12,7 @@ import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({
   imports: [
-    CommonModule.forFeature(),
+    CoreModule.forFeature(),
     PassportModule,
     JwtModule.register({
       secret: environment.jwt.secret,

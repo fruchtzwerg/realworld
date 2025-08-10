@@ -2,7 +2,7 @@ import { Controller, Delete, Get, Param, UseGuards } from '@nestjs/common';
 import { TsRestHandler, tsRestHandler } from '@ts-rest/nest';
 import { ClsService } from 'nestjs-cls';
 
-import { UserService } from '@realworld/common';
+import { UserService } from '@realworld/core';
 import { Store, User, contract } from '@realworld/dto';
 
 import { Payload } from '../../auth/decorators/payload.decorator';

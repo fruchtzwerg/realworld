@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "create-module-core": {
+      "factory": "./src/generators/create-module-core/generator",
+      "schema": "./src/generators/create-module-core/schema.json",
+      "description": "Create a new core module"
+    }
+  }
+}

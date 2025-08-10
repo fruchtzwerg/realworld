@@ -2,7 +2,7 @@ import { initContract } from '@ts-rest/core';
 
 import {
   ArticleDtoSchema,
-  ArticleSchema,
+  ArticleParamsSchema,
   ArticlesDtoSchema,
   ArticlesQuerySchema,
   CreateArticleDtoSchema,
@@ -31,7 +31,6 @@ export const articleContract = c.router({
     query: ArticlesQuerySchema,
     responses: {
       200: ArticlesDtoSchema,
-      401: null,
       422: ErrorSchema,
     },
   },
@@ -39,7 +38,7 @@ export const articleContract = c.router({
   getArticle: {
     method: 'GET',
     path: '/articles/:slug',
-    pathParams: ArticleSchema.pick({ slug: true }),
+    pathParams: ArticleParamsSchema,
     responses: {
       200: ArticleDtoSchema,
       422: ErrorSchema,
@@ -60,7 +59,7 @@ export const articleContract = c.router({
   updateArticle: {
     method: 'PUT',
     path: '/articles/:slug',
-    pathParams: ArticleSchema.pick({ slug: true }),
+    pathParams: ArticleParamsSchema,
     body: UpdateArticleDtoSchema,
     responses: {
       200: ArticleDtoSchema,
@@ -72,7 +71,7 @@ export const articleContract = c.router({
   deleteArticle: {
     method: 'DELETE',
     path: '/articles/:slug',
-    pathParams: ArticleSchema.pick({ slug: true }),
+    pathParams: ArticleParamsSchema,
     body: null,
     responses: {
       200: null,
