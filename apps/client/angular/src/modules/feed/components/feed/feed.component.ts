@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { QueryObserverResult } from '@ngneat/query';
-import { map, switchMap } from 'rxjs';
+import { map, switchMap, type Observable } from 'rxjs';
 
 import { ArticlesDto } from '@realworld/dto';
 
@@ -22,7 +22,7 @@ export class FeedComponent {
 
   public readonly articlesQuery$ = this.#route.data.pipe(
     map((data) => data['articles'] as Result<QueryObserverResult<ArticlesDto>>),
-    switchMap((res) => res.result$)
+    switchMap((res) => res.result$ as Observable<QueryObserverResult<ArticlesDto>>)
   );
 
   public readonly tabs$ = this.#route.data.pipe(map((data) => (data['tabs'] ?? []) as Tab[]));
