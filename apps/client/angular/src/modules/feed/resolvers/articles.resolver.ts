@@ -1,6 +1,5 @@
 import { ResolveFn } from '@angular/router';
 import { QueryObserverResult } from '@ngneat/query';
-import { Result } from '@ngneat/query/lib/types';
 
 import { ArticlesDto } from '@realworld/dto';
 

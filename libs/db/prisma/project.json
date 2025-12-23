@@ -3,6 +3,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/db/prisma/src",
   "projectType": "library",
+  "tags": ["prisma"],
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint",
@@ -84,6 +85,5 @@
         "schema": "libs/db/prisma/prisma/schema.prisma"
       }
     }
-  },
-  "tags": ["prisma"]
+  }
 }

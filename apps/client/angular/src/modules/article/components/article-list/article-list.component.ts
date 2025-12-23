@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { QueryObserverResult } from '@ngneat/query';
 
@@ -10,7 +10,7 @@ import { ArticleItemComponent } from '../article-item/article-item.component';
 
 @Component({
   selector: 'realworld-article-list',
-  imports: [CommonModule, ArticleItemComponent, ArticleModule, EmptyComponent],
+  imports: [ArticleItemComponent, ArticleModule, EmptyComponent],
   templateUrl: './article-list.component.html',
   styleUrl: './article-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

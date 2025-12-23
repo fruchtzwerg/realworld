@@ -1,9 +1,9 @@
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, Component, ContentChild, TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'realworld-comment-shell',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './comment-shell.component.html',
   styleUrl: './comment-shell.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   CUSTOM_ELEMENTS_SCHEMA,
   ChangeDetectionStrategy,
@@ -24,7 +24,7 @@ export interface Tab {
 
 @Component({
   selector: 'realworld-tabs',
-  imports: [CommonModule, RouterModule],
+  imports: [RouterModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

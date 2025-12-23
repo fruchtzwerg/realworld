@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { QueryObserverResult } from '@ngneat/query';
-import { Result } from '@ngneat/query/lib/types';
 import { map, switchMap } from 'rxjs';
 
 import { ArticlesDto } from '@realworld/dto';

@@ -4,32 +4,20 @@
   "projectType": "application",
   "prefix": "realworld",
   "sourceRoot": "apps/client/angular/src",
-  "tags": [
-    "client",
-    "angular"
-  ],
+  "tags": ["client", "angular"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/client/angular",
         "index": "apps/client/angular/src/index.html",
         "browser": "apps/client/angular/src/main.ts",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/client/angular/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": [
-          "apps/client/angular/src/favicon.svg",
-          "apps/client/angular/src/assets"
-        ],
-        "styles": [
-          "apps/client/angular/src/styles.scss"
-        ],
+        "assets": ["apps/client/angular/src/favicon.svg", "apps/client/angular/src/assets"],
+        "styles": ["apps/client/angular/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -77,7 +65,8 @@
           "buildTarget": "angular:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
