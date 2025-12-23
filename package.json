@@ -156,7 +156,7 @@
     "jest-preset-angular": "14.4.2",
     "jsdom": "~22.1.0",
     "jsonc-eslint-parser": "^2.1.0",
-    "nx": "20.4.6",
+    "nx": "20.8.3",
     "postcss": "8.4.38",
     "prettier": "^2.8.8",
     "prisma": "^6.4.1",

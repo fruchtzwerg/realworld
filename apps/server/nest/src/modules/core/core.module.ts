@@ -1,6 +1,6 @@
 import { Module, type DynamicModule } from '@nestjs/common';
 
-import { Nest as Mongo } from '@realworld/mongoose';
+import { ArticleModel, ArticleModelFactory, Nest as Mongo } from '@realworld/mongoose';
 import { Nest as Prisma } from '@realworld/prisma';
 
 import { environment } from '../../environment/environment';
@@ -23,7 +23,7 @@ const initDatabaseAdapterForFeature = () => {
     case 'prisma':
       return Prisma.PrismaModule.forFeature();
     case 'mongoose':
-      return Mongo.MongoModule.forFeature();
+      return Mongo.MongoModule.forFeatureAsync();
   }
 };
 

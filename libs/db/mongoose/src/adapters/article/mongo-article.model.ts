@@ -1,4 +1,11 @@
-import { AsyncModelFactory, Prop, Schema, SchemaFactory, getModelToken } from '@nestjs/mongoose';
+import {
+  AsyncModelFactory,
+  Prop,
+  Schema,
+  SchemaFactory,
+  getModelToken,
+  type ModelDefinition,
+} from '@nestjs/mongoose';
 import mongoose, { HydratedDocument, Model } from 'mongoose';
 
 import { Article } from '@realworld/dto';
@@ -36,6 +43,11 @@ export class ArticleModel implements Omit<Article, 'author' | 'favorited' | 'fav
 
 export type ArticleDocument = HydratedDocument<ArticleModel>;
 export const ArticleModelSchema = SchemaFactory.createForClass(ArticleModel);
+
+export const ArticleModelProvider: ModelDefinition = {
+  name: ArticleModel.name,
+  schema: ArticleModelSchema,
+};
 
 export const ArticleModelFactory: AsyncModelFactory = {
   name: ArticleModel.name,

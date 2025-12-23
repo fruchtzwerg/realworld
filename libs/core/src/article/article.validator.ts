@@ -1,6 +1,5 @@
-import type { Article, User } from '@realworld/dto';
+import type { Article } from '@realworld/dto';
 
-export abstract class ArticleValidator {
-  abstract validate(article: unknown, username?: User['username']): Article;
-  abstract validateMany(articles: unknown[], username?: User['username']): Article[];
-}
+import { BaseValidator } from '../common/validators/base.validator';
+
+export abstract class ArticleValidator extends BaseValidator<Article> {}

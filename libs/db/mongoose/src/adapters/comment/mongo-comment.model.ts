@@ -1,4 +1,4 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory, type ModelDefinition } from '@nestjs/mongoose';
 import { AutoIncrementID } from '@typegoose/auto-increment';
 import mongoose, { HydratedDocument } from 'mongoose';
 
@@ -40,6 +40,11 @@ export class CommentModel implements Omit<Comment, 'author' | 'id'> {
 
 export type CommentDocument = HydratedDocument<CommentModel>;
 export const CommentModelSchema = SchemaFactory.createForClass(CommentModel);
+
+export const CommentModelProvider: ModelDefinition = {
+  name: CommentModel.name,
+  schema: CommentModelSchema,
+};
 
 export const CommentModelFactory = {
   name: CommentModel.name,

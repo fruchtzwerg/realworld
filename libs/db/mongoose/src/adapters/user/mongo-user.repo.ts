@@ -1,3 +1,4 @@
+import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { UserRepository } from '@realworld/core';
@@ -5,12 +6,12 @@ import { CreateUserDto, RawUser, UpdateUserDto, UpdateUserSchema, User } from '@
 
 import { ArticleModel } from '../article/mongo-article.model';
 
-import type { UserModel } from './mongo-user.model';
+import { UserModel } from './mongo-user.model';
 
 export class MongoUserRepository extends UserRepository {
   constructor(
-    private readonly userModel: Model<UserModel>,
-    private readonly articleModel: Model<ArticleModel>
+    @InjectModel(UserModel.name) private readonly userModel: Model<UserModel>,
+    @InjectModel(ArticleModel.name) private readonly articleModel: Model<ArticleModel>
   ) {
     super();
   }

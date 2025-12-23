@@ -1,4 +1,10 @@
-import { AsyncModelFactory, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import {
+  AsyncModelFactory,
+  Prop,
+  Schema,
+  SchemaFactory,
+  type ModelDefinition,
+} from '@nestjs/mongoose';
 import { hash, getRounds } from 'bcrypt';
 import mongoose, { HydratedDocument } from 'mongoose';
 
@@ -44,6 +50,11 @@ export class UserModel implements Omit<User, 'token'> {
 
 export type UserDocument = HydratedDocument<UserModel>;
 export const UserModelSchema = SchemaFactory.createForClass(UserModel);
+
+export const UserModelProvider: ModelDefinition = {
+  name: UserModel.name,
+  schema: UserModelSchema,
+};
 
 const isHashed = (password: string) => {
   try {

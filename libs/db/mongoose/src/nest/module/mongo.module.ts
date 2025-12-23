@@ -12,29 +12,48 @@ import autopopulate from 'mongoose-autopopulate';
 
 import {
   ArticleRepository,
+  ArticleValidator,
   CommentRepository,
+  CommentValidator,
   ProfileRepository,
+  ProfileValidator,
   UserRepository,
+  UserValidator,
 } from '@realworld/core';
 
 import {
   MongoArticleRepository,
+  MongoArticleValidator,
   MongoCommentRepository,
   MongoProfileRepository,
   MongoUserRepository,
 } from '../../adapters';
-import { ArticleModel, ArticleModelFactory } from '../../adapters/article/mongo-article.model';
-import { CommentModel, CommentModelFactory } from '../../adapters/comment/mongo-comment.model';
-import { UserModel, UserModelFactory } from '../../adapters/user/mongo-user.model';
+import {
+  ArticleModel,
+  ArticleModelFactory,
+  ArticleModelProvider,
+} from '../../adapters/article/mongo-article.model';
+import {
+  CommentModel,
+  CommentModelFactory,
+  CommentModelProvider,
+} from '../../adapters/comment/mongo-comment.model';
+import { MongoCommentValidator } from '../../adapters/comment/mongo-comment.validator';
+import { MongoProfileValidator } from '../../adapters/profile/mongo-profile.validator';
+import { MongoUserValidator } from '../../adapters/user/mongo-article.validator';
+import {
+  UserModel,
+  UserModelFactory,
+  UserModelProvider,
+} from '../../adapters/user/mongo-user.model';
 
 const getProviders = (providers: Provider[] = []): Provider[] => [
   ...providers,
+  ...validators,
   {
     provide: ArticleRepository,
-    useFactory: (...models: [Model<ArticleModel>, Model<UserModel>]) => {
-      console.log({ models });
-      return new MongoArticleRepository(...models);
-    },
+    useFactory: (...models: [Model<ArticleModel>, Model<UserModel>]) =>
+      new MongoArticleRepository(...models),
     inject: [getModelToken(ArticleModel.name), getModelToken(UserModel.name)],
   },
   {
@@ -60,6 +79,13 @@ const getProviders = (providers: Provider[] = []): Provider[] => [
   },
 ];
 
+const validators = [
+  { provide: ArticleValidator, useClass: MongoArticleValidator },
+  { provide: CommentValidator, useClass: MongoCommentValidator },
+  { provide: ProfileValidator, useClass: MongoProfileValidator },
+  { provide: UserValidator, useClass: MongoUserValidator },
+];
+
 @Module({})
 export class MongoModule extends MongooseModule {
   static override forRoot(uri: string, options?: MongooseModuleOptions): DynamicModule {
@@ -73,7 +99,6 @@ export class MongoModule extends MongooseModule {
     });
 
     const providers = getProviders(config.providers);
-    console.log(providers, UserModel.name, getModelToken(UserModel.name));
 
     return {
       ...config,
@@ -99,8 +124,10 @@ export class MongoModule extends MongooseModule {
     models: ModelDefinition[] = [],
     connectionName?: string
   ): DynamicModule {
-    const config = super.forFeature(models, connectionName);
-
+    const config = super.forFeature(
+      [...models, ArticleModelProvider, UserModelProvider, CommentModelProvider],
+      connectionName
+    );
     const providers = getProviders(config.providers);
 
     return {
