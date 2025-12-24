@@ -6,7 +6,10 @@ import { prismaUser } from '../adapters/user/user.extension';
 export type ExtendedPrismaClient = ReturnType<typeof PrismaClientFactory>;
 
 export const PrismaClientFactory = () => {
-  const prisma = new PrismaClient()
+  const prisma = new PrismaClient({
+    log: ['query', 'info', 'warn', 'error'],
+    errorFormat: 'pretty',
+  })
     .$extends(prismaArticle())
     .$extends(prismaUser())
     .$extends({

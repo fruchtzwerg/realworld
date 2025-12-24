@@ -1,4 +1,5 @@
-import { initContract } from '@ts-rest/core';
+import { oc } from '@orpc/contract';
+import z from 'zod';
 
 import { ErrorSchema } from '../models/error.dto';
 import {
@@ -8,48 +9,43 @@ import {
   UserDtoSchema,
 } from '../models/user.dto';
 
-const c = initContract();
+export const userContract = {
+  getUser: oc
+    .route({ method: 'GET', path: '/user', tags: ['Users'], inputStructure: 'detailed' })
+    .output(UserDtoSchema)
+    .errors({ UNPROCESSABLE_CONTENT: { data: ErrorSchema }, UNAUTHORIZED: {} }),
 
-export const userContract = c.router({
-  getUser: {
-    method: 'GET',
-    path: '/user',
-    responses: {
-      200: UserDtoSchema,
-      401: null,
-      422: ErrorSchema,
-    },
-  },
+  createUser: oc
+    .route({
+      method: 'POST',
+      path: '/users',
+      successStatus: 201,
+      tags: ['Users'],
+      inputStructure: 'detailed',
+    })
+    .input(z.object({ body: CreateUserDtoSchema }))
+    .output(UserDtoSchema)
+    .errors({ UNPROCESSABLE_CONTENT: { data: ErrorSchema } }),
 
-  createUser: {
-    method: 'POST',
-    path: '/users',
-    body: CreateUserDtoSchema,
-    responses: {
-      201: UserDtoSchema,
-      422: ErrorSchema,
-    },
-  },
+  updateUser: oc
+    .route({
+      method: 'PUT',
+      path: '/user',
+      tags: ['Users'],
+      inputStructure: 'detailed',
+    })
+    .input(z.object({ body: UpdateUserDtoSchema }))
+    .output(UserDtoSchema)
+    .errors({ UNAUTHORIZED: {}, UNPROCESSABLE_CONTENT: { data: ErrorSchema } }),
 
-  updateUser: {
-    method: 'PUT',
-    path: '/user',
-    body: UpdateUserDtoSchema,
-    responses: {
-      200: UserDtoSchema,
-      401: null,
-      422: ErrorSchema,
-    },
-  },
-
-  login: {
-    method: 'POST',
-    path: '/users/login',
-    body: LoginUserDtoSchema,
-    responses: {
-      200: UserDtoSchema,
-      401: null,
-      422: ErrorSchema,
-    },
-  },
-});
+  login: oc
+    .route({
+      method: 'POST',
+      path: '/users/login',
+      tags: ['Auth'],
+      inputStructure: 'detailed',
+    })
+    .input(z.object({ body: LoginUserDtoSchema }))
+    .output(UserDtoSchema)
+    .errors({ UNAUTHORIZED: {}, UNPROCESSABLE_CONTENT: { data: ErrorSchema } }),
+};

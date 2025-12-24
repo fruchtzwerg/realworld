@@ -8,12 +8,15 @@ import { ErrorInterceptor } from './app/interceptors/error.interceptor';
 import { environment } from './environment/environment';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    // https://orpc.dev/docs/openapi/integrations/implement-contract-in-nest#body-parser
+    bodyParser: false,
+  });
   const globalPrefix = 'api';
 
   app.setGlobalPrefix(globalPrefix);
   app.useStaticAssets(join(__dirname, 'assets'));
-  app.useGlobalInterceptors(new ErrorInterceptor());
+  // app.useGlobalInterceptors(new ErrorInterceptor());
 
   await app.listen(environment.port);
   Logger.log(`🚀 Application is running on: http://localhost:${environment.port}/${globalPrefix}`);

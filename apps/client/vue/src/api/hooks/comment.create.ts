@@ -1,19 +1,21 @@
-import { useQueryClient } from '@tanstack/vue-query';
-import { computed, type Ref } from 'vue';
+import { useMutation, useQueryClient } from '@tanstack/vue-query';
+import { computed, unref, type MaybeRef } from 'vue';
 
 import type { Article } from '@realworld/dto';
 
-import { useClient } from '../client';
+import { useApi } from '../client';
 
-export const useCreateComment = (slug: Ref<Article['slug']>) => {
-  const client = useClient();
+export const useCreateComment = (slug: MaybeRef<Article['slug']>) => {
+  const client = useApi();
   const queryClient = useQueryClient();
 
-  const { data, ...rest } = client.comments.createComment.useMutation({
-    onSuccess: () => queryClient.refetchQueries({ queryKey: ['comments', slug] }),
-  });
+  const { data, ...rest } = useMutation(
+    client.comments.createComment.mutationOptions({
+      onSuccess: () => queryClient.refetchQueries({ queryKey: ['comments', unref(slug)] }),
+    })
+  );
 
-  const comment = computed(() => data.value?.body.comment);
+  const comment = computed(() => data.value?.comment);
 
   return { comment, data, ...rest };
 };

@@ -1,43 +1,53 @@
-import { initContract } from '@ts-rest/core';
+import { oc } from '@orpc/contract';
+import z from 'zod';
 
-import { ErrorSchema } from '../models/error.dto';
 import { ProfileDtoSchema, ProfileParamsSchema } from '../models/profile.dto';
 
-const c = initContract();
+export const profileContract = {
+  getProfile: oc
+    .route({
+      method: 'GET',
+      path: '/profiles/{username}',
+      tags: ['Profiles'],
+      inputStructure: 'detailed',
+    })
+    .input(z.object({ params: ProfileParamsSchema }))
+    .output(ProfileDtoSchema)
+    .errors({ UNAUTHORIZED: {}, UNPROCESSABLE_CONTENT: {} }),
 
-export const profileContract = c.router({
-  getProfile: {
-    method: 'GET',
-    path: '/profiles/:username',
-    pathParams: ProfileParamsSchema,
-    responses: {
-      200: ProfileDtoSchema,
-      401: null,
-      422: ErrorSchema,
-    },
-  },
+  followUser: oc
+    .route({
+      method: 'POST',
+      path: '/profiles/{username}/follow',
+      tags: ['Profiles'],
+      inputStructure: 'detailed',
+      // pathParams: ProfileParamsSchema,
+      // body: null,
+      // responses: {
+      //   200: ProfileDtoSchema,
+      //   401: null,
+      //   422: ErrorSchema,
+      // },
+    })
+    .input(z.object({ params: ProfileParamsSchema }))
+    .output(ProfileDtoSchema)
+    .errors({ UNAUTHORIZED: {}, UNPROCESSABLE_CONTENT: {} }),
 
-  followUser: {
-    method: 'POST',
-    path: '/profiles/:username/follow',
-    pathParams: ProfileParamsSchema,
-    body: null,
-    responses: {
-      200: ProfileDtoSchema,
-      401: null,
-      422: ErrorSchema,
-    },
-  },
-
-  unfollowUser: {
-    method: 'DELETE',
-    path: '/profiles/:username/follow',
-    pathParams: ProfileParamsSchema,
-    body: null,
-    responses: {
-      200: ProfileDtoSchema,
-      401: null,
-      422: ErrorSchema,
-    },
-  },
-});
+  unfollowUser: oc
+    .route({
+      method: 'DELETE',
+      path: '/profiles/{username}/follow',
+      tags: ['Profiles'],
+      inputStructure: 'detailed',
+      // pathParams: ProfileParamsSchema,
+      // body: null,
+      // responses: {
+      //   200: ProfileDtoSchema,
+      //   401: null,
+      //   422: ErrorSchema,
+      // },
+    })
+    .input(z.object({ params: ProfileParamsSchema }))
+    .output(ProfileDtoSchema)
+    .errors({ UNAUTHORIZED: {}, UNPROCESSABLE_CONTENT: {} }),
+};

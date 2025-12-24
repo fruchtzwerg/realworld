@@ -1,15 +1,23 @@
-import { computed, type Ref } from 'vue';
+import { computed, unref, type MaybeRef } from 'vue';
 
-import { useClient } from '../client';
+import { useApi } from '../client';
+import { useQuery } from '@tanstack/vue-query';
 
-export const useComments = (slug: Ref<string>) => {
-  const client = useClient();
+export const useComments = (slug: MaybeRef<string>) => {
+  const client = useApi();
 
-  const { data, ...rest } = client.comments.getComments.useQuery(['comments', slug], () => ({
-    params: { slug: slug.value },
-  }));
+  const { data, ...rest } = useQuery(
+    computed(() => {
+      const _slug = unref(slug);
 
-  const comments = computed(() => data.value?.body.comments);
+      return client.comments.getComments.queryOptions({
+        queryKey: ['comments', _slug],
+        input: { params: { slug: _slug } },
+      });
+    })
+  );
+
+  const comments = computed(() => data.value?.comments);
 
   return { comments, data, ...rest };
 };

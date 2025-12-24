@@ -47,7 +47,7 @@ export default defineConfig({
     ...dynamicImports,
     vue(),
     vueJsx(),
-    // VueDevTools(),
+    VueDevTools(),
     nxViteTsPaths({ debug: false }),
     Icons({ compiler: 'vue3' }),
   ],

@@ -1,18 +1,24 @@
 import { computed } from 'vue';
 
 import { useToken } from '../../common/hooks/token.hook';
-import { useClient } from '../client';
+import { useApi } from '../client';
+import { useQuery } from '@tanstack/vue-query';
 
 export const useUser = () => {
-  const client = useClient();
+  const client = useApi();
   const token = useToken();
 
-  const { data, ...rest } = client.user.getUser.useQuery(['user'], () => ({}), {
-    staleTime: Infinity,
-    enabled: computed(() => !!token.value),
-  });
+  const { data, ...rest } = useQuery(
+    computed(() =>
+      client.user.getUser.queryOptions({
+        queryKey: ['user'],
+        staleTime: Infinity,
+        enabled: !!token.value,
+      })
+    )
+  );
 
-  const user = computed(() => data.value?.body.user);
+  const user = computed(() => data.value?.user);
 
   return { user, ...rest };
 };

@@ -1,5 +1,5 @@
 import { Controller, Delete } from '@nestjs/common';
-import { TsRestHandler, tsRestHandler } from '@ts-rest/nest';
+import { implement, Implement } from '@orpc/nest';
 
 import { ArticleService } from '@realworld/core';
 import { User, contract } from '@realworld/dto';
@@ -11,115 +11,97 @@ import { Public } from '../../auth/decorators/public.decorator';
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
 
-  @TsRestHandler(contract.article.getFeed)
+  @Implement(contract.article.getFeed)
   async getFeed() {
-    return tsRestHandler(contract.article.getFeed, async ({ query }) => {
-      const articles = await this.articleService.getFeed(query);
+    return implement(contract.article.getFeed).handler(async ({ input }) => {
+      const articles = await this.articleService.getFeed(input.query);
       const articlesCount = await this.articleService.getArticlesCount();
 
-      return {
-        status: 200,
-        body: { articles, articlesCount },
-      };
+      return { articles, articlesCount };
     });
   }
 
   @Public()
-  @TsRestHandler(contract.article.getArticles)
+  @Implement(contract.article.getArticles)
   async getArticles() {
-    return tsRestHandler(contract.article.getArticles, async ({ query }) => {
-      const articles = await this.articleService.getArticles(query);
+    return implement(contract.article.getArticles).handler(async ({ input }) => {
+      const articles = await this.articleService.getArticles(input.query);
       const articlesCount = await this.articleService.getArticlesCount();
 
-      return {
-        status: 200,
-        body: { articles, articlesCount },
-      };
+      return { articles, articlesCount };
     });
   }
 
   @Public()
-  @TsRestHandler(contract.article.getArticle)
+  @Implement(contract.article.getArticle)
   async getArticle() {
-    return tsRestHandler(contract.article.getArticle, async ({ params }) => {
-      const article = await this.articleService.getArticle(params.slug);
+    return implement(contract.article.getArticle).handler(async ({ input, errors }) => {
+      const article = await this.articleService.getArticle(input.params.slug);
 
-      if (!article)
-        return {
-          status: 422,
-          body: { errors: { body: ['article not found'] } },
-        };
+      if (!article) {
+        throw errors.UNPROCESSABLE_CONTENT({ data: { errors: { body: ['article not found'] } } });
+      }
 
-      return { status: 200, body: { article } };
+      return { article };
     });
   }
 
-  @TsRestHandler(contract.article.createArticle)
+  @Implement(contract.article.createArticle)
   async createArticle(@Payload('email') email: User['email']) {
-    return tsRestHandler(contract.article.createArticle, async ({ body }) => {
-      const article = await this.articleService.createArticle(body, email);
+    return implement(contract.article.createArticle).handler(async ({ input, errors }) => {
+      const article = await this.articleService.createArticle(input.body, email);
 
-      if (!article)
-        return {
-          status: 422,
-          body: { errors: { body: ['user not found'] } },
-        };
+      if (!article) {
+        throw errors.UNPROCESSABLE_CONTENT({ data: { errors: { body: ['user not found'] } } });
+      }
 
-      return { status: 201, body: { article } };
+      return { article };
     });
   }
 
-  @TsRestHandler(contract.article.updateArticle)
+  @Implement(contract.article.updateArticle)
   async updateArticle() {
-    return tsRestHandler(contract.article.updateArticle, async ({ params, body }) => {
-      const article = await this.articleService.updateArticle(params.slug, body);
+    return implement(contract.article.updateArticle).handler(async ({ input, errors }) => {
+      const article = await this.articleService.updateArticle(input.params.slug, input.body);
 
-      if (!article)
-        return {
-          status: 422,
-          body: { errors: { body: ['article not found'] } },
-        };
+      if (!article) {
+        throw errors.UNPROCESSABLE_CONTENT({ data: { errors: { body: ['article not found'] } } });
+      }
 
-      return { status: 200, body: { article } };
+      return { article };
     });
   }
 
-  @TsRestHandler(contract.article.deleteArticle)
+  @Implement(contract.article.deleteArticle)
   async deleteArticle() {
-    return tsRestHandler(contract.article.deleteArticle, async ({ params }) => {
-      await this.articleService.deleteArticle(params.slug);
-
-      return { status: 200, body: null };
+    return implement(contract.article.deleteArticle).handler(async ({ input }) => {
+      await this.articleService.deleteArticle(input.params.slug);
     });
   }
 
-  @TsRestHandler(contract.favorites.setFavorite)
+  @Implement(contract.favorites.setFavorite)
   async setFavorite() {
-    return tsRestHandler(contract.favorites.setFavorite, async ({ params }) => {
-      const article = await this.articleService.setFavorite(params.slug);
+    return implement(contract.favorites.setFavorite).handler(async ({ input, errors }) => {
+      const article = await this.articleService.setFavorite(input.params.slug);
 
-      if (!article)
-        return {
-          status: 422,
-          body: { errors: { body: ['article not found'] } },
-        };
+      if (!article) {
+        throw errors.UNPROCESSABLE_CONTENT({ data: { errors: { body: ['article not found'] } } });
+      }
 
-      return { status: 200, body: { article } };
+      return { article };
     });
   }
 
-  @TsRestHandler(contract.favorites.deleteFavorite)
+  @Implement(contract.favorites.deleteFavorite)
   async unsetFavorite() {
-    return tsRestHandler(contract.favorites.deleteFavorite, async ({ params }) => {
-      const article = await this.articleService.unsetFavorite(params.slug);
+    return implement(contract.favorites.deleteFavorite).handler(async ({ input, errors }) => {
+      const article = await this.articleService.unsetFavorite(input.params.slug);
 
-      if (!article)
-        return {
-          status: 422,
-          body: { errors: { body: ['article not found'] } },
-        };
+      if (!article) {
+        throw errors.UNPROCESSABLE_CONTENT({ data: { errors: { body: ['article not found'] } } });
+      }
 
-      return { status: 200, body: { article } };
+      return { article };
     });
   }
 

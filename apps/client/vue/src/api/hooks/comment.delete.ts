@@ -1,15 +1,17 @@
-import { useQueryClient } from '@tanstack/vue-query';
-import type { Ref } from 'vue';
+import { useMutation, useQueryClient } from '@tanstack/vue-query';
+import type { MaybeRef } from 'vue';
 
 import type { Article } from '@realworld/dto';
 
-import { useClient } from '../client';
+import { useApi } from '../client';
 
-export const useDeleteComment = (slug: Ref<Article['slug']>) => {
-  const client = useClient();
+export const useDeleteComment = (slug: MaybeRef<Article['slug']>) => {
+  const client = useApi();
   const queryClient = useQueryClient();
 
-  return client.comments.deleteComment.useMutation({
-    onSuccess: () => queryClient.refetchQueries({ queryKey: ['comments', slug] }),
-  });
+  return useMutation(
+    client.comments.deleteComment.mutationOptions({
+      onSuccess: () => queryClient.refetchQueries({ queryKey: ['comments', slug] }),
+    })
+  );
 };

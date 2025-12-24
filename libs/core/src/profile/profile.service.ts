@@ -1,5 +1,7 @@
 import type { Profile, User } from '@realworld/dto';
+
 import type { Context } from '../common';
+
 import type { ProfileRepository } from './profile.repo';
 import type { ProfileValidator } from './profile.validator';
 
@@ -13,9 +15,10 @@ export class ProfileService {
   /** Get profile by id */
   async getProfile(id: User['username']): Promise<Profile | null> {
     const currentUsername = this.ctx.getUsername();
-    if (!currentUsername) return null;
 
+    console.log('____1', { id, currentUsername });
     const user = await this.repository.findUnique(id, currentUsername);
+    console.log('____2', { id, currentUsername, user });
     if (!user) return null;
 
     return this.validator.validate(user, currentUsername);

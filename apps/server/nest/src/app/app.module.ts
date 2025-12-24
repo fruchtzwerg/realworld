@@ -9,6 +9,8 @@ import { AuthModule } from '../modules/auth/auth.module';
 import { CoreModule } from '../modules/core/core.module';
 import { UserModule } from '../modules/user/user.module';
 
+import { DocsController } from './controllers/docs.controller';
+
 @Module({
   imports: [
     CoreModule.forRoot(),
@@ -29,10 +31,11 @@ import { UserModule } from '../modules/user/user.module';
     ArticleModule,
   ],
   exports: [CoreModule],
+  controllers: [DocsController],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    MorganMiddleware.configure(environment.production ? 'combined' : 'dev');
-    consumer.apply(MorganMiddleware).forRoutes('*');
+    // MorganMiddleware.configure(environment.production ? 'combined' : 'dev');
+    // consumer.apply(MorganMiddleware).forRoutes('*');
   }
 }

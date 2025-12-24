@@ -1,16 +1,19 @@
 import { useRouter } from 'vue-router';
 
-import { useClient } from '../client';
+import { useApi } from '../client';
+import { useMutation } from '@tanstack/vue-query';
 
 export const useCreateArticle = () => {
   const router = useRouter();
-  const client = useClient();
+  const api = useApi();
 
-  const mutation = client.article.createArticle.useMutation({
-    onSuccess: () => {
-      router.push(`/`);
-    },
-  });
+  const mutation = useMutation(
+    api.article.createArticle.mutationOptions({
+      onSuccess: () => {
+        router.push(`/`);
+      },
+    })
+  );
 
   return mutation;
 };

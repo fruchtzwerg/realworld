@@ -1,4 +1,4 @@
-import type { CreateUserDto, RawUser, UpdateUserDto, User } from '@realworld/dto';
+import type { CreateUserDto, UpdateUserDto, User } from '@realworld/dto';
 
 export abstract class UserRepository {
   abstract create(userDto: CreateUserDto): Promise<unknown>;

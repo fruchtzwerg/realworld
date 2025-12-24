@@ -1,7 +1,7 @@
 import { User } from '@prisma/client';
 
 import { CommentRepository } from '@realworld/core';
-import { Article, Comment, CreateComment } from '@realworld/dto';
+import type { Article, Comment, CreateComment } from '@realworld/dto';
 
 import { ExtendedPrismaClient } from '../../factories/prisma.factory';
 

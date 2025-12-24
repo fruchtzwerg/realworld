@@ -1,5 +1,5 @@
 import { UserRepository } from '@realworld/core';
-import { CreateUserDto, User, type UpdateUserDto } from '@realworld/dto';
+import type { CreateUserDto, User, UpdateUserDto } from '@realworld/dto';
 
 import { ExtendedPrismaClient } from '../../factories/prisma.factory';
 

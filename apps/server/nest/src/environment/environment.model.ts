@@ -1,3 +1,5 @@
+import type { SignOptions } from 'jsonwebtoken';
+
 interface PrismaConfig {
   adapter: 'prisma';
 }
@@ -13,6 +15,6 @@ export interface Environment {
   database: PrismaConfig | MongooseConfig;
   jwt: {
     secret: string;
-    expiresIn: string;
+    expiresIn: SignOptions['expiresIn'];
   };
 }

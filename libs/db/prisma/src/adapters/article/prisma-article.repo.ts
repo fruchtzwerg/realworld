@@ -1,5 +1,5 @@
 import { ArticleRepository } from '@realworld/core';
-import {
+import type {
   Article,
   ArticlesQuery,
   CreateArticleDto,

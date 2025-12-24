@@ -1,12 +1,15 @@
-import type { CreateUser } from '@realworld/dto';
+import type { CreateArticle, CreateComment, CreateUser } from '@realworld/dto';
+import { slugify } from '@realworld/utils';
 
+import { PrismaArticleRepository } from '../src/adapters/article/prisma-article.repo';
+import { PrismaCommentRepository } from '../src/adapters/comment/prisma-comment.repo';
+import { PrismaUserRepository } from '../src/adapters/user/prisma-user.repo';
 import { PrismaClientFactory } from '../src/factories/prisma.factory';
-import { PrismaArticleService } from '../src/nest/repositories/nest-prisma-article.repo';
-import { PrismaUserService } from '../src/nest/repositories/nest-prisma-user.repo';
 
 const prisma = PrismaClientFactory();
-const userService = new PrismaUserService(prisma, { get: () => 'token' } as any);
-const articleService = new PrismaArticleService(prisma, { get: () => 'luke' } as any);
+const userService = new PrismaUserRepository(prisma);
+const articleService = new PrismaArticleRepository(prisma);
+const commentService = new PrismaCommentRepository(prisma);
 
 const users: CreateUser[] = [
   {
@@ -26,7 +29,7 @@ const users: CreateUser[] = [
   },
 ];
 
-const articles = [
+const articles: CreateArticle[] = [
   {
     title: 'How to train your dragon',
     description: 'Ever wonder how?',
@@ -41,13 +44,41 @@ const articles = [
   },
 ];
 
+const comments: CreateComment[] = [
+  { body: 'Great article!' },
+  { body: 'Very helpful, thanks!' },
+  { body: 'I learned a lot!' },
+];
+
 const main = async () => {
   await prisma.$connect();
 
-  await Promise.all(users.map((user) => userService.createUser({ user })));
+  await Promise.all(users.map((user) => userService.create({ user })));
   await articles.reduce(async (acc: Promise<unknown>, article, i) => {
     await acc;
-    return articleService.createArticle({ article }, users[i].email);
+
+    const slug = slugify(article.title);
+
+    const createdArticle = await articleService.create(
+      { article },
+      slug,
+      users[i].email,
+      users[i].username
+    );
+
+    if (i === 0) {
+      return comments.reduce(async (acc2: Promise<unknown>, comment) => {
+        await acc2;
+
+        return commentService.create(
+          createdArticle.slug,
+          users[(i + 1) % users.length].username,
+          comment
+        );
+      }, Promise.resolve());
+    }
+
+    return acc;
   }, Promise.resolve());
 };
 

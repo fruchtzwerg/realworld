@@ -1,27 +1,22 @@
-import { tsRestFetchApi, type ApiFetcherArgs } from '@ts-rest/core';
-import { initQueryClient } from '@ts-rest/vue-query';
+import { createORPCClient } from '@orpc/client';
+import { OpenAPILink } from '@orpc/openapi-client/fetch';
+import { createTanstackQueryUtils } from '@orpc/tanstack-query';
 
 import { contract } from '@realworld/dto';
 
 import { useToken } from '../common/hooks/token.hook';
 import { environment } from '../environment/environment';
+import { type ContractRouterClient } from '@orpc/contract';
 
-export const useClient = () => {
+export const useApi = () => {
   const token = useToken();
 
-  const appendAuthHeader = (args: ApiFetcherArgs) =>
-    token.value
-      ? {
-          ...args,
-          headers: { ...args.headers, authorization: `Token ${token.value}` },
-        }
-      : args;
-
-  const client = initQueryClient(contract, {
-    baseUrl: environment.apiUrl,
-    api: (args) => tsRestFetchApi(token.value ? appendAuthHeader(args) : args),
-    baseHeaders: {},
+  const link = new OpenAPILink(contract, {
+    url: environment.apiUrl,
+    headers: () => (token.value ? { authorization: `Token ${token.value}` } : {}),
   });
 
-  return client;
+  const client: ContractRouterClient<typeof contract> = createORPCClient(link);
+
+  return createTanstackQueryUtils(client);
 };

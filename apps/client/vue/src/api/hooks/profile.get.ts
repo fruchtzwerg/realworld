@@ -1,21 +1,27 @@
-import { computed, type Ref } from 'vue';
+import { computed, unref, type MaybeRef } from 'vue';
 
 import type { Profile } from '@realworld/dto';
 
-import { useClient } from '../client';
+import { useApi } from '../client';
+import { useQuery } from '@tanstack/vue-query';
 
-export const useProfile = (username: Ref<Profile['username'] | undefined>) => {
-  const client = useClient();
+export const useProfile = (username: MaybeRef<Profile['username'] | undefined>) => {
+  const client = useApi();
 
-  const usernameRef = computed(() => (typeof username === 'string' ? username : username.value));
+  const { data, ...rest } = useQuery(
+    computed(() => {
+      const _username = unref(username);
 
-  const { data, ...rest } = client.profile.getProfile.useQuery(
-    ['profile', usernameRef],
-    () => ({ params: { username: usernameRef.value! } }),
-    { staleTime: Infinity, enabled: computed(() => !!usernameRef.value) }
+      return client.profile.getProfile.queryOptions({
+        queryKey: ['profile', _username],
+        input: { params: { username: _username! } },
+        staleTime: Infinity,
+        enabled: !!_username,
+      });
+    })
   );
 
-  const profile = computed(() => data.value?.body.profile);
+  const profile = computed(() => data.value?.profile);
 
   return { profile, data, ...rest };
 };

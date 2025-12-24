@@ -1,33 +1,43 @@
-import { initContract } from '@ts-rest/core';
+import { oc } from '@orpc/contract';
+import z from 'zod';
 
 import { ArticleDtoSchema, ArticleParamsSchema } from '../models/article.dto';
-import { ErrorSchema } from '../models/error.dto';
 
-const c = initContract();
+export const favoritesContract = {
+  setFavorite: oc
+    .route({
+      method: 'POST',
+      path: '/articles/{slug}/favorite',
+      description: 'Add article to favorites',
+      tags: ['Articles'],
+      inputStructure: 'detailed',
+      // pathParams: ArticleParamsSchema,
+      // body: null,
+      // responses: {
+      //   200: ArticleDtoSchema,
+      //   401: null,
+      //   422: ErrorSchema,
+      // },
+    })
+    .input(z.object({ params: ArticleParamsSchema }))
+    .output(ArticleDtoSchema)
+    .errors({ UNAUTHORIZED: {}, UNPROCESSABLE_CONTENT: {} }),
 
-export const favoritesContract = c.router({
-  setFavorite: {
-    method: 'POST',
-    path: '/articles/:slug/favorite',
-    description: 'Add article to favorites',
-    pathParams: ArticleParamsSchema,
-    body: null,
-    responses: {
-      200: ArticleDtoSchema,
-      401: null,
-      422: ErrorSchema,
-    },
-  },
-
-  deleteFavorite: {
-    method: 'DELETE',
-    path: '/articles/:slug/favorite',
-    pathParams: ArticleParamsSchema,
-    body: null,
-    responses: {
-      200: ArticleDtoSchema,
-      401: null,
-      422: ErrorSchema,
-    },
-  },
-});
+  deleteFavorite: oc
+    .route({
+      method: 'DELETE',
+      path: '/articles/{slug}/favorite',
+      tags: ['Articles'],
+      inputStructure: 'detailed',
+      // pathParams: ArticleParamsSchema,
+      // body: null,
+      // responses: {
+      //   200: ArticleDtoSchema,
+      //   401: null,
+      //   422: ErrorSchema,
+      // },
+    })
+    .input(z.object({ params: ArticleParamsSchema }))
+    .output(ArticleDtoSchema)
+    .errors({ UNAUTHORIZED: {}, UNPROCESSABLE_CONTENT: {} }),
+};

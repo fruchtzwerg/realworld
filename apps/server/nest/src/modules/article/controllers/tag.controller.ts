@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { TsRestHandler, tsRestHandler } from '@ts-rest/nest';
+import { implement, Implement } from '@orpc/nest';
 
 import { ArticleService } from '@realworld/core';
 import { contract } from '@realworld/dto';
@@ -11,12 +11,12 @@ export class TagController {
   constructor(private readonly articleService: ArticleService) {}
 
   @Public()
-  @TsRestHandler(contract.tags.getTags)
+  @Implement(contract.tags.getTags)
   getTags() {
-    return tsRestHandler(contract.tags.getTags, async () => {
+    return implement(contract.tags.getTags).handler(async () => {
       const tags = await this.articleService.getTags();
 
-      return { status: 200, body: { tags } };
+      return { tags };
     });
   }
 }

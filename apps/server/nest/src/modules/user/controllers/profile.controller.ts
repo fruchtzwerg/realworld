@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { TsRestHandler, tsRestHandler } from '@ts-rest/nest';
+import { implement, Implement } from '@orpc/nest';
 
 import { ProfileService } from '@realworld/core';
 import { contract } from '@realworld/dto';
@@ -11,48 +11,45 @@ export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
   @Public()
-  @TsRestHandler(contract.profile.getProfile)
+  @Implement(contract.profile.getProfile)
   async getProfile() {
-    return tsRestHandler(contract.profile.getProfile, async ({ params }) => {
-      const profile = await this.profileService.getProfile(params.username);
+    return implement(contract.profile.getProfile).handler(async ({ input, errors }) => {
+      const profile = await this.profileService.getProfile(input.params.username);
 
-      if (!profile)
-        return {
-          status: 422,
-          body: { errors: { body: ['username is invalid'] } },
-        };
+      if (!profile) {
+        throw errors.UNPROCESSABLE_CONTENT({ data: { errors: { body: ['username is invalid'] } } });
+      }
 
-      return { status: 200, body: { profile } };
+      return { profile };
     });
   }
 
-  @TsRestHandler(contract.profile.followUser)
+  @Implement(contract.profile.followUser)
   async followUser() {
-    return tsRestHandler(contract.profile.followUser, async ({ params }) => {
-      const profile = await this.profileService.followUser(params.username);
+    return implement(contract.profile.followUser).handler(async ({ input, errors }) => {
+      const profile = await this.profileService.followUser(input.params.username);
 
       if (!profile)
-        return {
-          status: 422,
-          body: { errors: { body: ['username is invalid'] } },
-        };
+        if (!profile) {
+          throw errors.UNPROCESSABLE_CONTENT({
+            data: { errors: { body: ['username is invalid'] } },
+          });
+        }
 
-      return { status: 200, body: { profile } };
+      return { profile };
     });
   }
 
-  @TsRestHandler(contract.profile.unfollowUser)
+  @Implement(contract.profile.unfollowUser)
   async unfollowUser() {
-    return tsRestHandler(contract.profile.unfollowUser, async ({ params }) => {
-      const profile = await this.profileService.unfollowUser(params.username);
+    return implement(contract.profile.unfollowUser).handler(async ({ input, errors }) => {
+      const profile = await this.profileService.unfollowUser(input.params.username);
 
-      if (!profile)
-        return {
-          status: 422,
-          body: { errors: { body: ['username is invalid'] } },
-        };
+      if (!profile) {
+        throw errors.UNPROCESSABLE_CONTENT({ data: { errors: { body: ['username is invalid'] } } });
+      }
 
-      return { status: 200, body: { profile } };
+      return { profile };
     });
   }
 }

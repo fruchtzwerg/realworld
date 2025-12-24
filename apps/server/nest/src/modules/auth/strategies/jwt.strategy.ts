@@ -15,7 +15,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, ACCESS_TOKEN_STRATEG
       jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Token'),
       ignoreExpiration: false,
       secretOrKey: environment.jwt.secret,
-      usernameField: 'email',
     });
   }
 

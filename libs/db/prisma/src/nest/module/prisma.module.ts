@@ -52,7 +52,7 @@ export class PrismaModule {
       module: PrismaModule,
       providers: [
         { provide: PRISMA, useFactory: PrismaClientFactory },
-        { provide: APP_FILTER, useClass: PrismaClientExceptionFilter },
+        // { provide: APP_FILTER, useClass: PrismaClientExceptionFilter },
       ],
       exports: [PRISMA],
     };

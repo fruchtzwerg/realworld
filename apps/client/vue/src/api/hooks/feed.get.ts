@@ -1,34 +1,35 @@
-import { computed, type Ref } from 'vue';
+import { computed, unref, type MaybeRef } from 'vue';
 
-import { useClient } from '../client';
+import { useApi } from '../client';
+import { useQuery } from '@tanstack/vue-query';
 
 export interface FeedOptions {
-  limit?: Ref<number | undefined>;
-  offset?: Ref<number | undefined>;
-  enabled?: Ref<boolean>;
+  limit?: MaybeRef<number | undefined>;
+  offset?: MaybeRef<number | undefined>;
+  enabled?: MaybeRef<boolean>;
 }
 
 export const useFeed = (options: FeedOptions) => {
-  const client = useClient();
+  const client = useApi();
   const query = computed(() => ({
-    limit: options.limit?.value ?? 10,
-    offset: options.offset?.value ?? 0,
+    limit: unref(options.limit) ?? 10,
+    offset: unref(options.offset) ?? 0,
   }));
 
-  const queryKey = ['feed', options.limit, options.offset];
-
   // fetch feed
-  const { data, ...rest } = client.article.getFeed.useQuery(
-    queryKey,
-    () => ({ query: query.value }),
-    {
-      enabled: options.enabled,
-    }
+  const { data, ...rest } = useQuery(
+    computed(() =>
+      client.article.getFeed.queryOptions({
+        queryKey: ['feed', unref(options.limit), unref(options.offset)],
+        input: { query: query.value },
+        enabled: unref(options.enabled),
+      })
+    )
   );
 
   // normalize articles
-  const articles = computed(() => data.value?.body.articles);
-  const articlesCount = computed(() => data.value?.body.articlesCount);
+  const articles = computed(() => data.value?.articles);
+  const articlesCount = computed(() => data.value?.articlesCount);
 
   return { articles, articlesCount, data, ...rest };
 };

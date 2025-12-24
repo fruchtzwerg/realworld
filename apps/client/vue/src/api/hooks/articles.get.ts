@@ -1,18 +1,19 @@
-import { computed, type Ref } from 'vue';
+import { computed, unref, type MaybeRef } from 'vue';
 
 import type { ArticlesQuery } from '@realworld/dto';
 import { shallowSparse } from '@realworld/utils';
 
-import { useClient } from '../client';
+import { useApi } from '../client';
+import { useQuery } from '@tanstack/vue-query';
 
 interface ArticleOptions {
-  author?: Ref<string | undefined>;
-  favorited?: Ref<string | undefined>;
-  tag?: Ref<string | undefined>;
-  limit?: Ref<number | undefined>;
-  offset?: Ref<number | undefined>;
+  author?: MaybeRef<string | undefined>;
+  favorited?: MaybeRef<string | undefined>;
+  tag?: MaybeRef<string | undefined>;
+  limit?: MaybeRef<number | undefined>;
+  offset?: MaybeRef<number | undefined>;
   staleTimeMs?: number;
-  enabled?: Ref<boolean>;
+  enabled?: MaybeRef<boolean>;
 }
 
 // const fiveMinutes = 1000 * 60 * 5;
@@ -22,33 +23,33 @@ interface ArticleOptions {
  * @param staleTimeMs default: 5 minutes
  */
 export const useArticles = (options: ArticleOptions = {}) => {
-  const client = useClient();
+  const client = useApi();
   const query = computed(() =>
     shallowSparse<ArticlesQuery>({
-      limit: options.limit?.value ?? 10,
-      offset: options.offset?.value ?? 0,
-      author: options.author?.value,
-      favorited: options.favorited?.value,
-      tag: options.tag?.value,
+      limit: unref(options.limit) ?? 10,
+      offset: unref(options.offset) ?? 0,
+      author: unref(options.author),
+      favorited: unref(options.favorited),
+      tag: unref(options.tag),
     })
   );
 
-  const queryKey = ['articles', options.author, options.favorited, options.tag];
-
   // fetch articles
-  const { data, ...rest } = client.article.getArticles.useQuery(
-    queryKey,
-    () => ({ query: query.value }),
-    {
-      // TODO: unvalidate other caches after favorite/unfavorite
-      // staleTime: options.staleTimeMs ?? fiveMinutes,
-      enabled: computed(() => options.enabled?.value ?? true),
-    }
+  const { data, ...rest } = useQuery(
+    computed(() =>
+      client.article.getArticles.queryOptions({
+        queryKey: ['articles', unref(options.author), unref(options.favorited), unref(options.tag)],
+        input: { query: query.value },
+        // TODO: unvalidate other caches after favorite/unfavorite
+        // staleTime: options.staleTimeMs ?? fiveMinutes,
+        enabled: unref(options.enabled) ?? true,
+      })
+    )
   );
 
   // normalize articles
-  const articles = computed(() => data.value?.body.articles);
-  const articlesCount = computed(() => data.value?.body.articlesCount);
+  const articles = computed(() => data.value?.articles);
+  const articlesCount = computed(() => data.value?.articlesCount);
 
   return { articles, articlesCount, data, ...rest };
 };

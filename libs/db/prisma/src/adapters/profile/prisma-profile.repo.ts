@@ -1,5 +1,5 @@
 import { ProfileRepository } from '@realworld/core';
-import { Profile } from '@realworld/dto';
+import type { Profile } from '@realworld/dto';
 
 import { ExtendedPrismaClient } from '../../factories/prisma.factory';
 
@@ -10,11 +10,12 @@ export class PrismaProfileRepository extends ProfileRepository {
 
   override findUnique(
     username: Profile['username'],
-    follower: Profile['username']
+    follower?: Profile['username']
   ): Promise<unknown | null> {
+    console.log('PrismaProfileRepository.findUnique', { username, follower });
     return this.prisma.user.findUnique({
       where: { username },
-      include: { followers: { where: { username: follower } } },
+      // include: follower ? { followers: { where: { username: follower } } } : undefined,
     });
   }
 

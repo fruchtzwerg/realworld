@@ -1,4 +1,5 @@
-import { initContract } from '@ts-rest/core';
+import { oc } from '@orpc/contract';
+import z from 'zod';
 
 import {
   ArticleDtoSchema,
@@ -9,74 +10,110 @@ import {
   FeedQuerySchema,
   UpdateArticleDtoSchema,
 } from '../models/article.dto';
-import { ErrorSchema } from '../models/error.dto';
 
-const c = initContract();
+export const articleContract = {
+  getFeed: oc
+    .route({
+      method: 'GET',
+      path: '/articles/feed',
+      tags: ['Articles'],
+      inputStructure: 'detailed',
+      // query: FeedQuerySchema,
+      // responses: {
+      //   200: ArticlesDtoSchema,
+      //   401: null,
+      //   422: ErrorSchema,
+      // },
+    })
+    .input(z.object({ query: FeedQuerySchema }))
+    .output(ArticlesDtoSchema)
+    .errors({ UNAUTHORIZED: {}, UNPROCESSABLE_CONTENT: {} }),
 
-export const articleContract = c.router({
-  getFeed: {
-    method: 'GET',
-    path: '/articles/feed',
-    query: FeedQuerySchema,
-    responses: {
-      200: ArticlesDtoSchema,
-      401: null,
-      422: ErrorSchema,
-    },
-  },
+  getArticles: oc
+    .route({
+      method: 'GET',
+      path: '/articles',
+      tags: ['Articles'],
+      inputStructure: 'detailed',
+      // query: ArticlesQuerySchema,
+      // responses: {
+      //   200: ArticlesDtoSchema,
+      //   422: ErrorSchema,
+      // },
+    })
+    .input(z.object({ query: ArticlesQuerySchema }))
+    .output(ArticlesDtoSchema)
+    .errors({ UNPROCESSABLE_CONTENT: {} }),
 
-  getArticles: {
-    method: 'GET',
-    path: '/articles',
-    query: ArticlesQuerySchema,
-    responses: {
-      200: ArticlesDtoSchema,
-      422: ErrorSchema,
-    },
-  },
+  getArticle: oc
+    .route({
+      method: 'GET',
+      path: '/articles/{slug}',
+      tags: ['Articles'],
+      inputStructure: 'detailed',
+      // pathParams: ArticleParamsSchema,
+      // responses: {
+      //   200: ArticleDtoSchema,
+      //   422: ErrorSchema,
+      // },
+    })
+    .input(z.object({ params: ArticleParamsSchema }))
+    .output(ArticleDtoSchema)
+    .errors({ UNPROCESSABLE_CONTENT: {} }),
 
-  getArticle: {
-    method: 'GET',
-    path: '/articles/:slug',
-    pathParams: ArticleParamsSchema,
-    responses: {
-      200: ArticleDtoSchema,
-      422: ErrorSchema,
-    },
-  },
+  createArticle: oc
+    .route({
+      method: 'POST',
+      path: '/articles',
+      successStatus: 201,
+      tags: ['Articles'],
+      inputStructure: 'detailed',
+      // body: CreateArticleDtoSchema,
+      // responses: {
+      //   201: ArticleDtoSchema,
+      //   401: null,
+      //   422: ErrorSchema,
+      // },
+    })
+    .input(z.object({ body: CreateArticleDtoSchema }))
+    .output(ArticleDtoSchema)
+    .errors({
+      UNAUTHORIZED: {},
+      UNPROCESSABLE_CONTENT: {},
+    }),
 
-  createArticle: {
-    method: 'POST',
-    path: '/articles',
-    body: CreateArticleDtoSchema,
-    responses: {
-      201: ArticleDtoSchema,
-      401: null,
-      422: ErrorSchema,
-    },
-  },
+  updateArticle: oc
+    .route({
+      method: 'PUT',
+      path: '/articles/{slug}',
+      tags: ['Articles'],
+      inputStructure: 'detailed',
+      // pathParams: ArticleParamsSchema,
+      // body: UpdateArticleDtoSchema,
+      // responses: {
+      //   200: ArticleDtoSchema,
+      //   401: null,
+      //   422: ErrorSchema,
+      // },
+    })
+    .input(z.object({ params: ArticleParamsSchema, body: UpdateArticleDtoSchema }))
+    .output(ArticleDtoSchema)
+    .errors({ UNAUTHORIZED: {}, UNPROCESSABLE_CONTENT: {} }),
 
-  updateArticle: {
-    method: 'PUT',
-    path: '/articles/:slug',
-    pathParams: ArticleParamsSchema,
-    body: UpdateArticleDtoSchema,
-    responses: {
-      200: ArticleDtoSchema,
-      401: null,
-      422: ErrorSchema,
-    },
-  },
-
-  deleteArticle: {
-    method: 'DELETE',
-    path: '/articles/:slug',
-    pathParams: ArticleParamsSchema,
-    body: null,
-    responses: {
-      200: null,
-      401: null,
-      422: ErrorSchema,
-    },
-  },
-});
+  deleteArticle: oc
+    .route({
+      method: 'DELETE',
+      path: '/articles/{slug}',
+      tags: ['Articles'],
+      inputStructure: 'detailed',
+      // pathParams: ArticleParamsSchema,
+      // body: null,
+      // responses: {
+      //   200: null,
+      //   401: null,
+      //   422: ErrorSchema,
+      // },
+    })
+    .input(z.object({ params: ArticleParamsSchema }))
+    .errors({ UNAUTHORIZED: {}, UNPROCESSABLE_CONTENT: {} }),
+};
