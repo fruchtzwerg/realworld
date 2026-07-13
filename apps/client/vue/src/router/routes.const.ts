@@ -1,8 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import { satisfies } from '@realworld/utils';
-
-export const routes = satisfies<RouteRecordRaw[]>()([
+export const routes = [
   {
     path: '/',
     components: {
@@ -50,7 +48,7 @@ export const routes = satisfies<RouteRecordRaw[]>()([
     },
     props: { default: true, header: true },
   },
-]);
+] satisfies RouteRecordRaw[];
 
 export type RoutePath = MapRouteParam<(typeof routes)[number]['path']>;
 

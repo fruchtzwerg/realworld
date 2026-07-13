@@ -12,10 +12,9 @@ export class PrismaProfileRepository extends ProfileRepository {
     username: Profile['username'],
     follower?: Profile['username']
   ): Promise<unknown | null> {
-    console.log('PrismaProfileRepository.findUnique', { username, follower });
     return this.prisma.user.findUnique({
       where: { username },
-      // include: follower ? { followers: { where: { username: follower } } } : undefined,
+      include: follower ? { followers: { where: { username: follower } } } : undefined,
     });
   }
 

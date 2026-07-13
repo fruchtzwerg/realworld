@@ -7,6 +7,7 @@
     "start": "PORT=3000 JWT_SECRET=do-not-use-in-prod node dist/apps/server/nest",
     "e2e": "pnpm exec nx e2e e2e-api --ui"
   },
+  "packageManager": "pnpm@10.33.0",
   "private": true,
   "prisma": {
     "seed": "pnpm exec nx prisma-seed prisma"
@@ -200,6 +201,9 @@
       "nx",
       "prisma",
       "vue-demi"
-    ]
+    ],
+    "overrides": {
+      "jsonwebtoken": "9.0.3"
+    }
   }
 }

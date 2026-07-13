@@ -12,13 +12,11 @@ export class ProfileService {
     private readonly validator: ProfileValidator
   ) {}
 
-  /** Get profile by id */
-  async getProfile(id: User['username']): Promise<Profile | null> {
+  /** Get profile by username */
+  async getProfile(username: User['username']): Promise<Profile | null> {
     const currentUsername = this.ctx.getUsername();
 
-    console.log('____1', { id, currentUsername });
-    const user = await this.repository.findUnique(id, currentUsername);
-    console.log('____2', { id, currentUsername, user });
+    const user = await this.repository.findUnique(username, currentUsername);
     if (!user) return null;
 
     return this.validator.validate(user, currentUsername);

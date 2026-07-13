@@ -13,34 +13,28 @@ import {
 } from '@realworld/core';
 
 import {
-  PrismaArticleRepository,
   PrismaArticleValidator,
-  PrismaCommentRepository,
   PrismaCommentValidator,
-  PrismaProfileRepository,
   PrismaProfileValidator,
-  PrismaUserRepository,
   PrismaUserValidator,
 } from '../../adapters';
 import { PrismaClientExceptionFilter } from '../filters/prisma-client-exception.filter';
+import { PRISMA, PrismaClientFactory } from '../providers/prisma.provider';
 import {
-  PRISMA,
-  PrismaClientFactory,
-  type ExtendedPrismaClient,
-} from '../providers/prisma.provider';
+  NestPrismaArticleRepository,
+  NestPrismaCommentRepository,
+  NestPrismaProfileRepository,
+  NestPrismaUserRepository,
+} from '../repositories';
 
 const providers: Provider[] = [
-  {
-    provide: ArticleRepository,
-    useFactory: (prisma: ExtendedPrismaClient) => new PrismaArticleRepository(prisma),
-    inject: [PRISMA],
-  },
+  { provide: ArticleRepository, useClass: NestPrismaArticleRepository },
   { provide: ArticleValidator, useClass: PrismaArticleValidator },
-  { provide: CommentRepository, useClass: PrismaCommentRepository },
+  { provide: CommentRepository, useClass: NestPrismaCommentRepository },
   { provide: CommentValidator, useClass: PrismaCommentValidator },
-  { provide: ProfileRepository, useClass: PrismaProfileRepository },
+  { provide: ProfileRepository, useClass: NestPrismaProfileRepository },
   { provide: ProfileValidator, useClass: PrismaProfileValidator },
-  { provide: UserRepository, useClass: PrismaUserRepository },
+  { provide: UserRepository, useClass: NestPrismaUserRepository },
   { provide: UserValidator, useClass: PrismaUserValidator },
 ];
 
@@ -52,7 +46,7 @@ export class PrismaModule {
       module: PrismaModule,
       providers: [
         { provide: PRISMA, useFactory: PrismaClientFactory },
-        // { provide: APP_FILTER, useClass: PrismaClientExceptionFilter },
+        { provide: APP_FILTER, useClass: PrismaClientExceptionFilter },
       ],
       exports: [PRISMA],
     };

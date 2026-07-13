@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, shallowRef, watch } from 'vue';
+import { computed, ref, shallowRef, toRef, toRefs, watch } from 'vue';
 import Tabs, { type Tab } from '../../../common/components/tabs.vue';
 import TagList from '../components/tag-list.vue';
 import { isNotNull } from '@realworld/utils';
@@ -8,13 +8,17 @@ import { useRoute } from 'vue-router';
 import ArticleList from '../components/article-list.vue';
 import type { User } from '@realworld/dto';
 import { useProfile } from '../../../api/hooks/profile.get';
+import { useUser } from '../../../api/hooks/user.get.js';
 
 const props = defineProps<{
   username?: User['username'];
   isPrivate?: boolean;
 }>();
 
-const { profile } = useProfile(computed(() => props.username));
+const { user } = useUser();
+const username = computed(() => toRef(props, 'username').value || user.value?.username);
+
+const { profile } = useProfile(username);
 
 const selectedTab = shallowRef<Tab | null>(null);
 const selectedTabId = ref<Tab['id']>(props.isPrivate ? 'my_posts' : 'global');
@@ -52,7 +56,7 @@ const query = computed(() => ({
   author: props.isPrivate && selectedTabId.value === 'my_posts' ? props.username : undefined,
   favorited: props.isPrivate && selectedTabId.value === 'favorited' ? props.username : undefined,
   tag: selectedTab.value?.id,
-  enabled: props.isPrivate ? !!profile?.value ?? true : true,
+  enabled: props.isPrivate ? !!(profile?.value ?? true) : true,
 }));
 </script>
 
