@@ -12,7 +12,7 @@ export function Navbar(props: NavbarProps) {
   const { data, isSuccess } = useUserGet();
 
   const items = useMemo(
-    () => (isSuccess ? menuItems.private(data.body.user) : menuItems.public()),
+    () => (isSuccess ? menuItems.private(data.user) : menuItems.public()),
     [isSuccess, data]
   );
 

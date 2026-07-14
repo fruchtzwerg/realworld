@@ -32,12 +32,15 @@ export function Settings(props: SettingsProps) {
   return (
     <form onSubmit={submit} className="flex flex-col w-full max-w-xl gap-4 mx-auto mt-6">
       <h1 className="mx-auto text-[2.5rem] leading-[2.75rem] font-medium">Your Settings</h1>
+
+      <pre>{JSON.stringify(data?.user, null, 2)}</pre>
+
       <input
         name="image"
         type="text"
         className="input input-bordered"
         placeholder="URL of profile picture"
-        value={data?.body.user.image ?? undefined}
+        value={data?.user.image ?? undefined}
         disabled={isPending}
       />
       <input
@@ -45,7 +48,7 @@ export function Settings(props: SettingsProps) {
         type="text"
         className="input input-bordered input-lg"
         placeholder="Username"
-        value={data?.body.user.username ?? undefined}
+        value={data?.user.username ?? undefined}
         disabled={isPending}
       />
       <textarea
@@ -53,7 +56,7 @@ export function Settings(props: SettingsProps) {
         rows={6}
         className="textarea textarea-bordered textarea-lg"
         placeholder="Short bio about you"
-        value={data?.body.user.bio ?? undefined}
+        value={data?.user.bio ?? undefined}
         disabled={isPending}
       />
       <input
@@ -61,7 +64,7 @@ export function Settings(props: SettingsProps) {
         type="text"
         className="input input-bordered input-lg"
         placeholder="Email"
-        value={data?.body.user.email ?? undefined}
+        value={data?.user.email ?? undefined}
         disabled={isPending}
       />
       <input

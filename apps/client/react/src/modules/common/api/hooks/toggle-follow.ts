@@ -1,30 +1,32 @@
-import { useQueryClient } from '@tanstack/react-query';
-import { ClientInferResponses } from '@ts-rest/core';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 
 import { Profile, contract } from '@realworld/dto';
+import type { InferContractRouterOutputs } from '@orpc/contract';
 
 import { useClient } from '../client';
 import { QueryKeyFactory } from '../query-key.factory';
 
-type ProfileResponse = ClientInferResponses<typeof contract.profile.getProfile, 200>;
+type ProfileOutputs = InferContractRouterOutputs<typeof contract.profile>;
+type ProfileResponse = ProfileOutputs['getProfile'];
 
 export function useToggleFollow(profile?: Profile) {
+  const client = useClient();
   const queryClient = useQueryClient();
 
   const onMutate = (following: boolean) => () => {
     queryClient.setQueriesData<ProfileResponse>(
       { queryKey: QueryKeyFactory.profile.get() },
-      (profile) => ({
-        ...profile!,
-        body: {
-          ...profile!.body,
-          profile: {
-            ...profile!.body.profile,
-            following,
-          },
-        },
-      })
+      (res) =>
+        res
+          ? {
+              ...res,
+              profile: {
+                ...res.profile,
+                following,
+              },
+            }
+          : res
     );
   };
 
@@ -32,15 +34,19 @@ export function useToggleFollow(profile?: Profile) {
     queryClient.setQueriesData({ queryKey: QueryKeyFactory.profile.get() }, res);
   };
 
-  const { mutate: follow, ...resultFollow } = useClient().profile.followUser.useMutation({
-    onMutate: onMutate(true),
-    onSuccess: onSuccess(),
-  });
+  const { mutate: follow, ...resultFollow } = useMutation(
+    client.profile.followUser.mutationOptions({
+      onMutate: onMutate(true),
+      onSuccess: onSuccess(),
+    })
+  );
 
-  const { mutate: unfollow, ...resultUnfollow } = useClient().profile.unfollowUser.useMutation({
-    onMutate: onMutate(false),
-    onSuccess: onSuccess(),
-  });
+  const { mutate: unfollow, ...resultUnfollow } = useMutation(
+    client.profile.unfollowUser.mutationOptions({
+      onMutate: onMutate(false),
+      onSuccess: onSuccess(),
+    })
+  );
 
   const toggleFollow = useCallback(() => {
     if (!profile) return;
