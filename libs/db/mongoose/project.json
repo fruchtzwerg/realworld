@@ -3,7 +3,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/db/mongoose/src",
   "projectType": "library",
-  "tags": ["nest"],
+  "tags": ["mongo"],
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint",

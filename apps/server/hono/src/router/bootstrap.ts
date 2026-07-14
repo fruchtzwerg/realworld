@@ -1,17 +1,6 @@
 import { verify } from 'hono/jwt';
 
 import { Context, createServices } from '@realworld/core';
-import {
-  PrismaArticleRepository,
-  PrismaArticleValidator,
-  PrismaClientFactory,
-  PrismaCommentRepository,
-  PrismaCommentValidator,
-  PrismaProfileRepository,
-  PrismaProfileValidator,
-  PrismaUserRepository,
-  PrismaUserValidator,
-} from '@realworld/prisma';
 
 import { environment } from '../environment/environment';
 import { HonoJwtSigner } from '../modules/auth/jwt-signer';
@@ -35,29 +24,59 @@ class RequestContext extends Context {
   }
 }
 
-export const createContext = async (headers: Headers): Promise<RouterContext> => {
-  const header = headers.get('authorization');
-  const match = header?.match(/^Token\s+(.+)$/i);
+const initMongoose = async (ctx: RequestContext, uri: string) => {
+  const {
+    MongoClientFactory,
+    MongoUserRepository,
+    MongoProfileRepository,
+    MongoArticleRepository,
+    MongoCommentRepository,
+    MongoUserValidator,
+    MongoProfileValidator,
+    MongoArticleValidator,
+    MongoCommentValidator,
+  } = await import('@realworld/mongoose');
 
-  let user: AuthUser | undefined;
-  let token: string | undefined;
+  const models = await MongoClientFactory(uri);
 
-  if (match) {
-    token = match[1];
-    try {
-      const payload = await verify(token, environment.jwt.secret, environment.jwt.alg);
-      user = { username: payload.username as string, email: payload.email as string };
-    } catch {
-      /* leave undefined — treated as unauthenticated */
-    }
-  }
-
-  const prisma = PrismaClientFactory();
-  const ctx = new RequestContext(
-    () => token,
-    () => user?.username
+  const services = createServices(
+    ctx,
+    {
+      userRepository: new MongoUserRepository(models.userModel, models.articleModel),
+      profileRepository: new MongoProfileRepository(models.userModel),
+      articleRepository: new MongoArticleRepository(models.articleModel, models.userModel),
+      commentRepository: new MongoCommentRepository(
+        models.commentModel,
+        models.articleModel,
+        models.userModel
+      ),
+    },
+    {
+      userValidator: new MongoUserValidator(),
+      profileValidator: new MongoProfileValidator(),
+      articleValidator: new MongoArticleValidator(),
+      commentValidator: new MongoCommentValidator(),
+    },
+    new HonoJwtSigner()
   );
 
+  return { database: models, services };
+};
+
+const initPrisma = async (ctx: RequestContext) => {
+  const {
+    PrismaArticleRepository,
+    PrismaArticleValidator,
+    PrismaClientFactory,
+    PrismaCommentRepository,
+    PrismaCommentValidator,
+    PrismaProfileRepository,
+    PrismaProfileValidator,
+    PrismaUserRepository,
+    PrismaUserValidator,
+  } = await import('@realworld/prisma');
+
+  const prisma = PrismaClientFactory();
   const services = createServices(
     ctx,
     {
@@ -75,5 +94,40 @@ export const createContext = async (headers: Headers): Promise<RouterContext> =>
     new HonoJwtSigner()
   );
 
-  return { headers, user, token, prisma, services };
+  return { database: prisma, services };
+};
+
+export const createContext = async (headers: Headers): Promise<RouterContext> => {
+  const header = headers.get('authorization');
+  const match = header?.match(/^Token\s+(.+)$/i);
+
+  let user: AuthUser | undefined;
+  let token: string | undefined;
+
+  if (match) {
+    token = match[1];
+    try {
+      const payload = await verify(token, environment.jwt.secret, environment.jwt.alg);
+      user = { username: payload.username as string, email: payload.email as string };
+    } catch {
+      /* leave undefined — treated as unauthenticated */
+    }
+  }
+
+  const ctx = new RequestContext(
+    () => token,
+    () => user?.username
+  );
+
+  switch (environment.database.adapter) {
+    case 'mongoose': {
+      const { database, services } = await initMongoose(ctx, environment.database.uri);
+      return { headers, user, token, database, services };
+    }
+
+    case 'prisma': {
+      const { database, services } = await initPrisma(ctx);
+      return { headers, user, token, database, services };
+    }
+  }
 };

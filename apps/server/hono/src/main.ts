@@ -63,6 +63,15 @@ app.get('/api/swagger', async (c) => {
 
 app.get('/docs', apiReference({ theme: 'saturn', spec: { url: '/api/swagger' } }));
 
-serve({ port: environment.port, ...app }, (info) => {
-  console.info(`\nListening on port ${info.port}\n`);
-});
+async function start() {
+  if (environment.database.adapter === 'mongoose') {
+    const { MongoClientFactory } = await import('@realworld/mongoose');
+    await MongoClientFactory(environment.database.uri);
+  }
+
+  serve({ port: environment.port, ...app }, (info) => {
+    console.info(`\nListening on port ${info.port}\n`);
+  });
+}
+
+void start();

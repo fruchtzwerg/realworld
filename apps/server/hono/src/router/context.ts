@@ -1,4 +1,5 @@
 import type { Services } from '@realworld/core';
+import type { MongoModels } from '@realworld/mongoose';
 import type { ExtendedPrismaClient } from '@realworld/prisma';
 
 export interface AuthUser {
@@ -8,7 +9,7 @@ export interface AuthUser {
 
 export interface RouterContext {
   headers: Headers;
-  prisma: ExtendedPrismaClient;
+  database: ExtendedPrismaClient | MongoModels;
   services: Services;
   user?: AuthUser;
   token?: string;

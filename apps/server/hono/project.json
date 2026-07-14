@@ -18,9 +18,9 @@
         "platform": "node",
         "outputPath": "dist/apps/server/hono",
         "format": [
-          "cjs"
+          "esm"
         ],
-        "bundle": false,
+        "bundle": true,
         "main": "apps/server/hono/src/main.ts",
         "tsConfig": "apps/server/hono/tsconfig.app.json",
         "assets": [
@@ -29,6 +29,7 @@
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,
+          "packages": "external",
           "outExtension": {
             ".js": ".js"
           }
@@ -46,6 +47,7 @@
           "generatePackageJson": true,
           "esbuildOptions": {
             "sourcemap": false,
+            "packages": "external",
             "outExtension": {
               ".js": ".js"
             }
