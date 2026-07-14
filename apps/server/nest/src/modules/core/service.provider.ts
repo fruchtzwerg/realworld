@@ -37,8 +37,8 @@ export const ServiceProviders: Provider[] = [
   },
   {
     provide: UserService,
-    useFactory: (ctx: Context, repository: UserRepository, validator: UserValidator) =>
-      new UserService(ctx, repository, validator),
-    inject: [Context, UserRepository, UserValidator],
+    useFactory: (repository: UserRepository, validator: UserValidator) =>
+      new UserService(repository, validator),
+    inject: [UserRepository, UserValidator],
   },
 ];

@@ -1,12 +1,6 @@
 import { verify } from 'hono/jwt';
 
-import {
-  ArticleService,
-  CommentService,
-  Context,
-  ProfileService,
-  UserService,
-} from '@realworld/core';
+import { Context, createServices } from '@realworld/core';
 import {
   PrismaArticleRepository,
   PrismaArticleValidator,
@@ -19,9 +13,10 @@ import {
   PrismaUserValidator,
 } from '@realworld/prisma';
 
-import { AuthService } from '../modules/auth/auth.service';
 import { environment } from '../environment/environment';
-import type { AuthUser, RouterContext, Services } from './context';
+import { HonoJwtSigner } from '../modules/auth/jwt-signer';
+
+import type { AuthUser, RouterContext } from './context';
 
 class RequestContext extends Context {
   constructor(
@@ -58,29 +53,27 @@ export const createContext = async (headers: Headers): Promise<RouterContext> =>
   }
 
   const prisma = PrismaClientFactory();
-  const ctx = new RequestContext(() => token, () => user?.username);
+  const ctx = new RequestContext(
+    () => token,
+    () => user?.username
+  );
 
-  const services: Services = {
-    userService: new UserService(ctx, new PrismaUserRepository(prisma), new PrismaUserValidator()),
-    authService: new AuthService(
-      new UserService(ctx, new PrismaUserRepository(prisma), new PrismaUserValidator())
-    ),
-    profileService: new ProfileService(
-      ctx,
-      new PrismaProfileRepository(prisma),
-      new PrismaProfileValidator()
-    ),
-    articleService: new ArticleService(
-      ctx,
-      new PrismaArticleRepository(prisma),
-      new PrismaArticleValidator()
-    ),
-    commentService: new CommentService(
-      ctx,
-      new PrismaCommentRepository(prisma),
-      new PrismaCommentValidator()
-    ),
-  };
+  const services = createServices(
+    ctx,
+    {
+      userRepository: new PrismaUserRepository(prisma),
+      profileRepository: new PrismaProfileRepository(prisma),
+      articleRepository: new PrismaArticleRepository(prisma),
+      commentRepository: new PrismaCommentRepository(prisma),
+    },
+    {
+      userValidator: new PrismaUserValidator(),
+      profileValidator: new PrismaProfileValidator(),
+      articleValidator: new PrismaArticleValidator(),
+      commentValidator: new PrismaCommentValidator(),
+    },
+    new HonoJwtSigner()
+  );
 
   return { headers, user, token, prisma, services };
 };

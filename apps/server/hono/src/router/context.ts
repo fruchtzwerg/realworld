@@ -1,17 +1,9 @@
-import type { ArticleService, AuthService, CommentService, ProfileService, UserService } from '@realworld/core';
+import type { Services } from '@realworld/core';
 import type { ExtendedPrismaClient } from '@realworld/prisma';
 
 export interface AuthUser {
   username: string;
   email: string;
-}
-
-export interface Services {
-  userService: UserService;
-  authService: AuthService;
-  profileService: ProfileService;
-  articleService: ArticleService;
-  commentService: CommentService;
 }
 
 export interface RouterContext {

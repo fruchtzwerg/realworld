@@ -3,9 +3,11 @@ import { PrismaClient } from '@prisma/client';
 import { prismaArticle } from '../adapters/article/article.extension';
 import { prismaUser } from '../adapters/user/user.extension';
 
-export type ExtendedPrismaClient = ReturnType<typeof PrismaClientFactory>;
+export type ExtendedPrismaClient = ReturnType<typeof createPrismaClient>;
 
-export const PrismaClientFactory = () => {
+let client: ExtendedPrismaClient | undefined;
+
+const createPrismaClient = () => {
   const prisma = new PrismaClient({
     log: ['query', 'info', 'warn', 'error'],
     errorFormat: 'pretty',
@@ -26,3 +28,5 @@ export const PrismaClientFactory = () => {
 
   return prisma;
 };
+
+export const PrismaClientFactory = (): ExtendedPrismaClient => (client ??= createPrismaClient());

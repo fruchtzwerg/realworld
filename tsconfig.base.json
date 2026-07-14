@@ -17,6 +17,7 @@
     "baseUrl": ".",
     "paths": {
       "@realworld/core": ["libs/core/src/index.ts"],
+      "@realworld/api": ["libs/api/src/index.ts"],
       "@realworld/dto": ["libs/dto/src/index.ts"],
       "@realworld/mongoose": ["libs/db/mongoose/src/index.ts"],
       "@realworld/prisma": ["libs/db/prisma/src/index.ts"],

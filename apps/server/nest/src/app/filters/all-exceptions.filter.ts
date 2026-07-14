@@ -12,6 +12,8 @@ import {
 import { ORPCError } from '@orpc/nest';
 import { Request, Response } from 'express';
 
+import { NotFoundError, UnauthorizedError } from '@realworld/core';
+
 @Catch()
 @Injectable()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -30,6 +32,16 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     if (exception instanceof UnauthorizedException || exception instanceof ForbiddenException) {
       status = exception.getStatus();
+      body = { errors: { body: [exception.message] } };
+      logMessage = `${exception.name}: ${exception.message}`;
+      stack = exception.stack;
+    } else if (exception instanceof UnauthorizedError) {
+      status = HttpStatus.UNAUTHORIZED;
+      body = { errors: { body: [exception.message] } };
+      logMessage = `${exception.name}: ${exception.message}`;
+      stack = exception.stack;
+    } else if (exception instanceof NotFoundError) {
+      status = HttpStatus.UNPROCESSABLE_ENTITY;
       body = { errors: { body: [exception.message] } };
       logMessage = `${exception.name}: ${exception.message}`;
       stack = exception.stack;

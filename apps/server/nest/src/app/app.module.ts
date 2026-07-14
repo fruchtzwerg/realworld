@@ -1,9 +1,7 @@
-import { MorganMiddleware } from '@nest-middlewares/morgan';
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 
-import { environment } from '../environment/environment';
 import { ArticleModule } from '../modules/article/article.module';
 import { AuthModule } from '../modules/auth/auth.module';
 import { CoreModule } from '../modules/core/core.module';
@@ -33,9 +31,4 @@ import { DocsController } from './controllers/docs.controller';
   exports: [CoreModule],
   controllers: [DocsController],
 })
-export class AppModule {
-  configure(consumer: MiddlewareConsumer) {
-    // MorganMiddleware.configure(environment.production ? 'combined' : 'dev');
-    // consumer.apply(MorganMiddleware).forRoutes('*');
-  }
-}
+export class AppModule {}

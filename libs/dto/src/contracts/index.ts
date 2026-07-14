@@ -13,8 +13,3 @@ export const contract = {
   favorites: favoritesContract,
   comments: commentsContract,
 };
-// {
-//   baseHeaders: z.object({
-//     authorization: z.string().optional(),
-//   }),
-// }

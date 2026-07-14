@@ -1,129 +1,114 @@
-import { ORPCError } from '@orpc/server';
-import { contract } from '@realworld/dto';
+import type { HandlerContext } from '@realworld/api';
+import {
+  articleHandlers,
+  commentHandlers,
+  favoritesHandlers,
+  profileHandlers,
+  tagHandlers,
+  userHandlers,
+} from '@realworld/api';
 
-import type { AuthUser } from './context';
 import { os } from './builder';
+import type { RouterContext } from './context';
+import { authRequired } from './middleware/auth';
+import { errorHandler } from './middleware/errors';
 
-const requireUser = (user: AuthUser | undefined): AuthUser => {
-  if (!user) throw new ORPCError('UNAUTHORIZED', { message: 'Authentication required' });
-  return user;
-};
+/** Build the framework-neutral HandlerContext from the oRPC router context. */
+const toHandlerCtx = (ctx: RouterContext): HandlerContext => ({
+  services: ctx.services,
+  user: ctx.user ? { ...ctx.user, token: ctx.token } : undefined,
+});
 
-export const router = os.router({
+export const router = os.use(errorHandler).router({
   user: {
-    getUser: os.user.getUser.handler(async ({ context, errors }) => {
-      const user = requireUser(context.user);
-      const found = await context.services.userService.getUserByUsername(user.username);
-      if (!found) throw errors.UNPROCESSABLE_CONTENT({ data: { errors: { body: ['user not found'] } } });
-      return { user: found };
-    }),
-    updateUser: os.user.updateUser.handler(async ({ context, input, errors }) => {
-      const user = requireUser(context.user);
-      const updated = await context.services.userService.updateUser(user.username, input.body);
-      if (!updated) throw errors.UNPROCESSABLE_CONTENT({ data: { errors: { body: ['user not found'] } } });
-      return { user: updated };
-    }),
-    createUser: os.user.createUser.handler(async ({ context, input }) => {
-      const token = await context.services.authService.authorize(input.body.user);
-      const user = await context.services.userService.createUser(input.body);
-      return { user: { ...user, token } };
-    }),
-    login: os.user.login.handler(async ({ context, input }) => {
-      const user = await context.services.authService.authenticate(
-        input.body.user.email,
-        input.body.user.password
-      );
-      return { user };
-    }),
+    getUser: os.user.getUser
+      .use(authRequired)
+      .handler(async ({ context }) => userHandlers.getUser(toHandlerCtx(context))),
+    updateUser: os.user.updateUser
+      .use(authRequired)
+      .handler(async ({ context, input }) =>
+        userHandlers.updateUser(toHandlerCtx(context), input.body)
+      ),
+    createUser: os.user.createUser.handler(async ({ context, input }) =>
+      userHandlers.createUser(toHandlerCtx(context), input.body)
+    ),
+    login: os.user.login.handler(async ({ context, input }) =>
+      userHandlers.login(toHandlerCtx(context), input.body)
+    ),
   },
   article: {
-    getFeed: os.article.getFeed.handler(async ({ context, input }) => {
-      requireUser(context.user);
-      const articles = await context.services.articleService.getFeed(input.query);
-      const articlesCount = await context.services.articleService.getArticlesCount();
-      return { articles, articlesCount };
-    }),
-    getArticles: os.article.getArticles.handler(async ({ context, input }) => {
-      const articles = await context.services.articleService.getArticles(input.query);
-      const articlesCount = await context.services.articleService.getArticlesCount();
-      return { articles, articlesCount };
-    }),
-    getArticle: os.article.getArticle.handler(async ({ context, input, errors }) => {
-      const article = await context.services.articleService.getArticle(input.params.slug);
-      if (!article) throw errors.UNPROCESSABLE_CONTENT({ data: { errors: { body: ['article not found'] } } });
-      return { article };
-    }),
-    createArticle: os.article.createArticle.handler(async ({ context, input, errors }) => {
-      const user = requireUser(context.user);
-      const article = await context.services.articleService.createArticle(input.body, user.email);
-      if (!article) throw errors.UNPROCESSABLE_CONTENT({ data: { errors: { body: ['user not found'] } } });
-      return { article };
-    }),
-    updateArticle: os.article.updateArticle.handler(async ({ context, input, errors }) => {
-      const article = await context.services.articleService.updateArticle(input.params.slug, input.body);
-      if (!article) throw errors.UNPROCESSABLE_CONTENT({ data: { errors: { body: ['article not found'] } } });
-      return { article };
-    }),
-    deleteArticle: os.article.deleteArticle.handler(async ({ context, input }) => {
-      requireUser(context.user);
-      await context.services.articleService.deleteArticle(input.params.slug);
-    }),
+    getFeed: os.article.getFeed
+      .use(authRequired)
+      .handler(async ({ context, input }) =>
+        articleHandlers.getFeed(toHandlerCtx(context), input.query)
+      ),
+    getArticles: os.article.getArticles.handler(async ({ context, input }) =>
+      articleHandlers.getArticles(toHandlerCtx(context), input.query)
+    ),
+    getArticle: os.article.getArticle.handler(async ({ context, input }) =>
+      articleHandlers.getArticle(toHandlerCtx(context), input.params)
+    ),
+    createArticle: os.article.createArticle
+      .use(authRequired)
+      .handler(async ({ context, input }) =>
+        articleHandlers.createArticle(toHandlerCtx(context), input.body)
+      ),
+    updateArticle: os.article.updateArticle
+      .use(authRequired)
+      .handler(async ({ context, input }) =>
+        articleHandlers.updateArticle(toHandlerCtx(context), input.params, input.body)
+      ),
+    deleteArticle: os.article.deleteArticle
+      .use(authRequired)
+      .handler(async ({ context, input }) =>
+        articleHandlers.deleteArticle(toHandlerCtx(context), input.params)
+      ),
   },
   favorites: {
-    setFavorite: os.favorites.setFavorite.handler(async ({ context, input, errors }) => {
-      requireUser(context.user);
-      const article = await context.services.articleService.setFavorite(input.params.slug);
-      if (!article) throw errors.UNPROCESSABLE_CONTENT({ data: { errors: { body: ['article not found'] } } });
-      return { article };
-    }),
-    deleteFavorite: os.favorites.deleteFavorite.handler(async ({ context, input, errors }) => {
-      requireUser(context.user);
-      const article = await context.services.articleService.unsetFavorite(input.params.slug);
-      if (!article) throw errors.UNPROCESSABLE_CONTENT({ data: { errors: { body: ['article not found'] } } });
-      return { article };
-    }),
+    setFavorite: os.favorites.setFavorite
+      .use(authRequired)
+      .handler(async ({ context, input }) =>
+        favoritesHandlers.setFavorite(toHandlerCtx(context), input.params)
+      ),
+    deleteFavorite: os.favorites.deleteFavorite
+      .use(authRequired)
+      .handler(async ({ context, input }) =>
+        favoritesHandlers.deleteFavorite(toHandlerCtx(context), input.params)
+      ),
   },
   comments: {
-    getComments: os.comments.getComments.handler(async ({ context, input }) => {
-      const comments = await context.services.commentService.getComments(input.params.slug);
-      return { comments };
-    }),
-    createComment: os.comments.createComment.handler(async ({ context, input }) => {
-      requireUser(context.user);
-      const comment = await context.services.commentService.createComment(
-        input.params.slug,
-        input.body.comment
-      );
-      return { comment };
-    }),
-    deleteComment: os.comments.deleteComment.handler(async ({ context, input }) => {
-      requireUser(context.user);
-      await context.services.commentService.deleteComment(input.params.slug, input.params.id);
-    }),
+    getComments: os.comments.getComments.handler(async ({ context, input }) =>
+      commentHandlers.getComments(toHandlerCtx(context), input.params)
+    ),
+    createComment: os.comments.createComment
+      .use(authRequired)
+      .handler(async ({ context, input }) =>
+        commentHandlers.createComment(toHandlerCtx(context), input.params, input.body)
+      ),
+    deleteComment: os.comments.deleteComment
+      .use(authRequired)
+      .handler(async ({ context, input }) =>
+        commentHandlers.deleteComment(toHandlerCtx(context), input.params)
+      ),
   },
   profile: {
-    getProfile: os.profile.getProfile.handler(async ({ context, input, errors }) => {
-      const profile = await context.services.profileService.getProfile(input.params.username);
-      if (!profile) throw errors.UNPROCESSABLE_CONTENT({ data: { errors: { body: ['profile not found'] } } });
-      return { profile };
-    }),
-    followUser: os.profile.followUser.handler(async ({ context, input, errors }) => {
-      requireUser(context.user);
-      const profile = await context.services.profileService.followUser(input.params.username);
-      if (!profile) throw errors.UNPROCESSABLE_CONTENT({ data: { errors: { body: ['profile not found'] } } });
-      return { profile };
-    }),
-    unfollowUser: os.profile.unfollowUser.handler(async ({ context, input, errors }) => {
-      requireUser(context.user);
-      const profile = await context.services.profileService.unfollowUser(input.params.username);
-      if (!profile) throw errors.UNPROCESSABLE_CONTENT({ data: { errors: { body: ['profile not found'] } } });
-      return { profile };
-    }),
+    getProfile: os.profile.getProfile.handler(async ({ context, input }) =>
+      profileHandlers.getProfile(toHandlerCtx(context), input.params)
+    ),
+    followUser: os.profile.followUser
+      .use(authRequired)
+      .handler(async ({ context, input }) =>
+        profileHandlers.followUser(toHandlerCtx(context), input.params)
+      ),
+    unfollowUser: os.profile.unfollowUser
+      .use(authRequired)
+      .handler(async ({ context, input }) =>
+        profileHandlers.unfollowUser(toHandlerCtx(context), input.params)
+      ),
   },
   tags: {
-    getTags: os.tags.getTags.handler(async ({ context }) => {
-      const tags = await context.services.articleService.getTags();
-      return { tags };
-    }),
+    getTags: os.tags.getTags.handler(async ({ context }) =>
+      tagHandlers.getTags(toHandlerCtx(context))
+    ),
   },
 });

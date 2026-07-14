@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const UserSchema = z.object({
-  email: z.string().email(),
+  email: z.email(),
   token: z.string(),
   username: z.string(),
   bio: z.string(),
@@ -12,9 +12,7 @@ export const UserDtoSchema = z.object({
   user: UserSchema,
 });
 
-export const CreateUserSchema = z.object({
-  username: z.string(),
-  email: z.string().email(),
+export const CreateUserSchema = UserSchema.pick({ username: true, email: true }).extend({
   password: z.string().min(8),
 });
 
@@ -22,10 +20,15 @@ export const CreateUserDtoSchema = z.object({
   user: CreateUserSchema,
 });
 
-export const UpdateUserSchema = UserSchema.omit({ token: true })
-  .extend({
-    password: z.string().min(8),
-  })
+export const UpdateUserSchema = UserSchema.extend({
+  // treat empty strings same as undefined to prevent pollution from <input> elements
+  password: z.preprocess(
+    (value) => (value === '' ? undefined : value),
+    CreateUserSchema.shape.password
+  ),
+})
+  .partial()
+  .omit({ token: true })
   .partial();
 
 export const UpdateUserDtoSchema = z.object({
