@@ -24,6 +24,7 @@
       rows="6"
       class="textarea textarea-bordered textarea-lg"
       placeholder="Short bio about you"
+      [value]="ctx.user?.bio"
       [disabled]="ctx.updateUser?.isPending"
     ></textarea>
     <input

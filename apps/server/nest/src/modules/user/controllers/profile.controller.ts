@@ -29,12 +29,11 @@ export class ProfileController {
     return implement(contract.profile.followUser).handler(async ({ input, errors }) => {
       const profile = await this.profileService.followUser(input.params.username);
 
-      if (!profile)
-        if (!profile) {
-          throw errors.UNPROCESSABLE_CONTENT({
-            data: { errors: { body: ['username is invalid'] } },
-          });
-        }
+      if (!profile) {
+        throw errors.UNPROCESSABLE_CONTENT({
+          data: { errors: { body: ['username is invalid'] } },
+        });
+      }
 
       return { profile };
     });

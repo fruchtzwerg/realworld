@@ -9,7 +9,7 @@ import {
   Logger,
   UnauthorizedException,
 } from '@nestjs/common';
-import { RequestValidationError } from '@ts-rest/nest';
+import { ORPCError } from '@orpc/nest';
 import { Request, Response } from 'express';
 
 @Catch()
@@ -33,9 +33,11 @@ export class AllExceptionsFilter implements ExceptionFilter {
       body = { errors: { body: [exception.message] } };
       logMessage = `${exception.name}: ${exception.message}`;
       stack = exception.stack;
-    } else if (exception instanceof RequestValidationError) {
-      body = exception.body;
-      logMessage = `RequestValidationError: ${JSON.stringify(exception.body)}`;
+    } else if (exception instanceof ORPCError) {
+      status = exception.status;
+      body = exception.toJSON();
+      logMessage = `ORPCError[${exception.code}]: ${exception.message}`;
+      stack = exception.stack;
     } else if (exception instanceof HttpException) {
       const res = exception.getResponse();
       body = typeof res === 'string' ? { errors: { body: [res] } } : res;

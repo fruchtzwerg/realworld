@@ -16,7 +16,6 @@ import {
 import { shallowSparse } from '@realworld/utils';
 
 import { injectRestClient } from '../providers/rest-client.provider';
-import { ApiError } from '../utils/api.error';
 
 const updateArticlesCache =
   <T extends string | Article>(
@@ -58,10 +57,7 @@ export class ArticleApiService {
       queryKey: ['article', slug] as const,
       queryFn: () =>
         from(this.#client.article.getArticle({ params: { slug: slug! } })).pipe(
-          map((res) => {
-            if (res.status === 200) return res.body.article;
-            throw new ApiError('getArticle', res.status);
-          })
+          map((dto: ArticleDto) => dto.article)
         ),
       enabled: !!slug,
     });
@@ -73,13 +69,7 @@ export class ArticleApiService {
 
     return this.#query({
       queryKey: ['feed', query] as const,
-      queryFn: () =>
-        from(this.#client.article.getFeed({ query })).pipe(
-          map((res) => {
-            if (res.status === 200) return res.body;
-            throw new ApiError('getFeed', res.status);
-          })
-        ),
+      queryFn: () => from(this.#client.article.getFeed({ query })),
       staleTime: 60 * 1_000,
     });
   }
@@ -90,13 +80,7 @@ export class ArticleApiService {
 
     return this.#query({
       queryKey: ['articles', query] as const,
-      queryFn: () =>
-        from(this.#client.article.getArticles({ query })).pipe(
-          map((res) => {
-            if (res.status === 200) return res.body;
-            throw new ApiError('getArticles', res.status);
-          })
-        ),
+      queryFn: () => from(this.#client.article.getArticles({ query })),
       staleTime: 60 * 1_000,
     });
   }
@@ -105,12 +89,7 @@ export class ArticleApiService {
   public createArticle() {
     return this.#mutation({
       mutationFn: (article: CreateArticle) =>
-        from(this.#client.article.createArticle({ body: { article } })).pipe(
-          map((res) => {
-            if (res.status === 201) return res.body;
-            throw new ApiError('createArticle', res.status);
-          })
-        ),
+        from(this.#client.article.createArticle({ body: { article } })),
       onSuccess: () => {
         ['articles', 'feed'].forEach((queryKey) =>
           this.#queryClient.invalidateQueries({ queryKey: [queryKey] })
@@ -123,12 +102,7 @@ export class ArticleApiService {
   public favoriteArticle() {
     return this.#mutation({
       mutationFn: ({ slug }: ArticleParams) =>
-        from(this.#client.favorites.setFavorite({ params: { slug } })).pipe(
-          map((res) => {
-            if (res.status === 200) return res.body;
-            throw new ApiError('setFavorite', res.status);
-          })
-        ),
+        from(this.#client.favorites.setFavorite({ params: { slug } })),
       onMutate: this.onFavoriteChanges(true),
       onSuccess: this.onFavoriteSuccess(),
     });
@@ -138,12 +112,7 @@ export class ArticleApiService {
   public unfavoriteArticle() {
     return this.#mutation({
       mutationFn: ({ slug }: ArticleParams) =>
-        from(this.#client.favorites.deleteFavorite({ params: { slug } })).pipe(
-          map((res) => {
-            if (res.status === 200) return res.body;
-            throw new ApiError('deleteFavorite', res.status);
-          })
-        ),
+        from(this.#client.favorites.deleteFavorite({ params: { slug } })),
       onMutate: this.onFavoriteChanges(false),
       onSuccess: this.onFavoriteSuccess(),
     });
@@ -153,11 +122,8 @@ export class ArticleApiService {
   public createComment() {
     return this.#mutation({
       mutationFn: ({ slug, comment }: ArticleParams & CreateCommentDto) =>
-        from(this.#client.comments.createComment({ params: { slug }, body: { comment } })).pipe(
-          map((res) => {
-            if (res.status === 200) return res.body;
-            throw new ApiError('createComment', res.status);
-          })
+        from(
+          this.#client.comments.createComment({ params: { slug }, body: { comment } })
         ),
       onSuccess: () => {
         [['comments']].forEach((queryKey) => this.#queryClient.invalidateQueries({ queryKey }));
@@ -169,12 +135,7 @@ export class ArticleApiService {
   public deleteComment() {
     return this.#mutation({
       mutationFn: (params: ArticleParams & { id: number }) =>
-        from(this.#client.comments.deleteComment({ params })).pipe(
-          map((res) => {
-            if (res.status === 200) return res.body;
-            throw new ApiError('deleteComment', res.status);
-          })
-        ),
+        from(this.#client.comments.deleteComment({ params })),
       onSuccess: () => {
         [['comments']].forEach((queryKey) => this.#queryClient.invalidateQueries({ queryKey }));
       },
@@ -187,10 +148,7 @@ export class ArticleApiService {
       queryKey: ['comments', params.slug] as const,
       queryFn: () =>
         from(this.#client.comments.getComments({ params })).pipe(
-          map((res) => {
-            if (res.status === 200) return res.body.comments;
-            throw new ApiError('getComments', res.status);
-          })
+          map((dto) => dto.comments)
         ),
     });
   }
@@ -200,12 +158,7 @@ export class ArticleApiService {
     return this.#query<TagsDto['tags']>({
       queryKey: ['tags'] as const,
       queryFn: () =>
-        from(this.#client.tags.getTags()).pipe(
-          map((res) => {
-            if (res.status === 200) return res.body.tags;
-            throw new ApiError('getTags', res.status);
-          })
-        ),
+        from(this.#client.tags.getTags()).pipe(map((dto) => dto.tags)),
       staleTime: 60 * 1_000,
     });
   }

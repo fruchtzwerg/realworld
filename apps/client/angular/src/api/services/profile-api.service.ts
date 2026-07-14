@@ -5,7 +5,6 @@ import { from, map } from 'rxjs';
 import { Article, Profile, ProfileDto, ProfileParams } from '@realworld/dto';
 
 import { injectRestClient } from '../providers/rest-client.provider';
-import { ApiError } from '../utils/api.error';
 
 @Injectable({
   providedIn: 'root',
@@ -22,10 +21,7 @@ export class ProfileApiService {
       queryKey: ['profile', username] as const,
       queryFn: () =>
         from(this.#client.profile.getProfile({ params: { username } })).pipe(
-          map((res) => {
-            if (res.status === 200) return res.body.profile;
-            throw new ApiError('getProfile', res.status);
-          })
+          map((dto: ProfileDto) => dto.profile)
         ),
       staleTime: 60 * 1_000,
     });
@@ -35,12 +31,7 @@ export class ProfileApiService {
   public followUser() {
     return this.#mutation({
       mutationFn: ({ username }: ProfileParams) =>
-        from(this.#client.profile.followUser({ params: { username } })).pipe(
-          map((res) => {
-            if (res.status === 200) return res.body;
-            throw new ApiError('setFollow', res.status);
-          })
-        ),
+        from(this.#client.profile.followUser({ params: { username } })),
       onMutate: this.onFollowChanges(true),
       onSuccess: this.onFollowSuccess(),
     });
@@ -50,12 +41,7 @@ export class ProfileApiService {
   public unfollowUser() {
     return this.#mutation({
       mutationFn: ({ username }: ProfileParams) =>
-        from(this.#client.profile.unfollowUser({ params: { username } })).pipe(
-          map((res) => {
-            if (res.status === 200) return res.body;
-            throw new ApiError('deleteFollow', res.status);
-          })
-        ),
+        from(this.#client.profile.unfollowUser({ params: { username } })),
       onMutate: this.onFollowChanges(false),
       onSuccess: this.onFollowSuccess(),
     });
