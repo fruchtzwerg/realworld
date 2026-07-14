@@ -3,7 +3,9 @@ import { UpdateUserSchema, type UpdateUser } from '@realworld/dto';
 import { useToken } from '../../../common/hooks/token.hook';
 import { shallowSparse } from '@realworld/utils';
 import { useUpdateUser } from '../../../api/hooks/user.update';
+import { useUser } from '../../../api/hooks/user.get';
 
+const { user } = useUser();
 const token = useToken();
 const { mutate, isPending } = useUpdateUser();
 
@@ -32,6 +34,7 @@ const submit = (e: SubmitEvent) => {
       class="input input-bordered"
       placeholder="URL of profile picture"
       :disabled="isPending"
+      :value="user?.image"
     />
     <input
       name="username"
@@ -39,6 +42,7 @@ const submit = (e: SubmitEvent) => {
       class="input input-bordered input-lg"
       placeholder="Username"
       :disabled="isPending"
+      :value="user?.username"
     />
     <textarea
       name="bio"
@@ -46,6 +50,7 @@ const submit = (e: SubmitEvent) => {
       class="textarea textarea-bordered textarea-lg"
       placeholder="Short bio about you"
       :disabled="isPending"
+      :value="user?.bio"
     />
     <input
       name="email"
@@ -53,6 +58,7 @@ const submit = (e: SubmitEvent) => {
       class="input input-bordered input-lg"
       placeholder="Email"
       :disabled="isPending"
+      :value="user?.email"
     />
     <input
       name="password"

@@ -86,6 +86,9 @@ importers:
       '@orpc/openapi-client':
         specifier: ^1.13.0
         version: 1.13.0
+      '@orpc/server':
+        specifier: ^1.13.0
+        version: 1.13.0(ws@8.18.0)
       '@orpc/tanstack-query':
         specifier: ^1.13.0
         version: 1.13.0(@orpc/client@1.13.0)(@tanstack/query-core@5.66.4)

@@ -1,4 +1,4 @@
-// export * from './ports/auth.service';
+export * from './ports/auth.service';
 // export * from './ports/user.service';
 // export * from './ports/article.service';
 // export * from './ports/comment.service';

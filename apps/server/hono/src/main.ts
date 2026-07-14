@@ -1,52 +1,68 @@
 import { serve } from '@hono/node-server';
+import { OpenAPIGenerator } from '@orpc/openapi';
+import { OpenAPIHandler } from '@orpc/openapi/fetch';
+import { ZodToJsonSchemaConverter } from '@orpc/zod/zod4';
 import { apiReference } from '@scalar/hono-api-reference';
+import { Hono } from 'hono';
 import { compress } from 'hono/compress';
 import { csrf } from 'hono/csrf';
-import { showRoutes } from 'hono/dev';
 import { etag } from 'hono/etag';
 import { logger } from 'hono/logger';
 import { secureHeaders } from 'hono/secure-headers';
 import { trimTrailingSlash } from 'hono/trailing-slash';
-import { openAPISpecs } from 'hono-openapi';
+
+import { contract } from '@realworld/dto';
 
 import { environment } from './environment/environment';
-import { factory } from './factory/app.factory';
-import { createArticleRouter, createFavoriteRouter, useCommentRouter } from './modules/article';
-import { createAuthRouter } from './modules/auth';
-import { useProfileRouter } from './modules/profile';
-import { useTagRouter } from './modules/tag';
-import { createUserRouter } from './modules/user';
+import { createContext } from './router/bootstrap';
+import { router } from './router/procedures';
 
-const app = factory.createApp();
+const app = new Hono();
 
 app.use(secureHeaders(), etag(), compress(), csrf(), logger(), trimTrailingSlash());
 
-app.route('/api/articles', createArticleRouter());
-app.route('/api/articles/:slug/favorite', createFavoriteRouter());
-app.route('/api/articles/:slug/comments', useCommentRouter());
-app.route('/api/users', createAuthRouter());
-app.route('/api/user', createUserRouter());
-app.route('/api/profiles', useProfileRouter());
-app.route('/api/tags', useTagRouter());
+const handler = new OpenAPIHandler(router);
 
-app.get(
-  '/swagger',
-  openAPISpecs(app, {
-    documentation: {
-      info: {
-        title: 'Realworld Conduit API',
-        version: '1.0.0',
-        description: 'Hono API',
-      },
-      servers: [{ url: `http://localhost:${environment.port}`, description: 'Local Server' }],
+app.use('/api/*', async (c, next) => {
+  const context = await createContext(c.req.raw.headers);
+  const { matched, response } = await handler.handle(c.req.raw, {
+    prefix: '/api',
+    context,
+  });
+
+  if (matched) {
+    return c.newResponse(response.body, response);
+  }
+
+  await next();
+});
+
+const openAPIGenerator = new OpenAPIGenerator({
+  schemaConverters: [new ZodToJsonSchemaConverter()],
+});
+
+app.get('/api/swagger', async (c) => {
+  const spec = await openAPIGenerator.generate(contract, {
+    info: {
+      title: 'Realworld Conduit API',
+      version: '1.0.0',
+      description: 'Hono API',
     },
-  })
-);
+    servers: [{ url: `/api`, description: 'Local Server' }],
+    components: {
+      securitySchemes: {
+        Token: {
+          type: 'http',
+          scheme: 'bearer',
+        },
+      },
+    },
+  });
+  return c.json(spec);
+});
 
-// app.get('/swagger', swaggerUI({ url: '/doc' }));
-app.get('/docs', apiReference({ theme: 'saturn', spec: { url: '/swagger' } }));
+app.get('/docs', apiReference({ theme: 'saturn', spec: { url: '/api/swagger' } }));
 
-serve({ port: environment.port, ...app }).on('listening', () => {
-  showRoutes(app, { verbose: false });
-  console.info(`\nListening on port ${environment.port}\n`);
+serve({ port: environment.port, ...app }, (info) => {
+  console.info(`\nListening on port ${info.port}\n`);
 });
